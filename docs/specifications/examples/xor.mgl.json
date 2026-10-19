@@ -1,0 +1,85 @@
+{
+  "language": "mgl",
+  "version": "0.1",
+  "package_id": "pinn.examples.xor.expanded",
+  "profiles": [
+    "pure",
+    "bool-exact"
+  ],
+  "operator_sets": [
+    "mgl.bool@0.1"
+  ],
+  "graphs": [
+    {
+      "id": "Xor",
+      "inputs": [
+        {
+          "name": "a",
+          "type": "Bool",
+          "role": "data"
+        },
+        {
+          "name": "b",
+          "type": "Bool",
+          "role": "data"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "out",
+          "type": "Bool",
+          "role": "data"
+        }
+      ],
+      "nodes": [
+        {
+          "id": "na",
+          "op": "bool.not@0.1",
+          "inputs": {
+            "x": "$in.a"
+          },
+          "attributes": {}
+        },
+        {
+          "id": "nb",
+          "op": "bool.not@0.1",
+          "inputs": {
+            "x": "$in.b"
+          },
+          "attributes": {}
+        },
+        {
+          "id": "left",
+          "op": "bool.and@0.1",
+          "inputs": {
+            "x": "$in.a",
+            "y": "nb.value"
+          },
+          "attributes": {}
+        },
+        {
+          "id": "right",
+          "op": "bool.and@0.1",
+          "inputs": {
+            "x": "na.value",
+            "y": "$in.b"
+          },
+          "attributes": {}
+        },
+        {
+          "id": "result",
+          "op": "bool.or@0.1",
+          "inputs": {
+            "x": "left.value",
+            "y": "right.value"
+          },
+          "attributes": {}
+        }
+      ],
+      "returns": {
+        "out": "result.value"
+      }
+    }
+  ],
+  "entry": "Xor"
+}

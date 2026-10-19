@@ -4,6 +4,14 @@ Research into neural representations that retain their identity under valid neur
 
 **[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Latest HTML report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/pythia-permutation-index-20261019-v1.html)** · **[Markdown report](docs/reports/pythia-permutation-index-20261019-v1.md)**
 
+## Language design
+
+The project is also developing an architecture-independent graph language for describing computation, state, learning, and relationships between model descriptions.
+
+**[Read the Model Graph Language v0.1 specification](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.1.html)** · [Markdown source](docs/specifications/model-graph-language-v0.1.md) · [Specification files](docs/specifications/)
+
+The draft covers typed interfaces, explicit updates and optimizer state, event timing, contextual replacement, abstraction maps, coordinate charts, normalization, realization, and evidence requirements. It includes worked examples and 30 proposed conformance scenarios. This is a design specification; a language parser, runtime, and complete conformance suite have not been implemented.
+
 ## Latest experiment
 
 The first experiment studies **Pythia-70M**: exact MLP permutation-orbit fingerprints, continuous behavioral sketches, and E8P descriptor quantization.
@@ -26,7 +34,7 @@ This is exploratory evidence for permutation recognition and behavioral comparis
 | --- | --- |
 | `experiments/` | Experiment code, probes, dependencies, and reproduction commands |
 | `results/` | Saved measurements, protocols, descriptors, and source provenance |
-| `docs/` | Browser report index, HTML and Markdown reports, and figures |
+| `docs/` | Browser index, reports, language specifications, and figures |
 
 ## Check saved evidence
 

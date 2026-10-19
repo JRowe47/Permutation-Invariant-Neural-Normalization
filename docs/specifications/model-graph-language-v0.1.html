@@ -1,0 +1,590 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="MGL v0.1: a detailed draft graph-language specification for computation, state, learning, abstraction, and model-space correspondence.">
+<title>MGL v0.1 — Model Graph Language specification</title>
+<style>
+:root{color-scheme:light dark;--bg:#f7f8fb;--surface:#fff;--ink:#182335;--muted:#536477;--line:#dce2ea;--accent:#075e78;--code:#eef2f6}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:1rem}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--accent);text-underline-offset:.2em}a:hover{text-decoration-thickness:2px}
+.skip{position:absolute;left:1rem;top:-10rem;padding:.6rem;background:var(--surface)}.skip:focus{top:.5rem}
+header{background:var(--surface);border-bottom:1px solid var(--line)}
+.top{max-width:1400px;margin:auto;padding:1rem 2rem;display:flex;flex-wrap:wrap;align-items:center;gap:1rem}
+.brand{font-weight:750;letter-spacing:.1em;font-size:.8rem;text-decoration:none}.top nav{margin-left:auto;display:flex;flex-wrap:wrap;gap:1.25rem}
+.layout{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:260px minmax(0,1fr);gap:2.5rem;padding:2rem}
+aside{position:sticky;top:1rem;align-self:start;max-height:calc(100vh - 2rem);overflow:auto;font-size:.84rem;line-height:1.45;padding-right:.5rem}
+aside h2{font-size:.75rem;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin:0 0 1rem}
+aside ol{list-style:none;padding:0;margin:0}aside li{margin:0 0 .7rem}aside a{text-decoration:none}
+main{min-width:0;background:var(--surface);padding:2rem 2.6rem;border:1px solid var(--line);border-radius:12px}
+h1{font-size:clamp(2rem,4vw,3rem);letter-spacing:-.04em;line-height:1.12;margin:0 0 1rem}
+h2{font-size:1.5rem;line-height:1.3;letter-spacing:-.02em;margin:2.8rem 0 1rem;padding-top:.6rem;border-top:1px solid var(--line)}
+h3{font-size:1.12rem;line-height:1.4;margin:1.8rem 0 .75rem}
+p{margin:.8rem 0 1rem}li{margin:.35rem 0}strong{font-weight:700}
+.table-scroll{overflow-x:auto;margin:1.2rem 0}
+table{border-collapse:collapse;width:100%;font-size:.9rem;line-height:1.55}
+th,td{text-align:left;vertical-align:top;padding:.7rem .8rem;border:1px solid var(--line)}
+th{background:var(--code);font-weight:700}
+.code-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin-top:1rem}
+pre{overflow-x:auto;background:var(--code);padding:1rem 1.2rem;border:1px solid var(--line);border-radius:6px;font-size:.81rem;line-height:1.55;margin:.3rem 0 1.3rem}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+.banner{padding:1rem 1.2rem;border:1px solid var(--line);border-left:4px solid var(--accent);background:var(--code);border-radius:4px;margin-bottom:1.5rem;font-size:.9rem}
+.banner p{margin:0}.downloads{display:flex;gap:1rem;flex-wrap:wrap;margin-top:.6rem}
+footer{max-width:1400px;margin:0 auto;padding:1rem 2rem 3rem;color:var(--muted);font-size:.85rem}
+@media(max-width:1000px){.layout{grid-template-columns:1fr;gap:1rem;padding:1rem}aside{position:static;max-height:16rem;padding:1rem;border:1px solid var(--line);border-radius:8px}aside ol{columns:2;column-gap:1.5rem}main{padding:1.5rem}}
+@media(max-width:600px){body{font-size:15px}.top{padding:1rem}.top nav{margin-left:0}main{padding:1.1rem}aside ol{columns:1}th,td{padding:.55rem;min-width:110px}h2{font-size:1.3rem}}
+@media(prefers-color-scheme:dark){:root{--bg:#101821;--surface:#17222e;--ink:#e2eaf2;--muted:#a6b6c8;--line:#344455;--accent:#77c9dc;--code:#1d2c3a}}
+@media print{aside,header,.downloads,.skip{display:none}.layout{display:block;padding:0;max-width:none}main{border:0;padding:0}body{background:white;color:black;font-size:10pt}h2{break-before:auto}pre,table{break-inside:auto}a{color:inherit}}
+</style>
+</head>
+<body>
+<a class="skip" href="#content">Skip to specification</a>
+<header><div class="top"><a class="brand" href="../index.html">PINN / LANGUAGE DESIGN</a><nav aria-label="Project navigation"><a href="../index.html">Reports</a><a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">Repository</a></nav></div></header>
+<div class="layout">
+<aside aria-label="Contents"><h2>Specification contents</h2><ol><li><a href="#s-1-purpose-and-scope">1. Purpose and scope</a></li><li><a href="#s-2-fundamental-objects">2. Fundamental objects</a></li><li><a href="#s-3-packages-identity-and-revisions">3. Packages, identity, and revisions</a></li><li><a href="#s-4-types-ports-and-links">4. Types, ports, and links</a></li><li><a href="#s-5-operations-and-operator-definitions">5. Operations and operator definitions</a></li><li><a href="#s-6-state-resources-and-update-proposals">6. State resources and update proposals</a></li><li><a href="#s-7-execution-clocks-and-observation">7. Execution, clocks, and observation</a></li><li><a href="#s-8-learning-as-computation">8. Learning as computation</a></li><li><a href="#s-9-architecture-descriptions">9. Architecture descriptions</a></li><li><a href="#s-10-hierarchy-and-abstraction-interfaces">10. Hierarchy and abstraction interfaces</a></li><li><a href="#s-11-correspondences-and-preservation-claims">11. Correspondences and preservation claims</a></li><li><a href="#s-12-model-space-views-and-coordinate-conventions">12. Model-space views and coordinate conventions</a></li><li><a href="#s-13-normalization-and-identity-conventions">13. Normalization and identity conventions</a></li><li><a href="#s-14-realization-compilation-and-extraction">14. Realization, compilation, and extraction</a></li><li><a href="#s-15-exchange-representation">15. Exchange representation</a></li><li><a href="#s-16-proposed-human-readable-syntax">16. Proposed human-readable syntax</a></li><li><a href="#s-17-worked-semantic-examples">17. Worked semantic examples</a></li><li><a href="#s-18-validation-and-conformance">18. Validation and conformance</a></li><li><a href="#s-19-reference-workflow-toward-the-model-space-goal">19. Reference workflow toward the model-space goal</a></li><li><a href="#s-20-implementation-stages-and-acceptance-gates">20. Implementation stages and acceptance gates</a></li><li><a href="#s-21-open-design-decisions">21. Open design decisions</a></li><li><a href="#s-22-relationship-to-existing-work">22. Relationship to existing work</a></li><li><a href="#s-23-glossary">23. Glossary</a></li><li><a href="#s-24-specification-change-policy">24. Specification change policy</a></li></ol></aside>
+<main id="content">
+<div class="banner"><p><strong>Design draft · v0.1 · 2026-10-19.</strong> Detailed semantics and proposed syntax. Parser, runtime, and complete conformance suite are not yet implemented.</p><div class="downloads"><a href="model-graph-language-v0.1.md">Markdown source</a><a href="examples/xor.mgl.json">XOR exchange example</a><a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/blob/main/docs/specifications/model-graph-language-v0.1.md">View on GitHub</a></div></div>
+<h1 id="s-model-graph-language-mgl">Model Graph Language (MGL)</h1>
+<h2 id="s-draft-specification-v0-1-computation-learning-and-model-space-correspondence">Draft specification v0.1 — computation, learning, and model-space correspondence</h2>
+<p><strong>Project:</strong> Permutation Invariant Neural Normalization (PINN)   <strong>Date:</strong> 2026-10-19   <strong>Status:</strong> Design specification; not an implemented language or a claim of demonstrated cross-model equivalence.   <strong>Working name:</strong> Model Graph Language (MGL). The name and surface spelling are provisional.   <strong>Source of truth:</strong> This Markdown document. The HTML edition is a reading view.</p>
+<h2 id="s-1-purpose-and-scope">1. Purpose and scope</h2>
+<p>MGL describes computational systems, the changes they undergo through experience, and explicit relationships between different descriptions of those systems. Its intended range includes a Boolean XOR circuit, a small image classifier, recurrent and state-space models, transformer systems, and models whose memory, weights, or topology change online.</p>
+<p>The eventual objective is a navigable model space: a collection of computational descriptions linked by well-defined transformations, abstractions, task restrictions, and realizations. Models may share behavior while using different algorithms, state organizations, widths, depths, and numerical representations. The language must preserve those distinctions when they matter to the claim being made.</p>
+<p>MGL has three coordinated parts:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Part</th><th scope="col">Describes</th><th scope="col">Principal question</th></tr></thead><tbody><tr><td>Execution language</td><td>Operations, interfaces, state, effects, events, and updates</td><td>What happens when this system runs or learns?</td></tr><tr><td>Correspondence language</td><td>Maps and claims between descriptions</td><td>What is preserved when one description replaces another?</td></tr><tr><td>Atlas language</td><td>Experimental views, coordinates, metrics, evidence, and resource annotations</td><td>In what respect are these descriptions comparable, and where do they lie in that view?</td></tr></tbody></table></div>
+<p>A correspondence edge is not an execution wire. An atlas coordinate is not a neuron index. A syntactic normal form is not a proof of functional identity.</p>
+<p>The first implementation should support small, exact examples and controlled numerical examples. Large-model importing, automatic decomposition, neuron substitution, width reduction, and compilation to several architectures are later consumers of the same contracts.</p>
+<h3 id="s-1-1-intended-outcomes">1.1 Intended outcomes</h3>
+<ol><li>Represent inference and learning using one extensible language.</li><li>Make state ownership, update visibility, timing, and numerical assumptions inspectable.</li><li>Allow an operation to expand into a graph and a graph to become a component.</li><li>Compare implementations through declared observable behavior and constrained causal correspondences.</li><li>Express transformations that are exact, approximate, conditional, or only empirically supported without conflating them.</li><li>Retain the information needed to reconstruct a concrete realization when lossless conversion is claimed.</li><li>Make a useful common description possible without requiring a unique global decomposition or privileged semantic origin.</li></ol>
+<h3 id="s-1-2-explicit-non-goals-for-v0-1">1.2 Explicit non-goals for v0.1</h3>
+<p>This specification does not promise a universal minimal program, a complete equivalence checker, a fixed finite coordinate vector for all possible computations, or a canonical semantic partition of every trained model. It does not equate graph similarity with functional similarity. It does not require category-theory notation, lattice coordinates, spline encodings, or quantization.</p>
+<p>It also does not assume that arbitrary target architectures can realize arbitrary descriptions at fixed width, precision, memory, and execution budget.</p>
+<h3 id="s-1-3-normative-language-and-implementation-status">1.3 Normative language and implementation status</h3>
+<p>MUST, MUST NOT, SHOULD, and MAY express requirements on an implementation claiming the corresponding conformance profile. They are design requirements, not statements that such an implementation already exists.</p>
+<p>Sections defining graph structure, state transactions, interfaces, and correspondence records are normative design commitments. The human-readable syntax in Section 16 is a proposed notation. Its examples have not been executed by an MGL parser or runtime. The architecture recipes and implementation stages are informative.</p>
+<p>An implementation MUST name supported profiles and operator revisions. Unsupported semantics MUST produce an explicit unsupported result, not an approximation silently labeled exact.</p>
+<h2 id="s-2-fundamental-objects">2. Fundamental objects</h2>
+<h3 id="s-2-1-a-system-and-its-boundary">2.1 A system and its boundary</h3>
+<p>A system is an open computation with typed input events, typed output events, internal state, an initialization rule, and execution rules. At a chosen observation boundary, its behavior may be written:</p>
+<div class="code-label">text</div><pre><code>K : State × InputEvent -&gt; Distribution(State × OutputTrace × Status)</code></pre>
+<p>An OutputTrace is an ordered sequence, possibly empty. Status distinguishes completion, suspension, failure, and declared resource exhaustion. Deterministic systems use point distributions. An implementation that represents stochastic behavior by an explicit random stream must state how that stream induces the distribution.</p>
+<p>This kernel describes a terminating or bounded event boundary. The general-recursion profile additionally needs partial or subprobability trace semantics for nontermination; it must not pretend that every invocation returns a normalized distribution of finite completed traces. Continuous-time descriptions retain their separate flow semantics.</p>
+<p>A boundary determines which inputs can be supplied, which observations can be made, which interventions are admitted, and what counts as a step. A model called once per sequence and the same model called once per token can have related boundaries, but those boundaries are not automatically identical.</p>
+<h3 id="s-2-2-description-instance-snapshot-and-trace">2.2 Description, instance, snapshot, and trace</h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Object</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Description</td><td>An immutable, versioned graph package and its semantic contracts</td></tr><tr><td>Instance</td><td>A running realization of a description with allocated state identities</td></tr><tr><td>Snapshot</td><td>State values, versions, graph version, and execution context at a declared boundary</td></tr><tr><td>Trace</td><td>Recorded events, operation firings, observations, and committed changes</td></tr><tr><td>View</td><td>A selected observation and intervention contract over one or more descriptions</td></tr><tr><td>Correspondence</td><td>A typed mapping and a scoped preservation claim between descriptions or views</td></tr></tbody></table></div>
+<p>Weights alone are generally insufficient to identify a learning snapshot. Optimizer moments, counters, recurrent memory, random-stream positions, pending events, and accumulated credit may affect the next transition.</p>
+<h3 id="s-2-3-two-independent-kinds-of-hierarchy">2.3 Two independent kinds of hierarchy</h3>
+<p><strong>Containment</strong> describes implementation packaging: modules contain regions and operations. The containment relation MUST be acyclic.</p>
+<p><strong>Abstraction</strong> relates descriptions with different explanatory detail. It is not required to follow containment or physical layer boundaries. One abstract operation may span many layers; several abstract features may overlap in their concrete support.</p>
+<p>A graph may reference a shared state resource without owning or duplicating it. Shared resources and overlapping analyses MUST be explicit.</p>
+<h2 id="s-3-packages-identity-and-revisions">3. Packages, identity, and revisions</h2>
+<p>A package contains a manifest, interface definitions, graph definitions, state declarations, operator dependencies, event schedules, correspondence records, atlas views, and external resource references.</p>
+<p>The manifest MUST declare:</p>
+<ul><li>Language version and enabled semantic profiles.</li><li>Package identifier and package revision.</li><li>Entry points and their interface identifiers.</li><li>Exact operator-set revisions or immutable operator-definition digests.</li><li>Numerical profile and execution profile.</li><li>External resources and their content digests when exact reproducibility is claimed.</li><li>Any unsupported or opaque operations.</li><li>Provenance sufficient to distinguish imported source from inferred structure.</li></ul>
+<p>Identifiers are opaque identities. Human labels are editable annotations. Renaming a label MUST NOT change computational meaning. Reassigning the identity of a state resource can change aliasing and therefore MUST NOT be treated as a harmless rename without a corresponding reference rewrite.</p>
+<p>Versions are scoped: package revision, graph revision, operator revision, interface revision, chart revision, and state-resource version are different fields.</p>
+<p>A serialization digest identifies specific bytes under a named serialization policy. It MUST NOT be called a behavioral hash. Unknown semantic fields or operator versions MUST prevent executable conformance. Unknown nonsemantic annotations MAY be retained and ignored.</p>
+<h2 id="s-4-types-ports-and-links">4. Types, ports, and links</h2>
+<h3 id="s-4-1-type-layers">4.1 Type layers</h3>
+<p>Types describe more than storage shape.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Layer</th><th scope="col">Examples</th><th scope="col">Obligation</th></tr></thead><tbody><tr><td>Value domain</td><td>Boolean, integer, real specification, floating point, enum, record</td><td>Define valid values and arithmetic</td></tr><tr><td>Structure</td><td>Scalar, tensor, sequence, optional value, tagged alternative</td><td>Define shape and ordering</td></tr><tr><td>Interface role</td><td>Input, target, prediction, reward, gradient, update proposal</td><td>Prevent accidental substitution of different meanings</td></tr><tr><td>State relationship</td><td>Snapshot, resource handle, versioned credit, patch</td><td>Identify the resource and state version involved</td></tr><tr><td>Temporal contract</td><td>Event stream, clock identifier, delivery boundary</td><td>Define when values are valid and visible</td></tr><tr><td>Coordinate contract</td><td>Basis, frame, axis meaning, units where relevant</td><td>Identify the representation used by values and transformations</td></tr></tbody></table></div>
+<p>Equal shapes do not establish semantic compatibility. Two tensors of the same dimensions can represent different vocabularies, bases, clocks, or state versions. Conversions between such interfaces MUST be explicit operations or declared adapters.</p>
+<p>Named axes distinguish sample, sequence, feature, head, channel, and other declared dimensions. An implementation MUST preserve axis meaning through reshaping or provide a transformation declaration. An axis label is a declared convention, not evidence of a discovered semantic feature.</p>
+<h3 id="s-4-2-core-type-constructors">4.2 Core type constructors</h3>
+<p>The following conceptual constructors are reserved; exact textual spelling is provisional:</p>
+<div class="code-label">text</div><pre><code>Bool
+Int&lt;width, overflow_policy&gt;
+RealSpec
+Float&lt;format, arithmetic_profile&gt;
+Enum&lt;type_id&gt;
+Tensor&lt;element_type, ordered_axes&gt;
+Sequence&lt;element_type, bounds&gt;
+Record&lt;named_fields&gt;
+Option&lt;T&gt;
+Event&lt;clock_id, payload_type&gt;
+Snapshot&lt;resource_id, version&gt;
+Credit&lt;target_id, version, kind, coordinate_contract&gt;
+Patch&lt;write_set, expected_versions&gt;
+Trace&lt;schema_id&gt;</code></pre>
+<p>RealSpec denotes mathematical real-number semantics. It MUST NOT be advertised as directly executable on finite hardware without a realization and an error contract.</p>
+<p>Gradient credit is a derivative object associated with a variable and coordinate convention. Under a change of coordinates, gradients generally transform differently from parameter displacements. A wire MUST NOT implicitly reinterpret one as the other.</p>
+<p>Reward, residual error, and gradient are different credit kinds. A rule that turns one into another is an operation whose assumptions must be visible.</p>
+<h3 id="s-4-3-ports">4.3 Ports</h3>
+<p>Every operation has named input and output ports. A port declaration specifies its type, role, and cardinality. The default cardinality is one.</p>
+<p>A required input MUST have exactly one provider, which may be a graph input, an operation output, or an explicitly declared constant source. Multiple contributions require an explicit merge or reduction operation. A variadic port MUST define argument ordering or a justified order-independent interpretation.</p>
+<p>Fan-out of immutable values is permitted. Fan-out of a write capability is restricted by the state effect rules. Optional ports MUST declare whether absence is legal and how it affects semantics.</p>
+<h3 id="s-4-4-links">4.4 Links</h3>
+<p>Execution links are directed connections between compatible ports. Their declared kinds are data, state, credit, update, and control. These kinds are useful, checkable views over the core typed relation, not permission to omit type information.</p>
+<p>An ordinary link does not transform its value. Casts, reshapes, basis changes, projections, aggregation, normalization, interpolation, and modulation MUST be represented by operations.</p>
+<p>Links have no hidden delay. Crossing a clock or event boundary requires an explicit buffer, sample, hold, delay, or scheduling operation with a capacity and delivery policy.</p>
+<p>Wire order in a serialized document is not execution order. Ordering comes from dependencies, event semantics, and explicit control constraints.</p>
+<h2 id="s-5-operations-and-operator-definitions">5. Operations and operator definitions</h2>
+<p>Every executable operation refers to a versioned operator definition. A definition MUST provide its signature, preconditions, value semantics, state effects, and failure behavior. It MUST also identify numerical and timing assumptions needed for its claims.</p>
+<p>An operator may be primitive, implemented by another graph, or opaque. Opaque operators are allowed for faithful importing but limit analysis: their interfaces and effects must be declared, and their internals cannot be claimed understood.</p>
+<p>The initial vocabulary is organized into namespaces:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Namespace</th><th scope="col">Responsibility</th><th scope="col">Examples</th></tr></thead><tbody><tr><td>core</td><td>Wiring and immutable structure</td><td>identity, tuple, select, constant</td></tr><tr><td>bool</td><td>Boolean computation</td><td>not, and, or, xor</td></tr><tr><td>math</td><td>Scalar and tensor mathematics</td><td>add, multiply, matmul, reduction</td></tr><tr><td>control</td><td>Structured control and events</td><td>call, branch, bounded loop, delay</td></tr><tr><td>state</td><td>Snapshot and transaction operations</td><td>read, propose, commit, reset</td></tr><tr><td>learn</td><td>Objective and credit construction</td><td>loss, VJP, local credit, accumulation</td></tr><tr><td>optim</td><td>Update rules</td><td>SGD, momentum, AdamW, proximal rule</td></tr><tr><td>memory</td><td>Memory interfaces</td><td>read, write, retrieve, evict</td></tr><tr><td>random</td><td>Explicit stochastic effects</td><td>sample, split stream</td></tr><tr><td>graph</td><td>Controlled structural change</td><td>propose rewrite, validate migration</td></tr><tr><td>analysis</td><td>Observations and interventions</td><td>probe, replace variable, inspect trace</td></tr></tbody></table></div>
+<p>This table is a vocabulary plan, not a claim that all listed operators are implemented or completely standardized in v0.1. Executable operators require individual definitions. Architecture names such as transformer or Hopfield are composite recipes unless a package supplies a precise opaque contract.</p>
+<h3 id="s-5-1-primitive-contracts-needed-first">5.1 Primitive contracts needed first</h3>
+<p>The mgl.bool@0.1 operator set is defined as follows; all ports have type Bool and role data.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Operator reference</th><th scope="col">Named inputs</th><th scope="col">Named output</th><th scope="col">Value</th></tr></thead><tbody><tr><td>bool.not@0.1</td><td>x</td><td>value</td><td>Logical complement of x</td></tr><tr><td>bool.and@0.1</td><td>x, y</td><td>value</td><td>True exactly when both inputs are true</td></tr><tr><td>bool.or@0.1</td><td>x, y</td><td>value</td><td>True exactly when at least one input is true</td></tr><tr><td>bool.xor@0.1</td><td>x, y</td><td>value</td><td>True exactly when the inputs differ</td></tr></tbody></table></div>
+<p>These operators are total and pure, with no attributes or state effects in this revision. Their implementation may not silently coerce non-Boolean values. Pure arithmetic operators declare their domain and evaluation rules. A select operation selects one of two already computed values; conditional execution of only one branch uses a control region instead.</p>
+<p>A matrix multiplication MUST declare axis pairing, accumulation type, and numerical profile. Broadcasting MUST be explicit in the core representation, even if surface syntax offers checked shorthand.</p>
+<p>A reduction MUST declare its axes, empty-input result or error, accumulation order, accumulator type, and normalization. A mean over samples is not interchangeable with a sum.</p>
+<p>Identity preserves both value and type contract. A cast or projection is not identity merely because a test set produced equal outputs.</p>
+<h3 id="s-5-2-derivatives">5.2 Derivatives</h3>
+<p>An operator participating in differentiation MUST declare its derivative rule, including behavior at nondifferentiable points. Automatic differentiation composes these rules over the recorded execution; it does not establish that the chosen rules are mathematically unique.</p>
+<p>A VJP consumes an output cotangent and the required forward context and emits input cotangents. A JVP consumes an input tangent and emits an output tangent. Stop-gradient preserves the forward value and deliberately changes the derivative behavior; it MUST therefore be retained in learning semantics.</p>
+<p>Surrogate derivatives and straight-through estimators MUST be labeled as estimators. They are not exact derivatives of the executed discrete operation.</p>
+<h3 id="s-5-3-effects">5.3 Effects</h3>
+<p>Effects include state reads, proposed writes, commits, random consumption, output emission, event scheduling, allocation, and structural change. A component's effect summary MUST include effects of its children.</p>
+<p>A graph with an undeclared effect is invalid. An optimizer that reads all parameter gradients for global clipping must expose that dependency. A component cannot claim purity merely because its Python-style call signature omits a hidden buffer.</p>
+<h2 id="s-6-state-resources-and-update-proposals">6. State resources and update proposals</h2>
+<h3 id="s-6-1-resource-declaration">6.1 Resource declaration</h3>
+<p>Each mutable resource has one owning instance, a stable resource identity, a value type, an initializer, a current version, permitted readers and writers, and reset/persistence rules.</p>
+<p>A role annotation distinguishes parameter, runtime memory, optimizer state, credit accumulator, random state, schedule state, and structural state. These roles support inspection and validation. Their names do not by themselves determine whether a value is trainable, persistent, or differentiable.</p>
+<p>Trainability and write permissions are explicit. Freezing parameter updates does not automatically freeze recurrent memory, normalization statistics, random state, or learning counters.</p>
+<p>Initialization is an operation or an immutable value resource. Random initialization records the generator and stream convention. Resetting an episode, resetting optimizer state, and resetting the entire instance are distinct operations.</p>
+<h3 id="s-6-2-immutable-snapshots-and-proposals">6.2 Immutable snapshots and proposals</h3>
+<p>Reads return immutable values associated with a snapshot or state version. Computing an update produces a proposal; it does not immediately mutate the target.</p>
+<p>A proposal MUST contain:</p>
+<ul><li>Its target resources and proposed replacement values or explicitly defined deltas.</li><li>The expected versions of every target.</li><li>Its read dependencies, including versions of resources used to compute it.</li><li>The generating operation, event, graph revision, and credit provenance.</li><li>Its commit policy and numerical interpretation.</li></ul>
+<p>The strict reference policy validates all mutable read dependencies as well as write targets before committing. If a dependency changed, the proposal is stale and fails without partial application. A stale-tolerant asynchronous policy requires a separate declared profile and cannot inherit strict equivalence claims.</p>
+<h3 id="s-6-3-atomic-commit">6.3 Atomic commit</h3>
+<p>The reference execution profile uses atomic transactions. A commit validates the whole proposal set, applies all accepted writes together, increments the version of every written resource even if the stored value is unchanged, and then exposes the new snapshot. A rejected commit changes nothing and emits a failure record.</p>
+<p>Disjoint proposals may be committed together if their read dependencies are compatible. Overlapping writes are invalid unless an explicit reducer computes one replacement proposal before commit.</p>
+<p>A sum of deltas is legal only when its definition specifies coordinate conventions, base versions, order, and numerical arithmetic. Associativity over mathematical reals does not imply bitwise associativity over floating point.</p>
+<p>Learning state such as momentum and step counters SHOULD be committed atomically with the parameter updates that depend on it. Runtime memory updates may share that transaction or use an explicit earlier/later boundary. There is no implicit default that silently mixes the two.</p>
+<h3 id="s-6-4-identity-aliases-and-ownership">6.4 Identity, aliases, and ownership</h3>
+<p>Shared weights are references to one resource, not copies of equal initial values. Cloning a component MUST specify whether resources are copied, shared, or reinitialized. State aliasing belongs to semantics and survives serialization.</p>
+<p>A state mapping between implementations MUST include aliases, validity domains, and reset behavior. An initialization map alone is insufficient to establish a correspondence for arbitrary reachable snapshots.</p>
+<h2 id="s-7-execution-clocks-and-observation">7. Execution, clocks, and observation</h2>
+<h3 id="s-7-1-reference-execution-configuration">7.1 Reference execution configuration</h3>
+<p>A reference configuration consists of the graph revision, state store, event queue, suspended control regions, declared random streams, and emitted trace. An input event activates an entry region under its schedule.</p>
+<p>Within a pure acyclic region, execution follows dependencies. Implementations may choose any evaluation order that preserves the declared value, effect, and numerical semantics. Resource-consuming or externally visible operations require explicit ordering when their order can change observations.</p>
+<p>The base stateful profile has one logically ordered event stream. Event sequence numbers break ties. Physical parallelism is allowed only if it refines that declared behavior. Distributed races and timing-dependent scheduling are extension semantics.</p>
+<h3 id="s-7-2-one-event-under-the-reference-policy">7.2 One event under the reference policy</h3>
+<ol><li>Select the next event according to the declared schedule.</li><li>Read the required resource versions into a snapshot.</li><li>Execute the activated graph against that snapshot.</li><li>Construct outputs, credit records, and proposed changes.</li><li>Validate and atomically commit the declared transaction.</li><li>Emit the event's committed outputs and transaction record.</li><li>Enqueue subsequent events with explicit timing and ordering.</li></ol>
+<p>A system may expose pre-commit observations, but it MUST name them as such. The reference default buffers external event outputs until a successful commit. On commit failure, the transaction emits a failure record and no buffered successful output.</p>
+<p>Emission ordering within an event MUST be deterministic in the reference profile. A clock transition is not inferred from a graph's visual position.</p>
+<h3 id="s-7-3-cycles-and-recurrence">7.3 Cycles and recurrence</h3>
+<p>A same-event dataflow cycle is invalid unless enclosed by an operator with defined fixed-point or solver semantics. Recurrence normally crosses an explicit state or delay boundary.</p>
+<p>An explicit bounded loop is legal. Its loop-carried values, stopping predicate, maximum iterations, and result on exhaustion are defined. General recursion is a separate profile that permits divergence and cannot require a universally terminating equivalence checker.</p>
+<p>A fixed-point operation declares the equation, solver, initialization, tolerance, maximum iterations, and failure policy. A compiler MUST NOT replace an iterative implementation with a mathematical fixed point while claiming exact execution equivalence.</p>
+<h3 id="s-7-4-multiple-clocks">7.4 Multiple clocks</h3>
+<p>Examples include token arrival, frame arrival, recurrent microsteps, retrieval settling, optimizer steps, consolidation intervals, and episode resets. These clocks are named independently.</p>
+<p>A clock adapter declares how events correspond: one source event to several target steps, sampling, buffering, dropping, or aggregation. An abstraction comparing different depths may map several concrete steps to one abstract step, provided boundary observations, permitted interventions, and timing-sensitive claims are preserved.</p>
+<p>Wall-clock cost is a resource annotation unless explicitly observed by the system. Logical step count can be part of a task contract. Equal outputs after different numbers of hidden steps may count as equivalent in one contract and different in another.</p>
+<h3 id="s-7-5-causality-and-nondeterminism">7.5 Causality and nondeterminism</h3>
+<p>An operation or adapter MUST NOT inspect future inputs that are unavailable at its boundary. Offline whole-sequence computation must declare that the full sequence is available. It cannot be silently compared with an online system as though both had the same information.</p>
+<p>Random draws are explicit effects. Pathwise comparison requires an explicit coupling of random streams; using equal seeds alone does not establish such a coupling if the implementations consume randomness differently.</p>
+<p>A stochastic equivalence claim compares output laws under a defined input protocol. A finite sample comparison is empirical evidence, not proof that the laws are identical.</p>
+<h2 id="s-8-learning-as-computation">8. Learning as computation</h2>
+<h3 id="s-8-1-separate-responsibilities">8.1 Separate responsibilities</h3>
+<p>A learning process can include experience collection, objective construction, credit assignment, credit accumulation, update proposal, commit, and evaluation. These are independently expressible operations.</p>
+<p>No global loss or differentiability requirement is imposed on every learner. A local plasticity rule, reinforcement learner, evolutionary update, or learned optimizer must declare its own inputs, state, objective if any, and update semantics.</p>
+<p>Update operations can span several components. Parameter groups, shared resources, global normalization, and coupled constraints remain visible in the expanded graph.</p>
+<h3 id="s-8-2-credit-provenance">8.2 Credit provenance</h3>
+<p>A credit record MUST identify the target resource or variable, its coordinate convention, the source graph revision, the parameter version at which it was computed, and the relevant event or trace.</p>
+<p>Gradient records additionally identify objective definition and revision, reduction, masks, weighting, differentiation rule, and differentiation boundary. A credit accumulator specifies whether it sums, averages, decays, clips, or otherwise transforms incoming records.</p>
+<p>Delayed reward must identify the experience to which it applies. Eligibility traces are state resources with update and reset semantics. They are not anonymous tensors that happen to have convenient shapes.</p>
+<h3 id="s-8-3-differentiation-across-time-and-updates">8.3 Differentiation across time and updates</h3>
+<p>A profile MUST state whether gradients cross recurrent steps, state writes, or optimizer updates. Truncated backpropagation, detached state, and differentiating through a learned optimizer are different programs.</p>
+<p>Checkpoint recomputation is permitted only when it reproduces the required forward values, state versions, and random choices under the declared fidelity contract. Recomputing against updated weights changes the trace.</p>
+<p>An update counted as part of the differentiable computation needs a derivative contract. The default reference learner does not differentiate through commit or optimizer state transitions unless explicitly enabled.</p>
+<h3 id="s-8-4-gradient-accumulation">8.4 Gradient accumulation</h3>
+<p>An accumulation operation specifies:</p>
+<ul><li>Whether parameters remain fixed while credit accumulates.</li><li>The number or predicate of events required to trigger an update.</li><li>How sample weights and variable batch sizes enter the reduction.</li><li>Whether clipping occurs per contribution, before averaging, or after averaging.</li><li>Reset and failure behavior when an update is skipped or rejected.</li><li>Whether the accumulator and parameter update commit together.</li></ul>
+<p>A mean of batch means is not generally the mean over samples when batch sizes differ. A partial-update threshold must declare the quantity being thresholded, its units, and whether the threshold is checked before or after decay.</p>
+<h3 id="s-8-5-optimizer-contracts">8.5 Optimizer contracts</h3>
+<p>An optimizer definition includes parameter groups, hyperparameter sources and schedules, optimizer state, arithmetic order, clipping and regularization rules, and commit behavior. Names such as AdamW are insufficient without those details.</p>
+<p>The reference mathematical SGD proposal is:</p>
+<div class="code-label">text</div><pre><code>theta_next = theta - learning_rate * gradient</code></pre>
+<p>A momentum variant must specify the exact recurrence and whether it uses a lookahead or Nesterov form. These choices are not inferred from a label.</p>
+<p>One possible AdamW definition, to be separately versioned, is:</p>
+<div class="code-label">text</div><pre><code>k_next = k + 1
+m_next = beta1 * m + (1 - beta1) * g
+v_next = beta2 * v + (1 - beta2) * square(g)
+m_hat = m_next / (1 - beta1^k_next)
+v_hat = v_next / (1 - beta2^k_next)
+theta_next = theta * (1 - eta * decay)
+             - eta * m_hat / (sqrt(v_hat) + epsilon)</code></pre>
+<p>This formula assumes constant beta values, an already specified gradient, and epsilon outside the square root. Schedules for beta, different epsilon placement, bias-correction conventions, decay exclusions, precision, and fused kernels require declared variants. The formula does not silently choose a floating-point evaluation order.</p>
+<h3 id="s-8-6-learning-equivalence">8.6 Learning equivalence</h3>
+<p>Current inference equivalence is distinct from learning equivalence. A learning correspondence requires compatible experience encodings, initialization, state mappings, update schedules, and observation contracts.</p>
+<p>For deterministic systems with shared experience type, a one-step requirement is:</p>
+<div class="code-label">text</div><pre><code>Phi(Update_A(S, experience))
+    = Update_B(Phi(S), experience)</code></pre>
+<p>Here Phi maps the relevant entire state, including optimizer and accumulated-credit state. If experience types differ, the right side receives an explicit experience adapter. The corresponding output condition must also hold.</p>
+<p>Exact one-step agreement, initialization agreement, and closure of the validity relation can support a trajectory claim by induction. Approximate one-step agreement does not establish a uniform long-horizon bound without an error-propagation argument.</p>
+<p>Ordinary gradient descent depends on parameterization. Transporting an inference representation may therefore require transforming the update rule, and not just copying optimizer settings. Coordinate-dependent optimizers must expose the information necessary to assess this claim. See reference [R5].</p>
+<h2 id="s-9-architecture-descriptions">9. Architecture descriptions</h2>
+<p>Architecture families are recipes expressed using the same primitives, plus declared specialized operators where necessary.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Family</th><th scope="col">Required semantic detail</th></tr></thead><tbody><tr><td>MLP or FFN</td><td>Affine/nonlinear composition, parameter sharing, numerical rules, training effects</td></tr><tr><td>RNN or GRU</td><td>State transition, reset boundaries, input timing, gates, differentiation horizon</td></tr><tr><td>SSM</td><td>State transition and readout, discretization where applicable, input-dependent coefficients</td></tr><tr><td>Transformer</td><td>Token/position interfaces, attention masks, normalization, residual paths, context management</td></tr><tr><td>Online Hopfield</td><td>Activation and memory state, retrieval rule, update order, stopping rule, learning rule</td></tr><tr><td>Diffusion or video system</td><td>Noise process, conditioning, iterative schedule, temporal interface, sampling boundary</td></tr><tr><td>Dynamic graph model</td><td>Structural proposals, state migration, graph-version changes, routing semantics</td></tr></tbody></table></div>
+<p>A feedforward call may still change running statistics or consume randomness. Evaluation mode must specify which effects remain active.</p>
+<p>A transformer cache is a state resource with a validity policy. Updating weights can make cached values inconsistent with a recomputation under the new model. The system must declare whether it invalidates and rebuilds caches, retains them as historical state, or applies a specified correction. Each policy defines different online behavior.</p>
+<p>For Hopfield-style systems, an energy function may be declared when appropriate, but monotonic energy decrease is not assumed for arbitrary learned, asynchronous, or continuously updated variants.</p>
+<p>Continuous-time models require a flow contract and an observation schedule. Their numerical solvers are realizations with their own error and event contracts. A discretized transition is not automatically identical to the underlying flow.</p>
+<h2 id="s-10-hierarchy-and-abstraction-interfaces">10. Hierarchy and abstraction interfaces</h2>
+<h3 id="s-10-1-expand-and-encapsulate">10.1 Expand and encapsulate</h3>
+<p>An operation may expand to a graph if the expansion preserves its public values, state access, timing, learning interface, and error behavior. Encapsulation performs the reverse packaging operation without claiming a new semantic abstraction.</p>
+<p>A component boundary MUST summarize all effects observable outside the component. Hidden optimizer state is permitted internally, but a learning-equivalence map may need to relate that state.</p>
+<p>Containment is organizational. A component need not own all resources it reads. Resources accessed from an enclosing scope must be declared as captures or explicit ports.</p>
+<h3 id="s-10-2-abstraction-contract">10.2 Abstraction contract</h3>
+<p>An abstraction record identifies:</p>
+<ul><li>Concrete and abstract descriptions and their interface revisions.</li><li>State, input, output, time, and intervention maps where applicable.</li><li>Valid initial states and reachable-state conditions.</li><li>What observations and interventions are preserved.</li><li>Whether the map is invertible, many-to-one, partial, or stochastic.</li><li>Information deliberately discarded.</li><li>Exactness, metric, tolerance, and horizon.</li><li>Evidence and known counterexamples.</li></ul>
+<p>An abstraction maps systems or their views. It does not inherit exactness merely because its output is lower dimensional or easier to interpret.</p>
+<p>If two concrete states map to one abstract state, the abstract description must predict the claimed observations consistently for both throughout the declared domain. Otherwise the abstraction needs additional state, a narrower domain, a distributional interpretation, or an explicit error.</p>
+<h3 id="s-10-3-time-aggregation-and-sufficient-state">10.3 Time aggregation and sufficient state</h3>
+<p>A higher-level operation may summarize several lower-level steps. The abstraction must specify observation boundaries and how intermediate interventions are restricted or represented.</p>
+<p>If a proposed abstract state omits information needed to predict the next abstract transition, it is not a closed Markov state for that contract. The language must permit adding history or memory instead of silently treating the omission as harmless.</p>
+<p>A fixed hierarchy of neuron, block, layer, and model is not prescribed. Those labels are implementation views. Useful semantic descriptions may organize around retrieval, accumulation, binding, prediction, control, or another declared operation.</p>
+<h3 id="s-10-4-contextual-replacement">10.4 Contextual replacement</h3>
+<p>For a fixed downstream continuation D, values z and z_prime may satisfy D(z) = D(z_prime) even when they encode different information. A replacement justified only for that continuation MUST carry that restriction.</p>
+<p>A reusable replacement must preserve behavior over an explicitly defined family of compatible contexts. Broadening the context family can invalidate the replacement.</p>
+<p>For learning systems, contexts include future experience and permitted update operations. A replacement preserving frozen inference may fail as soon as training resumes.</p>
+<h3 id="s-10-5-semantic-operator-vocabularies">10.5 Semantic operator vocabularies</h3>
+<p>A semantic operator is defined by a contract, not by an evocative label. For example, an exact dictionary retrieval operator declares its key type, equality relation, memory state, missing-key behavior, and read/write effects. A learned approximate retriever must state the approximation domain and metric.</p>
+<p>The same retrieval contract can have several implementations. A component's name does not establish that it satisfies the contract; a realization or abstraction record supplies the relevant evidence.</p>
+<p>A useful description can therefore have several views: semantic operations such as retrieval or accumulation; algorithmic subgraphs implementing them; numerical operations; and concrete storage or parameter layouts. These views are connected by explicit relations rather than forced into one universal fixed hierarchy.</p>
+<p>The operator vocabulary should expand through versioned definitions with composition rules. A growing collection of unexplained labels would provide indexing convenience but would not supply the intended computational semantics.</p>
+<h2 id="s-11-correspondences-and-preservation-claims">11. Correspondences and preservation claims</h2>
+<h3 id="s-11-1-relation-kinds">11.1 Relation kinds</h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Relation</th><th scope="col">Direction</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>equivalent</td><td>Symmetric claim</td><td>Same specified observations in the declared context family</td></tr><tr><td>abstracts</td><td>Concrete to abstract</td><td>Selected structure or behavior preserved by declared maps</td></tr><tr><td>realizes</td><td>Description to implementation</td><td>Target executes the description under a fidelity contract</td></tr><tr><td>restricts_task</td><td>General system to task view</td><td>Adapters and input restrictions expose a particular task</td></tr><tr><td>approximates</td><td>Directed by default</td><td>A measured or bounded error under a named metric and domain</td></tr><tr><td>normalizes_to</td><td>Source to normalized description</td><td>A named rewrite policy produces the destination</td></tr><tr><td>learning_corresponds</td><td>Declared direction or two-way</td><td>Experience and update dynamics commute under state maps</td></tr><tr><td>structurally_related</td><td>Annotated graph relationship</td><td>Similar topology or construction, without a behavioral claim</td></tr></tbody></table></div>
+<p>These relation names MUST NOT be silently interchangeable. Approximate proximity is not an equivalence relation in general. A task restriction is not whole-model equivalence.</p>
+<h3 id="s-11-2-claim-scopes">11.2 Claim scopes</h3>
+<p>Preservation claims have independent scope fields:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Scope</th><th scope="col">Preserves</th></tr></thead><tbody><tr><td>Value</td><td>Outputs for specified calls</td></tr><tr><td>Trace</td><td>Ordered observations over input sequences</td></tr><tr><td>State</td><td>A declared relation between relevant internal states</td></tr><tr><td>Intervention</td><td>Responses to declared internal changes</td></tr><tr><td>Learning</td><td>Responses to future learning events</td></tr><tr><td>Resource</td><td>Specified time, memory, or other cost bounds</td></tr><tr><td>Numeric</td><td>A selected mathematical or machine arithmetic interpretation</td></tr></tbody></table></div>
+<p>A claim may cover several scopes. Missing scopes mean no claim, not implicit agreement.</p>
+<h3 id="s-11-3-evidence-levels">11.3 Evidence levels</h3>
+<p>Every correspondence carries one of these evidence labels:</p>
+<ul><li><strong>definition:</strong> follows directly from an adopted definition; does not prove that a model realizes it.</li><li><strong>proof:</strong> accompanied by a theorem statement, assumptions, and checkable proof or checker reference.</li><li><strong>exhaustive:</strong> verified over a finite, completely enumerated domain.</li><li><strong>bounded:</strong> verified within explicit input, state, horizon, and arithmetic bounds.</li><li><strong>empirical:</strong> evaluated on a recorded sample or test protocol.</li><li><strong>hypothesis:</strong> proposed and not yet established.</li><li><strong>refuted:</strong> a counterexample exists within the claimed domain.</li></ul>
+<p>A field labeled proof cannot contain only benchmark accuracy. A tool-generated certificate must identify the checker and its trusted assumptions. A numerical tolerance is not a confidence level.</p>
+<p>Empirical records include sample construction, dataset or generator revision, held-out separation, metric, sample count, horizon, numerical profile, and observed failures. Confidence statements require a stated statistical procedure and its assumptions.</p>
+<h3 id="s-11-4-admissible-maps">11.4 Admissible maps</h3>
+<p>Input, output, state, and intervention adapters are themselves computations with types and effects. They MUST have declared information access, complexity or resource budget, timing, and state.</p>
+<p>A map cannot secretly read the target answer, future inputs, or source variables outside its allowed interface. Its cost must be reported alongside correspondence quality.</p>
+<p>Flexible nonlinear maps may perform the task being attributed to the model. Accordingly, a correspondence should declare the allowed adapter family and evaluate relevant held-out inputs and interventions. Such controls support a scoped claim; they do not provide a universal solution to interpretability. Reference [R4] documents why unrestricted alignment is insufficient.</p>
+<h3 id="s-11-5-composition-of-correspondences">11.5 Composition of correspondences</h3>
+<p>Correspondences compose only when their intermediate interfaces, domains, observation contracts, and timing maps are compatible. A tool MUST check those conditions before presenting a composed claim.</p>
+<p>For numerical approximation, if a second map amplifies errors by at most L, an available bound may take the form L * epsilon_1 + epsilon_2. Without a justified stability bound or compatible nonexpansive metric, errors MUST NOT simply be added.</p>
+<p>The same principle applies over time: stability and horizon are part of a trajectory approximation. A small single-event error can become a large future behavioral change.</p>
+<p>Inverse maps are required only when invertibility is claimed. A coarse abstraction need not have an inverse. A partial inverse must state its support and cannot reconstruct discarded information outside it.</p>
+<h2 id="s-12-model-space-views-and-coordinate-conventions">12. Model-space views and coordinate conventions</h2>
+<h3 id="s-12-1-typed-model-space">12.1 Typed model space</h3>
+<p>There is no default single Euclidean space containing all models with an intrinsically meaningful distance. The atlas is a typed network of descriptions, views, and correspondences. Geometric charts are constructed over specified compatible families.</p>
+<p>Models with different input/output domains require explicit task views or adapters before comparing their behavioral signatures. An XOR capability extracted from an LLM is one view of that system, not a coordinate representing everything the LLM does.</p>
+<p>Descriptions with identical behavior may retain distinct implementation and learning records. The atlas must support those many-to-one relationships without discarding the original descriptions.</p>
+<h3 id="s-12-2-a-coordinate-chart">12.2 A coordinate chart</h3>
+<p>A chart declaration MUST identify:</p>
+<ul><li>Chart ID and revision.</li><li>Eligible descriptions and interface contracts.</li><li>Observation and intervention family.</li><li>Input domain or sampling distribution.</li><li>Reset, state initialization, and adaptation protocol.</li><li>Horizon and observation times.</li><li>Ordered coordinate definitions, including units and normalization.</li><li>Numerical and stochastic interpretation.</li><li>Metric or divergence used for comparison.</li><li>Reference system or baseline, if used.</li><li>Estimation error, missing-coordinate policy, and held-out validation.</li></ul>
+<p>A theoretical signature can be a response functional over an entire family of admissible experiments. A finite coordinate vector is a specified observation of that functional. It must not be called a complete invariant without a supporting result.</p>
+<p>Coordinate ordering is a chart convention. It is not neuron order. Charts must have revisioned dictionaries so that a coordinate retains its meaning across models.</p>
+<h3 id="s-12-3-origins-rotations-and-changes-of-chart">12.3 Origins, rotations, and changes of chart</h3>
+<p>A chart may choose a baseline system, mean response, reference model, or another explicit origin. The origin is a convention with a purpose, not an intrinsic universal semantic zero.</p>
+<p>A rotation is meaningful only after a vector representation and inner product are declared. A general relation between models may instead be nonlinear, partial, many-to-one, stochastic, or time-dependent.</p>
+<p>Change-of-chart maps record their domain, inverse where available, and error. Approximate maps around a cycle may fail to return to the starting coordinates; such disagreement is recorded rather than normalized away.</p>
+<p>Lattices, Fourier bases, splines, and learned embeddings may encode chart values. They do not by themselves define semantic coordinates. Their transforms, scales, validity assumptions, and discarded residuals remain explicit.</p>
+<h3 id="s-12-4-distances">12.4 Distances</h3>
+<p>A distance record states its input chart, normalization, weighting, missing-data behavior, and whether it is a metric, pseudometric, divergence, or heuristic score.</p>
+<p>A probe signature can assign zero distance to behaviorally different models that the probes fail to distinguish. Such a distance is not a complete semantic metric.</p>
+<p>Resource axes such as parameter count, working memory, precision, and execution steps are retained alongside behavioral axes. They are combined into a single score only through an explicit task-dependent weighting.</p>
+<h3 id="s-12-5-learning-within-model-space">12.5 Learning within model space</h3>
+<p>The update graph defines a transition on the system's extended state, conditioned on experience. Projecting it onto a behavioral chart yields changes in measured behavior.</p>
+<p>Two snapshots at the same behavioral point may have different optimizer or memory state and therefore different next transitions. A learning-aware chart must either include sufficient state or record that its projected dynamics are history-dependent.</p>
+<h2 id="s-13-normalization-and-identity-conventions">13. Normalization and identity conventions</h2>
+<p>Normalization is a named transformation with a preservation contract. Different forms of normalization MUST remain distinguishable.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Form</th><th scope="col">Example</th><th scope="col">Default claim</th></tr></thead><tbody><tr><td>Presentation</td><td>Whitespace, label layout, source formatting</td><td>No semantic change</td></tr><tr><td>Syntactic</td><td>Renaming bound identifiers; explicit desugaring</td><td>Same resolved graph</td></tr><tr><td>Structural</td><td>Encapsulation or expansion with matching interfaces</td><td>Same declared execution behavior</td></tr><tr><td>Symmetry</td><td>A valid coupled parameter relabeling</td><td>Only the scopes established by the symmetry</td></tr><tr><td>Numerical</td><td>Scaling, dtype conversion, reassociation</td><td>Requires an arithmetic-specific contract</td></tr><tr><td>Semantic abstraction</td><td>Merge indistinguishable states within a context</td><td>Scoped abstraction, possibly lossy</td></tr></tbody></table></div>
+<p>A syntactic normalizer MUST preserve operand order, state aliasing, event order, randomness, derivative rules, and effect dependencies. Sorting operands of an apparently commutative operation requires that operator's exact numerical contract to permit it.</p>
+<p>Alpha-renaming can remove incidental identifier spelling. It does not automatically solve graph isomorphism or discover a globally unique minimal graph. A normalizer must state its procedure, tie handling, and guarantees.</p>
+<p>A valid neuron permutation may normalize a realization. It is not the semantic organizing principle of the atlas. Coupled transformations of connected weights, buffers, optimizer state, and port frames must be included when their preservation is claimed.</p>
+<p>Function-preserving rescaling can alter optimizer dynamics. A transformation may therefore have a proven value claim and no learning claim.</p>
+<p>Normalizers SHOULD be idempotent under their own declared policy. Every nontrivial rewrite records source and destination revisions, rule version, preconditions, and evidence.</p>
+<h3 id="s-13-1-distinct-identifiers">13.1 Distinct identifiers</h3>
+<p>Packages SHOULD expose separate fields for byte digest, normalized syntax digest, realization identity, declared symmetry-orbit identifier, and behavioral signature. Their labels and APIs MUST prevent accidental substitution.</p>
+<p>Finite experimental signatures may collide. Equality of signatures is an observation under a chart, not a proof that the systems compute the same function.</p>
+<h2 id="s-14-realization-compilation-and-extraction">14. Realization, compilation, and extraction</h2>
+<h3 id="s-14-1-realization-contract">14.1 Realization contract</h3>
+<p>A realization request specifies a source description, target architecture or execution backend, capacity, numerical profile, state representation, resource budget, and fidelity contract.</p>
+<p>The result is a target graph or parameterized model plus an explicit correspondence record. Compilation may fail when the target cannot realize the source within those constraints.</p>
+<p>Lowering a high-level operation into several lower-level operations MUST preserve all claimed effects and observation boundaries. A source update operation cannot disappear during inference-oriented lowering if learning preservation was requested.</p>
+<h3 id="s-14-2-exact-and-approximate-lowering">14.2 Exact and approximate lowering</h3>
+<p>An exact lowering states which semantics are exact: mathematical values, machine bits, state transitions, traces, or distributions. A mathematically exact algebraic rewrite may change floating-point results.</p>
+<p>Approximate lowering records its residual or bound, metric, domain, horizon, and evidence. It must not silently inherit proofs from the source graph.</p>
+<p>Widening, narrowing, changing depth, and changing numerical precision are different transformations. Exact widening may have a valid construction for a particular operator family. Exact narrowing requires a redundancy or representability argument on the stated domain. Parameter count alone is not functional resolution.</p>
+<h3 id="s-14-3-extraction-from-an-existing-model">14.3 Extraction from an existing model</h3>
+<p>An importer produces a faithful executable description of known implementation structure where possible. A semantic extractor proposes higher-level descriptions and correspondence evidence.</p>
+<p>An inferred abstraction is not equivalent to imported ground truth. The package marks which parts are structural imports, measured observations, hypotheses, and verified relations.</p>
+<p>Extraction may yield several useful descriptions. A decoder or adapter that is as computationally elaborate as the source must expose that cost. The language does not designate one uniquely correct algorithm solely from identical input/output behavior.</p>
+<h3 id="s-14-4-round-trips">14.4 Round trips</h3>
+<p>A lossless serialization round trip preserves the resolved description. A compile/decompile round trip may instead preserve behavior while yielding different syntax and mechanisms.</p>
+<p>Every round-trip claim identifies its equivalence scope. Reconstruction of original parameter bytes requires storing sufficient realization information; a many-to-one abstraction cannot provide that information by itself.</p>
+<h2 id="s-15-exchange-representation">15. Exchange representation</h2>
+<h3 id="s-15-1-representation-policy">15.1 Representation policy</h3>
+<p>The initial exchange form SHOULD be JSON for small graph structure and manifests, with external immutable blobs for large tensors and traces. The structured representation is the reference interchange form; a human-readable DSL is a view over it.</p>
+<p>UTF-8 text, explicit version fields, and unique object keys are required. Duplicate JSON keys are invalid even if a permissive parser would keep the last value.</p>
+<p>Numbers whose exact representation matters use typed encodings. Large integers use decimal strings with an integer type. Floating-point bit patterns, signed zero, infinities, and NaNs require explicit typed representations or binary resources. JSON number spelling alone does not preserve all such distinctions.</p>
+<p>External resources identify content digest, dtype, shape, storage order, byte order where applicable, and semantic role. Array sharding and compression are storage metadata unless the representation itself changes numerical semantics.</p>
+<p>Canonical serialization is a separately versioned policy. Until that policy is implemented and verified, an implementation may claim byte identity only for the exact stored bytes. It must not claim a standard canonical digest merely from sorting JSON keys.</p>
+<h3 id="s-15-2-core-graph-records">15.2 Core graph records</h3>
+<p>The minimal pure-graph profile uses these records:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Record</th><th scope="col">Required fields</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>Package</td><td>language, version, package_id, profiles, operator_sets, graphs, entry</td><td>Language and dependency envelope</td></tr><tr><td>Graph</td><td>id, inputs, outputs, nodes, returns</td><td>Typed region with exported ports</td></tr><tr><td>Port</td><td>name, type, role</td><td>Named boundary</td></tr><tr><td>Node</td><td>id, op, inputs, attributes</td><td>Versioned operation and its named operands</td></tr><tr><td>Returns</td><td>output-name to endpoint mapping</td><td>Graph output wiring</td></tr></tbody></table></div>
+<p>An endpoint is either an input reference of the form $in.name or an operation result of the form node_id.port_name. Endpoints are scoped to their graph. A node's output ports are defined by its operator definition.</p>
+<p>Input mappings encode links. There is no second authoritative links array in this profile, avoiding contradictory duplicate wiring. A visual editor can derive its wires from these mappings.</p>
+<p>Nodes appear in dependency order in the minimal profile. A future general graph serializer may relax textual order while retaining an acyclicity check. Named operation arguments are matched by name, not by JSON object iteration order.</p>
+<p>Graph inputs and outputs are ordered interface declarations; names determine bindings. Variadic operands are arrays with explicit order. No implicit constants or broadcasts appear in endpoint strings.</p>
+<h3 id="s-15-3-stateful-extensions">15.3 Stateful extensions</h3>
+<p>A stateful package adds systems containing resource declarations, event-handler graphs, initialization, schedules, and exported interfaces. An event handler references a graph plus its clock, transaction policy, and output-observation policy.</p>
+<p>Stateful operations remain nodes. Resource identities appear as checked attributes or typed capabilities, while snapshot values and proposal values flow through explicit ports. Unresolved resource references are invalid.</p>
+<p>A full stateful JSON Schema, binary tensor format, and schema migrations are implementation work. The normative requirements are the records and semantics in this specification; the accompanying XOR JSON exercises only the minimal pure profile.</p>
+<h3 id="s-15-4-correspondence-record">15.4 Correspondence record</h3>
+<p>A correspondence record requires the following fields, even when some are explicitly not applicable:</p>
+<div class="code-label">text</div><pre><code>id, revision, relation_kind
+source_description, source_interface
+target_description, target_interface
+scopes
+domain, initial_state_relation, reachable_state_conditions
+input_map, output_map, state_map, time_map, intervention_map
+admissible_map_family, adapter_cost
+fidelity, metric, tolerance, horizon
+evidence_level, evidence_references, counterexamples
+assumptions, limitations</code></pre>
+<p>An omitted map is not an inferred identity. The record states identity, not_applicable, or a map reference. A symmetric claim must explain how both directions are supported.</p>
+<p>Atlas chart records follow Section 12. Every coordinate vector references an exact chart revision and the snapshot or protocol from which it was obtained.</p>
+<h2 id="s-16-proposed-human-readable-syntax">16. Proposed human-readable syntax</h2>
+<h3 id="s-16-1-surface-conventions">16.1 Surface conventions</h3>
+<p>The proposed extension is .mgl. The syntax is intended for readable source, inspection, and reproducible diffs. It is not yet a parser contract.</p>
+<p>Conventions to preserve during syntax design:</p>
+<ul><li>Lowercase namespaces and operation names; descriptive component names.</li><li>Named operation arguments and named return ports.</li><li>Explicit type annotations at component and event boundaries.</li><li>Immutable local bindings introduced by let.</li><li>State declarations distinct from local values.</li><li>Explicit snapshot, proposal, and commit operations.</li><li>Explicit resource and operator revision references in resolved output.</li><li>No hidden cast, delay, coordinate transformation, gradient conversion, or state capture.</li><li>Comments and labels are nonsemantic.</li><li>A formatter changes presentation without changing resolved graph meaning.</li></ul>
+<p>Imports may use a convenient version declaration in source, but resolution must produce immutable dependencies in the package manifest. Surface defaults must be recorded explicitly after resolution.</p>
+<h3 id="s-16-2-pure-graph-example">16.2 Pure graph example</h3>
+<div class="code-label">mgl</div><pre><code>language mgl 0.1;
+use mgl.bool 0.1;
+
+graph Xor(a: Bool, b: Bool) -&gt; (out: Bool) {
+    let na = bool.not(x=a);
+    let nb = bool.not(x=b);
+    let left = bool.and(x=a, y=nb.value);
+    let right = bool.and(x=na.value, y=b);
+    let result = bool.or(x=left.value, y=right.value);
+    return(out=result.value);
+}</code></pre>
+<p>A binding names an operation instance. A reference such as result.value names an output port. Graph parameters such as a lower to input endpoints. Operation order in this example is a legal topological order.</p>
+<p>A direct bool.xor operation and this expansion can have an exhaustive Boolean value-equivalence certificate. They need not have the same implementation graph or resource cost.</p>
+<h3 id="s-16-3-stateful-learning-example">16.3 Stateful learning example</h3>
+<p>The following proposed syntax illustrates exact mathematical scalar learning. RealSpec is used deliberately to keep the algebra independent of finite arithmetic.</p>
+<div class="code-label">mgl</div><pre><code>system ScalarLearner {
+    state weight: RealSpec = 1
+        role parameter
+        persist model
+        reset explicit;
+
+    event train(x: RealSpec, target: RealSpec, eta: RealSpec)
+        -&gt; (prediction: RealSpec, loss: RealSpec)
+        clock sample
+        observation post_commit
+        transaction atomic_strict {
+
+        let s = state.snapshot(resources=[weight]);
+        let w = state.read(snapshot=s.value, resource=weight);
+
+        let prediction = math.mul(x=w.value, y=x);
+        let error = math.sub(x=prediction.value, y=target);
+        let square = math.mul(x=error.value, y=error.value);
+        let loss = math.mul(x=0.5, y=square.value);
+        let derivative = math.mul(x=error.value, y=x);
+
+        let g = learn.bind_gradient(
+            value=derivative.value,
+            target=weight,
+            snapshot=s.value,
+            objective=HalfSquaredError);
+
+        let proposal = optim.sgd(
+            snapshot=s.value,
+            target=weight,
+            gradient=g.value,
+            learning_rate=eta);
+
+        let receipt = state.commit(proposals=[proposal.value]);
+
+        emit(prediction=prediction.value, loss=loss.value)
+            after receipt.committed;
+    }
+}</code></pre>
+<p>Here literal 0.5 is surface shorthand for a typed constant node; it is not an implicit executable edge transformation. HalfSquaredError denotes the declared objective (prediction - target)^2 / 2 and its revision. A resolved package must include that declaration and the operator definitions.</p>
+<p>The prediction emitted after commit is the prediction computed from the pre-update snapshot. Observation time and parameter version are separate facts and both belong to the trace.</p>
+<p>Binding a manually calculated gradient records a claim about the derivative. Its correctness can be established by a proof, derivative checker, or bounded test; merely tagging the value gradient does not prove it.</p>
+<h3 id="s-16-4-hierarchical-components">16.4 Hierarchical components</h3>
+<p>A composite operation can expose separate call interfaces such as predict, credit, and update. Each interface names its values, effects, and schedule. A higher-level learner can connect these interfaces without exposing every internal operation.</p>
+<p>A shared optimizer is instantiated once and receives explicit parameter-group references. Repeating a component declaration must not accidentally clone shared optimizer state.</p>
+<p>A parameterized component may accept another graph as an argument. Such higher-order use requires a graph interface with declared effects and supported profiles; it is not an unrestricted escape hatch for opaque code.</p>
+<h3 id="s-16-5-surface-grammar-sketch">16.5 Surface grammar sketch</h3>
+<p>This sketch fixes broad syntactic choices without pretending to be a complete grammar. Types, literals, regions, attributes, and system declarations require further productions.</p>
+<div class="code-label">ebnf</div><pre><code>package       = language_decl, { import_decl | graph_decl | system_decl };
+language_decl = &quot;language&quot;, &quot;mgl&quot;, version, &quot;;&quot;;
+import_decl   = &quot;use&quot;, qualified_name, version, &quot;;&quot;;
+graph_decl    = &quot;graph&quot;, identifier, &quot;(&quot;, ports, &quot;)&quot;, &quot;-&gt;&quot;,
+                &quot;(&quot;, ports, &quot;)&quot;, &quot;{&quot;, { statement }, return_stmt, &quot;}&quot;;
+statement     = &quot;let&quot;, identifier, &quot;=&quot;, call, &quot;;&quot;;
+call          = qualified_name, &quot;(&quot;, [ arguments ], &quot;)&quot;;
+arguments     = named_argument, { &quot;,&quot;, named_argument };
+named_argument = identifier, &quot;=&quot;, expression;
+return_stmt   = &quot;return&quot;, &quot;(&quot;, [ arguments ], &quot;)&quot;, &quot;;&quot;;
+ports         = [ port, { &quot;,&quot;, port } ];
+port          = identifier, &quot;:&quot;, type;
+endpoint      = identifier, [ &quot;.&quot;, identifier ];</code></pre>
+<p>The first parser milestone should implement only the complete pure subset after its grammar is finalized. A parser for this sketch alone must not claim full-language support.</p>
+<h3 id="s-16-6-proposed-chart-and-relation-notation">16.6 Proposed chart and relation notation</h3>
+<p>The atlas surface should be as explicit as executable source. For example:</p>
+<div class="code-label">mgl</div><pre><code>chart XorTruthTable {
+    revision = 1;
+    interface = BooleanPairToBoolean;
+    scope = value;
+    eligible = pure_stateless;
+    reset = before_each_call;
+    coordinates = [
+        call(a=false, b=false).out,
+        call(a=false, b=true).out,
+        call(a=true, b=false).out,
+        call(a=true, b=true).out
+    ];
+    metric = hamming_count;
+    origin = [false, false, false, false];
+}</code></pre>
+<p>For total, pure, deterministic Boolean functions on precisely this four-element domain, all four coordinates determine the function. They do not determine its implementation or learning behavior. This limited complete signature is a useful first case before approximate high-dimensional charts.</p>
+<p>A relation declaration should resolve to the complete record in Section 15.4. A shortened source sketch is:</p>
+<div class="code-label">mgl</div><pre><code>relation AlphabetEncoding {
+    revision = 1;
+    kind = equivalent;
+    source = OneHotAlphabet;
+    target = BinaryAlphabet;
+    scopes = [value];
+    domain = ValidSymbol26Codes;
+    maps = AlphabetCodecMaps;
+    fidelity = exact;
+    evidence = hypothesis;
+}</code></pre>
+<p>AlphabetCodecMaps must supply the applicable maps and explicitly mark the others not_applicable. This source sketch is not a certificate. A future verifier can attach exhaustive evidence only after resolving the descriptions and checking the declared domain.</p>
+<h2 id="s-17-worked-semantic-examples">17. Worked semantic examples</h2>
+<h3 id="s-17-1-xor-as-several-realizations">17.1 XOR as several realizations</h3>
+<p>The specification Xor(a,b) = true exactly when a and b differ can be realized by a primitive Boolean operator, a Boolean subgraph, a lookup table, or a suitably specified neural network.</p>
+<p>The two-bit input domain has four cases, so value equivalence can be checked exhaustively:</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">a</th><th scope="col">b</th><th scope="col">Xor(a,b)</th></tr></thead><tbody><tr><td>false</td><td>false</td><td>false</td></tr><tr><td>false</td><td>true</td><td>true</td></tr><tr><td>true</td><td>false</td><td>true</td></tr><tr><td>true</td><td>true</td><td>false</td></tr></tbody></table></div>
+<p>A neural realization must declare its input encoding and output decision rule. Thresholded Boolean equality does not establish equal raw logits or equal derivatives.</p>
+<p>An LLM task view additionally declares prompt construction, decoding, randomness, and observation protocol. If the prompt or decoder computes XOR itself, the adapter cost and access rules expose that fact. A successful task view does not establish an internal XOR mechanism.</p>
+<h3 id="s-17-2-alphabet-represented-in-different-widths">17.2 Alphabet represented in different widths</h3>
+<p>Define Symbol26 as a finite enum with a stable, revisioned symbol dictionary. It may be represented by 26 one-hot coordinates or by five Boolean coordinates encoding integers 0 through 25.</p>
+<p>The correspondence is exact on valid codes:</p>
+<div class="code-label">text</div><pre><code>decode_onehot(encode_onehot(symbol)) = symbol
+decode_binary(encode_binary(symbol)) = symbol</code></pre>
+<p>The six unused binary codes and arbitrary real vectors in either representation require an explicit reject, unknown, or extension policy. No inverse over all real activations is implied.</p>
+<p>This example demonstrates why domain declarations can permit lossless translation between different widths. It does not establish that an arbitrary neural layer of width 26 can be reduced to width five without changing its surrounding computation.</p>
+<h3 id="s-17-3-one-scalar-sgd-event">17.3 One scalar SGD event</h3>
+<p>For the ScalarLearner example, take weight = 1, x = 2, target = 0, eta = 0.1 in RealSpec arithmetic.</p>
+<div class="code-label">text</div><pre><code>prediction = 2
+loss = 2
+gradient = (2 - 0) * 2 = 4
+next_weight = 1 - 0.1 * 4 = 0.6</code></pre>
+<p>The event emits prediction 2 and loss 2, and the committed state contains weight 0.6. A subsequent inference call with x = 2 yields 1.2.</p>
+<p>These are exact mathematical expectations. A floating-point realization must declare its tolerances or exact machine evaluation rules.</p>
+<h3 id="s-17-4-same-prediction-different-learning">17.4 Same prediction, different learning</h3>
+<p>Let two parameterizations represent the same scalar linear function:</p>
+<div class="code-label">text</div><pre><code>Model A: y = w * x
+Model B: y = 2 * v * x
+Correspondence: w = 2 * v
+Loss: (y - target)^2 / 2</code></pre>
+<p>At w = 1 and v = 0.5, x = 2, target = 0, both predict 2. The gradient with respect to w is 4; the gradient with respect to v is 8.</p>
+<p>With eta = 0.1 in both parameter spaces:</p>
+<div class="code-label">text</div><pre><code>A: w_next = 0.6
+B: v_next = -0.3, hence effective w_next = -0.6</code></pre>
+<p>Using eta_B = eta_A / 4 restores the one-step correspondence for this fixed scalar rescaling and plain SGD in exact arithmetic. This calculation is specific to the stated setting; it is not a general conversion recipe for adaptive optimizers, constraints, or nonlinear maps.</p>
+<p>The atlas therefore records value equivalence and learning correspondence as independent claims.</p>
+<h3 id="s-17-5-online-accumulator-with-local-learning">17.5 Online accumulator with local learning</h3>
+<p>Consider:</p>
+<div class="code-label">text</div><pre><code>h_next = h + w * x
+prediction = h_next
+error = prediction - target
+local_gradient = error * x
+w_next = w - eta * local_gradient</code></pre>
+<p>The event reads h and w from one snapshot and atomically commits h_next and w_next. The local gradient treats the old h as constant. That differentiation boundary must be explicit; this is not full backpropagation through the history that produced h.</p>
+<p>Computing h_next with w_next instead produces a different update schedule and potentially different behavior. The language can represent both, but a normalizer must not substitute one for the other.</p>
+<h3 id="s-17-6-delayed-consolidation">17.6 Delayed consolidation</h3>
+<p>A learner accumulates credit until a threshold is crossed. Its description includes accumulator state, decay, the threshold predicate, parameter-version compatibility, and the commit event.</p>
+<p>If weights change before stored credit is applied, the system either rejects the stale credit, recomputes it, or declares a stale-credit learning rule. The rule is part of the model, not an incidental runtime optimization.</p>
+<h3 id="s-17-7-structural-change">17.7 Structural change</h3>
+<p>A graph expansion proposal specifies a source graph revision, replacement region, new resources, state migration, interface compatibility, and preservation claim. It commits at a declared boundary.</p>
+<p>A neuron split might duplicate a feature and partition outgoing contribution. Such a rewrite may preserve inference on its stated domain while changing learning dynamics. Optimizer-state migration is therefore a separate obligation.</p>
+<p>A structural commit invalidates or migrates dependent traces, caches, outstanding proposals, and chart references according to explicit rules. Old revisions remain identifiable for provenance.</p>
+<h2 id="s-18-validation-and-conformance">18. Validation and conformance</h2>
+<h3 id="s-18-1-conformance-profiles">18.1 Conformance profiles</h3>
+<p>Profiles are additive only where their assumptions are compatible.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">Profile</th><th scope="col">Minimum obligation</th></tr></thead><tbody><tr><td>pure</td><td>Typed acyclic graphs, resolved operators, immutable values, explicit outputs</td></tr><tr><td>bool-exact</td><td>Exact Boolean primitives and finite Boolean-domain checking</td></tr><tr><td>numeric</td><td>A declared arithmetic profile and compliant numerical operators</td></tr><tr><td>stateful</td><td>Resource identity, snapshots, effects, events, and strict transactions</td></tr><tr><td>learning</td><td>Credit provenance, update rules, differentiation boundaries, schedules</td></tr><tr><td>stochastic</td><td>Explicit random effects and distribution/coupling contracts</td></tr><tr><td>atlas</td><td>Typed correspondence and chart records with evidence labels</td></tr><tr><td>structural</td><td>Graph-version changes and state/trace migration</td></tr><tr><td>general-recursion</td><td>Explicit divergence semantics and bounded execution controls</td></tr><tr><td>continuous</td><td>Flow descriptions and separate numerical realizations</td></tr></tbody></table></div>
+<p>A package may be valid as an atlas description while not executable. A runtime may execute a pure graph without being able to validate its semantic correspondences. These are different conformance claims.</p>
+<h3 id="s-18-2-validation-passes">18.2 Validation passes</h3>
+<ol><li>Parse and validate required fields, versions, and unique identifiers.</li><li>Resolve operator and interface definitions.</li><li>Resolve endpoints, resources, captures, and aliases.</li><li>Check types, cardinalities, axes, coordinate contracts, and clocks.</li><li>Check dataflow cycles and structured control.</li><li>Check declared effects and state ownership.</li><li>Check schedules, transaction boundaries, and output visibility.</li><li>Check credit provenance and differentiation scope.</li><li>Check structural-migration obligations when applicable.</li><li>Validate correspondence record completeness and compatibility.</li><li>Verify any supplied certificates using their declared checkers.</li><li>Report unsupported or unverified claims separately from invalid syntax.</li></ol>
+<p>A static validator can establish record consistency without establishing behavioral truth. Unknown equivalence should be reported as unknown, not false or true.</p>
+<h3 id="s-18-3-required-diagnostic-classes">18.3 Required diagnostic classes</h3>
+<div class="table-scroll"><table><thead><tr><th scope="col">Code</th><th scope="col">Meaning</th></tr></thead><tbody><tr><td>E_VERSION</td><td>Unsupported language, interface, or operator revision</td></tr><tr><td>E_REFERENCE</td><td>Missing, ambiguous, or out-of-scope endpoint/resource</td></tr><tr><td>E_TYPE</td><td>Incompatible value, role, axis, or coordinate contract</td></tr><tr><td>E_PORT</td><td>Missing provider or conflicting input providers</td></tr><tr><td>E_CYCLE</td><td>Undeclared same-event cycle</td></tr><tr><td>E_CLOCK</td><td>Invalid or implicit clock crossing</td></tr><tr><td>E_EFFECT</td><td>Missing or incompatible effect declaration</td></tr><tr><td>E_WRITE_CONFLICT</td><td>Overlapping writes without an explicit resolution</td></tr><tr><td>E_STALE_STATE</td><td>Proposal dependencies no longer match</td></tr><tr><td>E_CREDIT_ORIGIN</td><td>Credit targets the wrong version or representation</td></tr><tr><td>E_DOMAIN</td><td>Input or mapping outside its declared validity domain</td></tr><tr><td>E_OBSERVATION</td><td>Output timing inconsistent with the contract</td></tr><tr><td>E_MIGRATION</td><td>Structural rewrite lacks required migration</td></tr><tr><td>E_UNSUPPORTED</td><td>Valid description requires unsupported semantics</td></tr><tr><td>U_CLAIM</td><td>Claim is well-formed but not established</td></tr><tr><td>F_COUNTEREXAMPLE</td><td>A claimed preservation condition is violated</td></tr></tbody></table></div>
+<p>Diagnostics SHOULD identify the involved graph, operation, resource or port, and applicable rule. A failure to prove equivalence is not itself a counterexample.</p>
+<h3 id="s-18-4-conformance-scenarios">18.4 Conformance scenarios</h3>
+<p>These are requirements for a future validator and runtime, not a report that they have already been implemented.</p>
+<div class="table-scroll"><table><thead><tr><th scope="col">ID</th><th scope="col">Scenario</th><th scope="col">Expected result</th></tr></thead><tbody><tr><td>C01</td><td>Exhaustive four-case XOR expansion</td><td>Exact Boolean outputs</td></tr><tr><td>C02</td><td>Rename all local identifiers and references consistently</td><td>Same resolved behavior</td></tr><tr><td>C03</td><td>Feed two sources into one nonvariadic input</td><td>E_PORT</td></tr><tr><td>C04</td><td>Connect equal-shaped tensors with incompatible declared vocabularies</td><td>E_TYPE</td></tr><tr><td>C05</td><td>Insert an undeclared same-event feedback cycle</td><td>E_CYCLE</td></tr><tr><td>C06</td><td>Use an explicit initialized delay across events</td><td>Valid stateful recurrence</td></tr><tr><td>C07</td><td>Commit a proposal after one of its read dependencies changes</td><td>E_STALE_STATE under strict policy</td></tr><tr><td>C08</td><td>Combine disjoint compatible proposals</td><td>Atomic successful commit</td></tr><tr><td>C09</td><td>Commit overlapping parameter writes without a reducer</td><td>E_WRITE_CONFLICT</td></tr><tr><td>C10</td><td>Reject one proposal in a multi-resource transaction</td><td>No partial state change</td></tr><tr><td>C11</td><td>Share one weight resource across two components</td><td>One identity and explicit combined credit</td></tr><tr><td>C12</td><td>Clone those components with independent resources</td><td>Distinct identities and potentially distinct learning</td></tr><tr><td>C13</td><td>Send credit from an older parameter version to strict SGD</td><td>E_CREDIT_ORIGIN or E_STALE_STATE</td></tr><tr><td>C14</td><td>Omit the target/clock of delayed reward</td><td>E_REFERENCE or E_CLOCK</td></tr><tr><td>C15</td><td>Compare one-hot and binary alphabet codes on valid symbols</td><td>Exact restricted-domain correspondence</td></tr><tr><td>C16</td><td>Decode an unused binary alphabet code without a policy</td><td>E_DOMAIN</td></tr><tr><td>C17</td><td>Run the scalar SGD example</td><td>Mathematical expectations in Section 17.3</td></tr><tr><td>C18</td><td>Rescale parameters but keep identical SGD rate</td><td>Value agreement; learning claim refuted</td></tr><tr><td>C19</td><td>Add stop-gradient to an otherwise equal forward graph</td><td>Value agreement; derivative/learning scope changes</td></tr><tr><td>C20</td><td>Reassociate floating-point reductions under a bitwise claim</td><td>Rewrite rejected unless justified</td></tr><tr><td>C21</td><td>Change training weights while retaining an undeclared stale cache</td><td>Missing validity policy</td></tr><tr><td>C22</td><td>Recompute a stochastic trace with a different random path</td><td>Exact derivative-trace claim invalid</td></tr><tr><td>C23</td><td>Test an empirical signature on a finite probe set</td><td>Evidence remains empirical</td></tr><tr><td>C24</td><td>Use a task-solving decoder as a claimed trivial adapter</td><td>Adapter-family violation or explicit cost</td></tr><tr><td>C25</td><td>Compose approximate maps without compatible domains</td><td>Composition rejected</td></tr><tr><td>C26</td><td>Assert a multi-step bound from an isolated local error</td><td>U_CLAIM unless propagation is established</td></tr><tr><td>C27</td><td>Rewrite topology while keeping unmigrated pending credit</td><td>E_MIGRATION</td></tr><tr><td>C28</td><td>Compare identical weights with different optimizer moments</td><td>Same current prediction; future updates may differ</td></tr><tr><td>C29</td><td>Parse and print a supported resolved graph</td><td>Resolved structure and ordered operands preserved</td></tr><tr><td>C30</td><td>Import an opaque operation with declared effects</td><td>Executable only with supported binding; internal claims remain limited</td></tr></tbody></table></div>
+<h3 id="s-18-5-numerical-and-empirical-checks">18.5 Numerical and empirical checks</h3>
+<p>A check record states whether it used exact enumeration, rational arithmetic, floating-point evaluation, symbolic reasoning, or sampled execution. Tolerances, failure counts, and exclusions are reported.</p>
+<p>Passing the scenarios is evidence of implementation conformance within their coverage. It does not prove universal equivalence checking, stable extrapolation to large models, or faithful automatic semantic discovery.</p>
+<h2 id="s-19-reference-workflow-toward-the-model-space-goal">19. Reference workflow toward the model-space goal</h2>
+<h3 id="s-19-1-import-the-concrete-system">19.1 Import the concrete system</h3>
+<p>Capture the actual computation, parameter resources, buffers, initialization, runtime state, and learning process. Preserve known source identities for provenance while keeping those identities separate from semantic coordinates.</p>
+<p>An inference-only import is explicitly incomplete as a learner. An optimizer-only checkpoint is likewise incomplete without the model and protocol it updates.</p>
+<h3 id="s-19-2-establish-observable-contracts">19.2 Establish observable contracts</h3>
+<p>Choose input/output boundaries, valid domains, reset rules, context families, and intervention permissions. Define which comparisons concern frozen inference, stateful execution, or adaptation.</p>
+<p>For cross-domain systems, define task views first. Comparing a video generator and an XOR solver requires a specific shared question, not a forced comparison of their full raw outputs.</p>
+<h3 id="s-19-3-propose-and-test-abstractions">19.3 Propose and test abstractions</h3>
+<p>Construct several candidate descriptions where appropriate. Record adapter families and cost. Test observations and causal dependencies that would distinguish the candidate mechanism from plausible alternatives.</p>
+<p>Retain residuals, counterexamples, and context dependence. Do not hide failures by changing the chart or domain without creating a new revision.</p>
+<h3 id="s-19-4-construct-charts">19.4 Construct charts</h3>
+<p>Select coordinate observations with stable meanings. Fit or choose a basis only after the observation contract exists. Store calibration and validation data separately.</p>
+<p>A chart may expose functional contributions, memory behavior, adaptation response, and resource demands. An origin or normalization is tied to that chart.</p>
+<h3 id="s-19-5-transform-and-realize">19.5 Transform and realize</h3>
+<p>Apply a declared rewrite, abstraction, or target compilation. Verify the requested scopes. Generate target parameters and state through the realization map.</p>
+<p>The resulting model may be comparable in behavior without supporting direct neuron substitution. Substitution requires the more specific interface and state correspondence at the replaced boundary.</p>
+<h3 id="s-19-6-preserve-the-path">19.6 Preserve the path</h3>
+<p>An atlas entry retains the chain from source implementation through import, abstraction, chart construction, transformation, and realization. Each edge carries its own evidence.</p>
+<p>This provides navigable explanations of where a model lies and how a transformation was justified, without assuming that every model has one global rotation relative to a universal origin.</p>
+<h2 id="s-20-implementation-stages-and-acceptance-gates">20. Implementation stages and acceptance gates</h2>
+<p>These stages define an engineering sequence and acceptance criteria for future implementations.</p>
+<h3 id="s-stage-a-exact-graph-core">Stage A — exact graph core</h3>
+<p>Implement package loading, operator resolution, pure Boolean graphs, a printer, and endpoint/type validation. Add the complete pure syntax grammar and a strict schema for that profile.</p>
+<p>Acceptance: C01–C05 and C29, plus serialization consistency and clear unsupported results. Exhaustively compare primitive XOR, its Boolean expansion, and a lookup table.</p>
+<h3 id="s-stage-b-state-and-learning">Stage B — state and learning</h3>
+<p>Implement resource identity, snapshots, event ordering, strict atomic commit, scalar arithmetic, local gradient records, and SGD. Add optimizer state after this foundation works.</p>
+<p>Acceptance: C06–C14 and C17–C19. Reproduce the scalar examples and demonstrate that stale credit and conflicting writes are rejected.</p>
+<h3 id="s-stage-c-correspondence-records">Stage C — correspondence records</h3>
+<p>Implement domain-restricted maps, typed task views, evidence records, and a small suite of exact and bounded comparison procedures.</p>
+<p>Acceptance: alphabet encoding and parameter-rescaling examples, with separate value and learning outcomes. No inference from descriptor equality to universal equivalence.</p>
+<h3 id="s-stage-d-neural-import-and-abstraction">Stage D — neural import and abstraction</h3>
+<p>Import small FFNs, recurrent systems, and a small attention component. Preserve relevant numerical, cache, normalization, and optimizer semantics. Support opaque nodes where necessary.</p>
+<p>Acceptance: import fidelity on declared protocols, explicit derivative boundaries, and intervention checks for at least one proposed abstraction.</p>
+<h3 id="s-stage-e-atlas-and-realization">Stage E — atlas and realization</h3>
+<p>Implement chart definitions, coordinate dictionaries, cross-model relations, resource annotations, and a small set of certified or bounded realization transformations.</p>
+<p>Acceptance: several distinct implementations of one task appear together while retaining mechanism and learning differences. A conversion supplies its evidence and limitations.</p>
+<h3 id="s-stage-f-scale-and-structural-learning">Stage F — scale and structural learning</h3>
+<p>Add large-model storage, dynamic graph updates, richer state-space and memory systems, and efficient compiled execution after the semantics have useful small-system coverage.</p>
+<p>Acceptance is task-specific. Increasing parameter count is not evidence that semantic alignment or decomposition generalizes.</p>
+<h2 id="s-21-open-design-decisions">21. Open design decisions</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decision</th><th scope="col">Current position</th><th scope="col">What would settle it</th></tr></thead><tbody><tr><td>Human syntax</td><td>Named ports, explicit state/effects, immutable bindings</td><td>Small parser and user review of readable examples</td></tr><tr><td>Full interchange schema</td><td>JSON envelope and external data blobs</td><td>Implementation of stateful and atlas profiles</td></tr><tr><td>Default numerical execution</td><td>No implicit universal default</td><td>Reference arithmetic plus target fidelity requirements</td></tr><tr><td>Allowed abstraction maps</td><td>Declared per claim; no universal family selected</td><td>Toy counterexamples and cross-task validation</td></tr><tr><td>Coordinate basis</td><td>Chart-specific and revisioned</td><td>Stability and interpretability under held-out comparisons</td></tr><tr><td>Learning distance</td><td>Separate from frozen behavior distance</td><td>Explicit experience protocols and trajectory metrics</td></tr><tr><td>Canonical graph identity</td><td>Only named, scoped normalizers</td><td>Implemented normalization guarantees and cost</td></tr><tr><td>Continuous time</td><td>Flow contract plus solver realization</td><td>Concrete use case requiring the profile</td></tr><tr><td>Asynchronous updates</td><td>Extension beyond strict reference policy</td><td>Explicit consistency model and validation cases</td></tr><tr><td>General semantic extraction</td><td>Multiple candidate descriptions allowed</td><td>Evidence that separates real mechanism from adapter computation</td></tr></tbody></table></div>
+<p>The strongest general limitation is computational: a language expressive enough for unrestricted computation cannot also promise a terminating, complete procedure for exact program equivalence. Bounded finite-state settings can be decidable while still being infeasible at scale. The graph language remains useful because representation, execution, restricted verification, and empirical comparison do not require solving every equivalence problem. Reference [R9] gives a relevant neural recurrent-system undecidability result under its stated model assumptions.</p>
+<h2 id="s-22-relationship-to-existing-work">22. Relationship to existing work</h2>
+<p>The design uses established ideas while making explicit choices for this project. These references motivate components; none supplies the entire proposed model atlas or validates its future implementation.</p>
+<ul><li><strong>[R1] MLIR Language Reference and effect interfaces.</strong> Typed operations, nested regions, extensible vocabularies, and compiler transformations are useful design precedents. MLIR's current side-effect rationale specifically limits its discussion to control-flow regions; it should not be cited as already solving every effect issue for arbitrary graph regions. <a href="https://mlir.llvm.org/docs/LangRef/">Language reference</a> · <a href="https://mlir.llvm.org/docs/Rationale/SideEffectsAndSpeculation/">Effects</a></li><li><strong>[R2] ONNX intermediate representation.</strong> Provides a concrete precedent for graph interfaces, training graphs, initialization, and update bindings. MGL's proposed correspondence and atlas contracts extend beyond this exchange role. <a href="https://onnx.ai/onnx/repo-docs/IR.html">ONNX IR</a></li><li><strong>[R3] Geiger et al., Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability, JMLR 2025.</strong> Supports precise relationships between lower-level systems and higher-level causal descriptions, including distributed features and graded faithfulness. <a href="https://jmlr.org/papers/v26/23-0058.html">Paper</a></li><li><strong>[R4] Sutter et al., The Non-Linear Representation Dilemma, NeurIPS 2025.</strong> Shows limitations of unrestricted nonlinear alignment for distributed causal-abstraction claims under explicit assumptions. It motivates tracking adapter constraints and complexity. <a href="https://proceedings.neurips.cc/paper_files/paper/2025/hash/dbb98528c9870377f3f0d133aae6050b-Abstract-Conference.html">Paper</a></li><li><strong>[R5] Martens, New Insights and Perspectives on the Natural Gradient Method, JMLR 2020.</strong> Discusses parameterization dependence and the qualified invariance properties of natural-gradient methods. It motivates distinguishing functional transport from learning transport. <a href="https://jmlr.org/papers/v21/17-678.html">Paper</a></li><li><strong>[R6] Littman, Sutton, and Singh, Predictive Representations of State, NIPS 2001.</strong> Describes state through action-conditional predictions of future observations. It motivates observation-based state views without asserting that a compact sufficient representation is always easy to recover. <a href="https://papers.nips.cc/paper_files/paper/2001/hash/1e4d36177d71bbb3558e43af9577d70e-Abstract.html">Paper</a></li><li><strong>[R7] Myers, Double Categories of Open Dynamical Systems, 2021.</strong> Provides a compositional account of systems, interfaces, interactions, and transformations. MGL uses plain operational vocabulary at its surface. <a href="https://arxiv.org/abs/2005.05956">Paper</a></li><li><strong>[R8] Chen, Goodfellow, and Shlens, Net2Net: Accelerating Learning via Knowledge Transfer, 2015.</strong> Gives specific function-preserving network transformations. Such constructions are examples of scoped realization rules, not universal architecture conversion. <a href="https://arxiv.org/abs/1511.05641">Paper</a></li><li><strong>[R9] Chen et al., Recurrent Neural Networks as Weighted Language Recognizers, 2017.</strong> Establishes undecidability results for particular unrestricted recurrent neural language-recognition models. These results are not a claim that every bounded finite-precision model comparison is undecidable. <a href="https://arxiv.org/abs/1711.05408">Paper</a></li></ul>
+<h2 id="s-23-glossary">23. Glossary</h2>
+<div class="table-scroll"><table><thead><tr><th scope="col">Term</th><th scope="col">Meaning in this specification</th></tr></thead><tbody><tr><td>Abstraction</td><td>A scoped map that preserves selected behavior or causal organization</td></tr><tr><td>Adapter</td><td>An explicit computation translating one interface or representation into another</td></tr><tr><td>Atlas</td><td>Descriptions, charts, and justified relationships used for model-space navigation</td></tr><tr><td>Boundary</td><td>The declared inputs, observations, state access, and timing of a comparison</td></tr><tr><td>Chart</td><td>A revisioned coordinate definition over a compatible family of systems or views</td></tr><tr><td>Context</td><td>An allowed environment or continuation that can interact with a component</td></tr><tr><td>Credit</td><td>Information used to determine an update, with target and provenance</td></tr><tr><td>Effect</td><td>An observable or persistent consequence beyond returning an immutable value</td></tr><tr><td>Encapsulation</td><td>Packaging a graph behind an interface without claiming a semantic reduction</td></tr><tr><td>Event</td><td>A named occurrence that activates computation under a schedule</td></tr><tr><td>Fidelity</td><td>What a realization or transformation promises to preserve, with its error policy</td></tr><tr><td>Normalization</td><td>A named rewrite procedure with explicit preservation rules</td></tr><tr><td>Observation</td><td>A value or trace feature exposed by a declared experimental contract</td></tr><tr><td>Proposal</td><td>A versioned candidate state change awaiting validation and commit</td></tr><tr><td>Realization</td><td>A concrete implementation of a computational description</td></tr><tr><td>Resource</td><td>An identified unit of persistent state or controlled effect</td></tr><tr><td>Snapshot</td><td>State and execution context at a specified versioned boundary</td></tr><tr><td>View</td><td>A task, observation, or intervention contract applied to a system</td></tr></tbody></table></div>
+<h2 id="s-24-specification-change-policy">24. Specification change policy</h2>
+<p>The v0.1 design is intentionally revisable. Changes to type meaning, state visibility, operation semantics, evidence interpretation, or chart coordinates require a new revision and an explicit migration note.</p>
+<p>Editorial corrections can retain the language version while changing the document revision. A future implementation must identify both the supported language version and the exact specification or operator revisions used.</p>
+<p>Future revisions should preserve the core distinction between current computation, learning dynamics, implementation structure, and the evidence supporting relationships among them.</p>
+</main></div>
+<footer>PINN · Model Graph Language v0.1 · The Markdown source is authoritative. This page contains no scripts or external rendering dependencies.</footer>
+</body></html>
