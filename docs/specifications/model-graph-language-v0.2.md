@@ -8,6 +8,8 @@ This revision supersedes the runtime-oriented [v0.1 draft](model-graph-language-
 
 **Implementation status:** this document specifies an analysis representation and workflow. A general importer, discovery engine, segmentation algorithm, and model-space atlas are not implemented here. The accompanying [neural XOR analysis record](examples/xor-analysis.mgl.json) is a manually authored synthetic fixture. Its [checker](examples/check_xor_analysis.py) validates the stated numerical examples; it is not a general decompiler.
 
+**Implementation update:** [pinn-mgl 0.1.0](../development/static-disassembly.md) now implements a narrow static-FFN profile: explicit import, paired contributions, exact shared-gate grouping, bounded descriptors, and an HTML inspector. General circuit discovery and the model-space atlas remain future work.
+
 ## 1. Objective and design boundary
 
 The intended workflow is:
@@ -670,3 +672,4 @@ The record design, conventions, and implementation sequence in this document are
 - [Geiger et al., Causal Abstraction: A Theoretical Foundation for Mechanistic Interpretability, JMLR 2025](https://jmlr.org/papers/v26/23-0058.html). Relevant to defining scoped relationships between lower- and higher-level descriptions.
 
 The [existing PINN report](../reports/pythia-permutation-index-20261019-v1.html) provides the project's prior permutation-indexing and sketch measurements. Those measurements retain their original limitations.
+

@@ -1,0 +1,43 @@
+{
+  "name": "static-disassembly-v1",
+  "model": "EleutherAI/pythia-70m",
+  "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+  "artifacts": {
+    "config.json": {
+      "filename": "config.json",
+      "bytes": 567,
+      "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/config.json"
+    },
+    "model.safetensors": {
+      "filename": "model.safetensors",
+      "bytes": 281715176,
+      "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/model.safetensors"
+    }
+  },
+  "analysis_budget": {
+    "max_parameter_bytes": 67108864,
+    "max_contributions": 4096,
+    "block_rows": 128,
+    "sample_width": 8
+  },
+  "controls": {
+    "seeds": [
+      73,
+      191,
+      307
+    ],
+    "synthetic_residual_probes_per_layer": 8,
+    "probe_seed": 20261019,
+    "coherent_relative_tolerance": 1e-12,
+    "broken_control_min_relative_change": 1e-06
+  },
+  "interpretation": {
+    "model_evaluation": "Isolated FFN + LayerNorm equations in NumPy float64; no native-framework or whole-model fidelity claim",
+    "probes": "Seeded standard-normal residual vectors, not natural-language activation data",
+    "static_descriptor": "A sampled affine contraction that omits the nonlinearity; tested for known collisions",
+    "runtime_cost": "Analyzer times exclude acquisition, whole-file hashing, controls, serialization, and report rendering",
+    "training_updates": 0
+  }
+}

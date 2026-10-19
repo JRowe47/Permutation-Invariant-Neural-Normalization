@@ -1,0 +1,422 @@
+{
+  "schema": "mgl.analysis/0.2",
+  "package": {
+    "id": "5265a0631608d7e15545a093",
+    "revision": "87632df54e3d7869085bf0a4eaca74df90c5aba062824330532b76bd3098e2c7",
+    "producer": "pinn-mgl/0.1.0",
+    "status": "analysis",
+    "profile": "pinn.static-ffn/1"
+  },
+  "sources": [
+    {
+      "id": "src-wide",
+      "identity": {
+        "kind": "inline-fixture",
+        "artifact": "xor-analysis.mgl.json",
+        "sha256": "63ecaf32fc71d4f143c3acd3c7d1ec42ee53a9e4adc0c37d88048eabad2f165f",
+        "source": "src-wide",
+        "constant_conversion": "exact binary64",
+        "verification": "input bytes hashed; inline constants checked"
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "relu",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "region input",
+        "dimensions": [
+          2,
+          3,
+          1
+        ],
+        "pre_norm": null,
+        "input_frame": "xor-input",
+        "output_frame": "xor-output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "W_in",
+          "shape": [
+            3,
+            2
+          ],
+          "dtype": "<f8",
+          "locator": "xor-analysis.mgl.json#src-wide/W_in"
+        },
+        "b_in": {
+          "name": "b_in",
+          "shape": [
+            3
+          ],
+          "dtype": "<f8",
+          "locator": "xor-analysis.mgl.json#src-wide/b_in"
+        },
+        "W_out": {
+          "name": "W_out",
+          "shape": [
+            1,
+            3
+          ],
+          "dtype": "<f8",
+          "locator": "xor-analysis.mgl.json#src-wide/W_out"
+        },
+        "b_out": {
+          "name": "b_out",
+          "shape": [
+            1
+          ],
+          "dtype": "<f8",
+          "locator": "xor-analysis.mgl.json#src-wide/b_out"
+        }
+      },
+      "context": {
+        "scope": "complete synthetic FFN",
+        "state": "none",
+        "excluded": [
+          "training history"
+        ]
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "op-read",
+      "source": "src-wide",
+      "mnemonic": "AFFINE",
+      "inputs": [
+        "x"
+      ],
+      "outputs": [
+        "z"
+      ],
+      "input_frame": "xor-input",
+      "output_frame": "src-wide:hidden",
+      "bindings": {
+        "weight": "W_in",
+        "bias": "b_in"
+      }
+    },
+    {
+      "id": "op-gate",
+      "source": "src-wide",
+      "mnemonic": "NONLIN",
+      "inputs": [
+        "z"
+      ],
+      "outputs": [
+        "h"
+      ],
+      "input_frame": "src-wide:hidden",
+      "output_frame": "src-wide:hidden",
+      "attributes": {
+        "activation": "relu",
+        "definition": "max(0, z), elementwise",
+        "reason": null
+      }
+    },
+    {
+      "id": "op-write",
+      "source": "src-wide",
+      "mnemonic": "AFFINE",
+      "inputs": [
+        "h"
+      ],
+      "outputs": [
+        "y"
+      ],
+      "input_frame": "src-wide:hidden",
+      "output_frame": "xor-output",
+      "bindings": {
+        "weight": "W_out",
+        "bias": "b_out"
+      }
+    }
+  ],
+  "contributions": [
+    {
+      "id": "c0",
+      "source": "src-wide",
+      "index": 0,
+      "read": {
+        "tensor": "W_in",
+        "row": 0,
+        "frame": "xor-input"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 0
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "relu"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 0,
+        "frame": "xor-output"
+      },
+      "gate_digest": "3b22629cadb91cd40dc3263566390349916720ac8336fa9b81e98211a40e86d9",
+      "paired_digest": "1d504b74cb9853acd152c4cbb08c8a2d9c0ee0699729d5425084c97dcb6dfc52",
+      "statistics": {
+        "read_l2": 1.4142135623730951,
+        "write_l2": 0.5,
+        "bias": 0.0
+      }
+    },
+    {
+      "id": "c1",
+      "source": "src-wide",
+      "index": 1,
+      "read": {
+        "tensor": "W_in",
+        "row": 1,
+        "frame": "xor-input"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 1
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "relu"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 1,
+        "frame": "xor-output"
+      },
+      "gate_digest": "3b22629cadb91cd40dc3263566390349916720ac8336fa9b81e98211a40e86d9",
+      "paired_digest": "1d504b74cb9853acd152c4cbb08c8a2d9c0ee0699729d5425084c97dcb6dfc52",
+      "statistics": {
+        "read_l2": 1.4142135623730951,
+        "write_l2": 0.5,
+        "bias": 0.0
+      }
+    },
+    {
+      "id": "c2",
+      "source": "src-wide",
+      "index": 2,
+      "read": {
+        "tensor": "W_in",
+        "row": 2,
+        "frame": "xor-input"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 2
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "relu"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 2,
+        "frame": "xor-output"
+      },
+      "gate_digest": "9ffe5266ded34949d9209c9cd2a4c689289bc45cd9629e9fe6d91db3315b6280",
+      "paired_digest": "749f4da3288a4a215944e2a8023f69d4759889268eea7fbb5a661a49ee6f031f",
+      "statistics": {
+        "read_l2": 1.4142135623730951,
+        "write_l2": 2.0,
+        "bias": -1.0
+      }
+    },
+    {
+      "id": "c-output-bias",
+      "source": "src-wide",
+      "kind": "constant-write",
+      "binding": {
+        "tensor": "b_out",
+        "frame": "xor-output"
+      }
+    }
+  ],
+  "segments": [
+    {
+      "id": "shared-gate-0",
+      "source": "src-wide",
+      "kind": "shared-gate",
+      "members": [
+        "c0",
+        "c1"
+      ],
+      "membership": "exact shared incoming affine and activation",
+      "boundary": {
+        "input_frame": "xor-input",
+        "output_frame": "xor-output",
+        "external_dependencies": []
+      },
+      "reconstruction": "phi(w^T x+b) * sum(member outgoing columns)",
+      "claims": [
+        "claim-shared-gate-0"
+      ],
+      "unexplained": "All other contributions and output bias remain outside this segment"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-shared-gate-0",
+      "subject": "shared-gate-0",
+      "kind": "derived-statement",
+      "status": "supported",
+      "predicate": "shared-affine-gate",
+      "domain": {
+        "inputs": "finite real vectors",
+        "regime": "real-arithmetic",
+        "state": "none",
+        "horizon": "one region evaluation"
+      },
+      "evidence": [
+        "ev-shared-gate-0"
+      ],
+      "limitations": [
+        "Summing outgoing columns in a new implementation may change floating-point rounding",
+        "No human semantic label or general compression guarantee"
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-shared-gate-0",
+      "kind": "algebraic-derivation",
+      "producer": "static-pass",
+      "method": "Exact array equality of all incoming rows and biases after hash shortlisting",
+      "witness": {
+        "members": [
+          "c0",
+          "c1"
+        ],
+        "same_activation": "relu"
+      },
+      "identity": "sum_j v_j*phi(w^T x+b) = (sum_j v_j)*phi(w^T x+b)"
+    }
+  ],
+  "descriptors": [
+    {
+      "id": "paired-static-summary",
+      "source": "src-wide",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        1
+      ],
+      "output_indices": [
+        0
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -1.0
+        ],
+        [
+          -1.0
+        ],
+        [
+          2.0
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "xor-input",
+        "write": "xor-output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          3
+        ],
+        "total_rows": 3
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "fd8cd6477cadc60ac5b60cdd38759644dcf3fed39da24cda1f7951c60825302a",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    }
+  ],
+  "correspondences": [],
+  "pass_runs": [
+    {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "src-wide",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 3,
+        "contributions_total": 3,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 152,
+        "largest_tensor_read_bytes": 48,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.0002762670001175138
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "inline-fixture",
+          "artifact": "xor-analysis.mgl.json",
+          "sha256": "63ecaf32fc71d4f143c3acd3c7d1ec42ee53a9e4adc0c37d88048eabad2f165f",
+          "source": "src-wide",
+          "constant_conversion": "exact binary64",
+          "verification": "input bytes hashed; inline constants checked"
+        },
+        "inspected_parameter_digest": "fd8cd6477cadc60ac5b60cdd38759644dcf3fed39da24cda1f7951c60825302a",
+        "ordered_contribution_digest": "ff475f17ba2b9cc8b8a074bd257cbb13c67d176c48de4e27725e0b2b1154737e",
+        "boundary": {
+          "input_frame": "xor-input",
+          "read_frame_kind": "direct",
+          "output_frame": "xor-output",
+          "activation": "relu",
+          "dimensions": [
+            2,
+            1
+          ],
+          "dtypes": {
+            "W_in": "<f8",
+            "b_in": "<f8",
+            "W_out": "<f8",
+            "b_out": "<f8"
+          },
+          "pre_norm": null
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    }
+  ]
+}

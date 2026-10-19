@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Static disassembly: src-wide</title>
+<style>
+:root{color-scheme:light;--ink:#183244;--muted:#546c7c;--line:#dbe6eb;--accent:#126b70}
+*{box-sizing:border-box}body{margin:0;background:#f0f5f7;color:var(--ink);font:16px/1.6 system-ui,sans-serif}
+main{max-width:1200px;margin:auto;padding:32px;background:white}h1{line-height:1.2;font-size:2rem}
+h2{margin-top:2.5rem}a{color:var(--accent)}.meta{color:var(--muted)}.notice{padding:16px;background:#fff8eb;border-left:4px solid #ba8740}
+.facts{display:flex;gap:24px;flex-wrap:wrap;margin:24px 0}.facts strong{font-size:1.8rem;display:block}
+.scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#edf4f6}
+code,pre{font-family:ui-monospace,monospace}pre{overflow:auto;padding:16px;background:#f0f5f7;font-size:.8rem}
+input{font:inherit;padding:8px;width:min(100%,440px);margin:8px 0 16px}
+nav{display:flex;gap:18px;flex-wrap:wrap}details{margin:20px 0}summary{cursor:pointer}
+@media(max-width:700px){main{padding:20px}}@media print{input,nav{display:none}}
+</style></head><body><main>
+<p class="meta">PINN · MGL v0.2 / static FFN profile · analyzer 0.1.0</p>
+<h1>src-wide</h1>
+<p class="notice">Static computation and algebraic motifs. Human semantic categories are not inferred.
+This view covers one declared FFN region; surrounding computation and learning history are not reconstructed.</p>
+<nav><a href="#operations">Operations</a><a href="#contributions">Contributions</a>
+<a href="#segments">Segments</a><a href="#source">Source</a><a href="#cost">Cost and scope</a>
+<a href="analysis.mgl.json">Full analysis JSON</a></nav>
+<div class="facts"><div><strong>3 / 3</strong>contributions inspected</div>
+<div><strong>1</strong>shared-gate segments</div>
+<div><strong>152</strong>logical parameter bytes read</div></div>
+<p>Status: <strong>completed</strong>. Activation: relu.
+Dimensions: [2, 3, 1].</p>
+<h2 id="operations">Lifted source operations</h2><div class="scroll"><table>
+<thead><tr><th>ID</th><th>Operation</th><th>Inputs</th><th>Outputs</th><th>Frames</th></tr></thead>
+<tbody><tr><td>op-read</td><td>AFFINE</td><td>x</td><td>z</td><td>xor-input<br>to src-wide:hidden</td></tr><tr><td>op-gate</td><td>NONLIN</td><td>z</td><td>h</td><td>src-wide:hidden<br>to src-wide:hidden</td></tr><tr><td>op-write</td><td>AFFINE</td><td>h</td><td>y</td><td>src-wide:hidden<br>to xor-output</td></tr></tbody></table></div>
+<h2 id="contributions">Paired contributions</h2><p>Reads, biases, and writes remain associated. Norms are structural descriptors, not semantic labels.
+The output bias remains a separate constant contribution in the analysis record.</p>
+<label for="filter">Filter contribution rows</label><br><input id="filter" type="search" placeholder="Index, bias, or fingerprint">
+<div class="scroll"><table id="units"><thead><tr><th>ID</th><th>Read and bias</th><th>Gate</th><th>Write</th>
+<th>Read L2</th><th>Bias</th><th>Write L2</th><th>Pair digest prefix</th></tr></thead><tbody><tr><td>c0</td><td>W_in[0, :]<br>b_in[0]</td><td>relu</td><td>W_out[:, 0]</td><td>1.41421</td><td>0</td><td>0.5</td><td><code>1d504b74cb9853ac</code></td></tr><tr><td>c1</td><td>W_in[1, :]<br>b_in[1]</td><td>relu</td><td>W_out[:, 1]</td><td>1.41421</td><td>0</td><td>0.5</td><td><code>1d504b74cb9853ac</code></td></tr><tr><td>c2</td><td>W_in[2, :]<br>b_in[2]</td><td>relu</td><td>W_out[:, 2]</td><td>1.41421</td><td>-1</td><td>2</td><td><code>749f4da3288a4a21</code></td></tr></tbody></table></div>
+<h2 id="segments">Verified algebraic segments</h2><ul><li><strong>shared-gate</strong>: c0, c1. phi(w^T x+b) * sum(member outgoing columns)</li></ul>
+<p>Shared gates can be represented by one gate with a sum of outgoing writes in real arithmetic. This is a source-linked identity, not a guarantee about retraining, bitwise execution, or arbitrary model compression.</p>
+<h2 id="source">Source bindings</h2><div class="scroll"><table><thead><tr><th>Role</th><th>Source tensor</th><th>Shape</th><th>Dtype</th><th>Resource</th></tr></thead><tbody><tr><td>W_in</td><td>W_in</td><td>[3, 2]</td><td>&lt;f8</td><td>xor-analysis.mgl.json#src-wide/W_in</td></tr><tr><td>b_in</td><td>b_in</td><td>[3]</td><td>&lt;f8</td><td>xor-analysis.mgl.json#src-wide/b_in</td></tr><tr><td>W_out</td><td>W_out</td><td>[1, 3]</td><td>&lt;f8</td><td>xor-analysis.mgl.json#src-wide/W_out</td></tr><tr><td>b_out</td><td>b_out</td><td>[1]</td><td>&lt;f8</td><td>xor-analysis.mgl.json#src-wide/b_out</td></tr></tbody></table></div>
+<details><summary>Source identity and excluded computation</summary><pre>{
+  &quot;identity&quot;: {
+    &quot;kind&quot;: &quot;inline-fixture&quot;,
+    &quot;artifact&quot;: &quot;xor-analysis.mgl.json&quot;,
+    &quot;sha256&quot;: &quot;63ecaf32fc71d4f143c3acd3c7d1ec42ee53a9e4adc0c37d88048eabad2f165f&quot;,
+    &quot;source&quot;: &quot;src-wide&quot;,
+    &quot;constant_conversion&quot;: &quot;exact binary64&quot;,
+    &quot;verification&quot;: &quot;input bytes hashed; inline constants checked&quot;
+  },
+  &quot;context&quot;: {
+    &quot;scope&quot;: &quot;complete synthetic FFN&quot;,
+    &quot;state&quot;: &quot;none&quot;,
+    &quot;excluded&quot;: [
+      &quot;training history&quot;
+    ]
+  }
+}</pre></details>
+<h2 id="cost">Cost and coverage</h2><ul><li>All contributions in this declared region were inspected.</li></ul>
+<p>The byte budget counts logical tensor reads, including verification rereads. Physical I/O and peak working memory are not measured. Downloading or hashing a checkpoint is outside this pass's budget. The elapsed_seconds field times the scan, descriptors, and grouping; final record hashing, profile validation, and file rendering are outside that timer. The experiment report separately measures the entire analyze() call.</p>
+<pre>{
+  &quot;id&quot;: &quot;static-pass&quot;,
+  &quot;pass&quot;: &quot;pinn.static-ffn/0.1.0&quot;,
+  &quot;source&quot;: &quot;src-wide&quot;,
+  &quot;status&quot;: &quot;completed&quot;,
+  &quot;allowed_access&quot;: [
+    &quot;metadata&quot;,
+    &quot;weights&quot;
+  ],
+  &quot;budget&quot;: {
+    &quot;max_parameter_bytes&quot;: 67108864,
+    &quot;max_contributions&quot;: 4096,
+    &quot;block_rows&quot;: 128,
+    &quot;sample_width&quot;: 8
+  },
+  &quot;budget_definition&quot;: &quot;Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM&quot;,
+  &quot;coverage&quot;: {
+    &quot;contributions_inspected&quot;: 3,
+    &quot;contributions_total&quot;: 3,
+    &quot;fixed_boundary_parameters_inspected&quot;: true,
+    &quot;opaque_operations&quot;: [],
+    &quot;unverified_duplicate_groups&quot;: [],
+    &quot;hash_collision_buckets_rejected&quot;: 0,
+    &quot;scope&quot;: &quot;one FFN region; no whole-model or task-semantic coverage&quot;
+  },
+  &quot;cost&quot;: {
+    &quot;logical_parameter_bytes_read&quot;: 152,
+    &quot;largest_tensor_read_bytes&quot;: 48,
+    &quot;physical_io_bytes&quot;: null,
+    &quot;peak_working_bytes&quot;: null,
+    &quot;forward_evaluations&quot;: 0,
+    &quot;backward_evaluations&quot;: 0,
+    &quot;interventions&quot;: 0,
+    &quot;elapsed_seconds&quot;: 0.0002762670001175138
+  },
+  &quot;cache_dependencies&quot;: {
+    &quot;source_identity&quot;: {
+      &quot;kind&quot;: &quot;inline-fixture&quot;,
+      &quot;artifact&quot;: &quot;xor-analysis.mgl.json&quot;,
+      &quot;sha256&quot;: &quot;63ecaf32fc71d4f143c3acd3c7d1ec42ee53a9e4adc0c37d88048eabad2f165f&quot;,
+      &quot;source&quot;: &quot;src-wide&quot;,
+      &quot;constant_conversion&quot;: &quot;exact binary64&quot;,
+      &quot;verification&quot;: &quot;input bytes hashed; inline constants checked&quot;
+    },
+    &quot;inspected_parameter_digest&quot;: &quot;fd8cd6477cadc60ac5b60cdd38759644dcf3fed39da24cda1f7951c60825302a&quot;,
+    &quot;ordered_contribution_digest&quot;: &quot;ff475f17ba2b9cc8b8a074bd257cbb13c67d176c48de4e27725e0b2b1154737e&quot;,
+    &quot;boundary&quot;: {
+      &quot;input_frame&quot;: &quot;xor-input&quot;,
+      &quot;read_frame_kind&quot;: &quot;direct&quot;,
+      &quot;output_frame&quot;: &quot;xor-output&quot;,
+      &quot;activation&quot;: &quot;relu&quot;,
+      &quot;dimensions&quot;: [
+        2,
+        1
+      ],
+      &quot;dtypes&quot;: {
+        &quot;W_in&quot;: &quot;&lt;f8&quot;,
+        &quot;b_in&quot;: &quot;&lt;f8&quot;,
+        &quot;W_out&quot;: &quot;&lt;f8&quot;,
+        &quot;b_out&quot;: &quot;&lt;f8&quot;
+      },
+      &quot;pre_norm&quot;: null
+    },
+    &quot;budget&quot;: {
+      &quot;max_parameter_bytes&quot;: 67108864,
+      &quot;max_contributions&quot;: 4096,
+      &quot;block_rows&quot;: 128,
+      &quot;sample_width&quot;: 8
+    }
+  },
+  &quot;notes&quot;: []
+}</pre>
+<details><summary>Joint static descriptor and information loss</summary><pre>{
+  &quot;id&quot;: &quot;paired-static-summary&quot;,
+  &quot;source&quot;: &quot;src-wide&quot;,
+  &quot;construction&quot;: &quot;coordinate-sampled-affine-contraction/1&quot;,
+  &quot;input_indices&quot;: [
+    0,
+    1
+  ],
+  &quot;output_indices&quot;: [
+    0
+  ],
+  &quot;formula&quot;: &quot;sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row&quot;,
+  &quot;values&quot;: [
+    [
+      -1.0
+    ],
+    [
+      -1.0
+    ],
+    [
+      2.0
+    ]
+  ],
+  &quot;metric&quot;: &quot;Euclidean distance only with compatible indices, frames, activation, and domain&quot;,
+  &quot;frame&quot;: {
+    &quot;read&quot;: &quot;xor-input&quot;,
+    &quot;write&quot;: &quot;xor-output&quot;
+  },
+  &quot;coverage&quot;: {
+    &quot;rows&quot;: [
+      0,
+      3
+    ],
+    &quot;total_rows&quot;: 3
+  },
+  &quot;invariance&quot;: &quot;complete-scope coherent hidden reindexing, within summation rounding&quot;,
+  &quot;known_loss&quot;: [
+    &quot;Unsampled coordinates&quot;,
+    &quot;Replaces the activation with identity; nonlinear functions can collide&quot;,
+    &quot;Higher moments&quot;,
+    &quot;Descriptor collisions are possible; no functional equivalence claim&quot;
+  ],
+  &quot;parameter_multiset_digest&quot;: &quot;fd8cd6477cadc60ac5b60cdd38759644dcf3fed39da24cda1f7951c60825302a&quot;,
+  &quot;digest_scope&quot;: &quot;complete region parameters modulo hidden permutation&quot;,
+  &quot;digest_assumption&quot;: &quot;SHA-256 collision resistance; exact value encoding and source boundary conventions&quot;
+}</pre></details>
+</main><script>
+document.getElementById('filter').addEventListener('input', function() {
+ const q=this.value.toLowerCase();
+ for (const row of document.querySelectorAll('#units tbody tr')) row.hidden=!row.textContent.toLowerCase().includes(q);
+});
+</script></body></html>

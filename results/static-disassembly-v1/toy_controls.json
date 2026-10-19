@@ -1,0 +1,163 @@
+{
+  "truth_table": [
+    0.0,
+    1.0,
+    1.0,
+    0.0
+  ],
+  "broken_truth_table": [
+    0.0,
+    -2.0,
+    -2.0,
+    -3.0
+  ],
+  "wide_segments": [
+    {
+      "id": "shared-gate-0",
+      "source": "src-wide",
+      "kind": "shared-gate",
+      "members": [
+        "c0",
+        "c1"
+      ],
+      "membership": "exact shared incoming affine and activation",
+      "boundary": {
+        "input_frame": "xor-input",
+        "output_frame": "xor-output",
+        "external_dependencies": []
+      },
+      "reconstruction": "phi(w^T x+b) * sum(member outgoing columns)",
+      "claims": [
+        "claim-shared-gate-0"
+      ],
+      "unexplained": "All other contributions and output bias remain outside this segment"
+    }
+  ],
+  "static_descriptors": {
+    "src-xor": [
+      [
+        -1.0
+      ],
+      [
+        -1.0
+      ],
+      [
+        2.0
+      ]
+    ],
+    "src-permuted": [
+      [
+        -1.0
+      ],
+      [
+        -1.0
+      ],
+      [
+        2.0
+      ]
+    ],
+    "src-broken": [
+      [
+        -1.0
+      ],
+      [
+        -1.0
+      ],
+      [
+        -1.0
+      ]
+    ],
+    "src-wide": [
+      [
+        -1.0
+      ],
+      [
+        -1.0
+      ],
+      [
+        2.0
+      ]
+    ]
+  },
+  "parameter_digests": {
+    "src-xor": "ca986dd897dfd4c7e51168ccb5973d5c226590304a1668554842e4347e8335ec",
+    "src-permuted": "ca986dd897dfd4c7e51168ccb5973d5c226590304a1668554842e4347e8335ec",
+    "src-broken": "2266b253eec0f5ff6d93eda48cf71ed7267b940448f905a0560f9c6c85625668",
+    "src-wide": "fd8cd6477cadc60ac5b60cdd38759644dcf3fed39da24cda1f7951c60825302a"
+  },
+  "source_fixture_sha256": "63ecaf32fc71d4f143c3acd3c7d1ec42ee53a9e4adc0c37d88048eabad2f165f",
+  "descriptor_collision_control": [
+    {
+      "source": "absolute-value",
+      "parameters": {
+        "W_in": [
+          [
+            1.0
+          ],
+          [
+            -1.0
+          ]
+        ],
+        "b_in": [
+          0.0,
+          0.0
+        ],
+        "W_out": [
+          [
+            1.0,
+            1.0
+          ]
+        ],
+        "b_out": [
+          0.0
+        ]
+      },
+      "descriptor": [
+        [
+          0.0
+        ],
+        [
+          0.0
+        ]
+      ],
+      "output_at_one": 1.0,
+      "fingerprint": "5621612e0238756870854cab8537861cd5bb930e6ef4e69b2538b0ad8300beef"
+    },
+    {
+      "source": "zero-function",
+      "parameters": {
+        "W_in": [
+          [
+            1.0
+          ],
+          [
+            1.0
+          ]
+        ],
+        "b_in": [
+          0.0,
+          0.0
+        ],
+        "W_out": [
+          [
+            1.0,
+            -1.0
+          ]
+        ],
+        "b_out": [
+          0.0
+        ]
+      },
+      "descriptor": [
+        [
+          0.0
+        ],
+        [
+          0.0
+        ]
+      ],
+      "output_at_one": 0.0,
+      "fingerprint": "54ce9c83bc969bd21d80a6cfade99713ad8f4ef3e40421487b6d16aaa8dd66c5"
+    }
+  ]
+}

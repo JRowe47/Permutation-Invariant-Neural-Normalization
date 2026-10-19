@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pinn-mgl"
+version = "0.1.0"
+description = "Source-linked static analysis of neural FFN contributions"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.24,<3"]
+
+[project.optional-dependencies]
+safetensors = ["safetensors>=0.6.2,<0.7"]
+
+[project.scripts]
+pinn-mgl = "pinn_mgl.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

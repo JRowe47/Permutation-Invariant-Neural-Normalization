@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Static disassembly: pythia-layer-0</title>
+<style>
+:root{color-scheme:light;--ink:#183244;--muted:#546c7c;--line:#dbe6eb;--accent:#126b70}
+*{box-sizing:border-box}body{margin:0;background:#f0f5f7;color:var(--ink);font:16px/1.6 system-ui,sans-serif}
+main{max-width:1200px;margin:auto;padding:32px;background:white}h1{line-height:1.2;font-size:2rem}
+h2{margin-top:2.5rem}a{color:var(--accent)}.meta{color:var(--muted)}.notice{padding:16px;background:#fff8eb;border-left:4px solid #ba8740}
+.facts{display:flex;gap:24px;flex-wrap:wrap;margin:24px 0}.facts strong{font-size:1.8rem;display:block}
+.scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line);vertical-align:top}th{background:#edf4f6}
+code,pre{font-family:ui-monospace,monospace}pre{overflow:auto;padding:16px;background:#f0f5f7;font-size:.8rem}
+input{font:inherit;padding:8px;width:min(100%,440px);margin:8px 0 16px}
+nav{display:flex;gap:18px;flex-wrap:wrap}details{margin:20px 0}summary{cursor:pointer}
+@media(max-width:700px){main{padding:20px}}@media print{input,nav{display:none}}
+</style></head><body><main>
+<p class="meta">PINN · MGL v0.2 / static FFN profile · analyzer 0.1.0</p>
+<h1>pythia-layer-0</h1>
+<p class="notice">Static computation and algebraic motifs. Human semantic categories are not inferred.
+This view covers one declared FFN region; surrounding computation and learning history are not reconstructed.</p>
+<nav><a href="#operations">Operations</a><a href="#contributions">Contributions</a>
+<a href="#segments">Segments</a><a href="#source">Source</a><a href="#cost">Cost and scope</a>
+<a href="analysis.mgl.json">Full analysis JSON</a></nav>
+<div class="facts"><div><strong>64 / 2,048</strong>contributions inspected</div>
+<div><strong>0</strong>shared-gate segments</div>
+<div><strong>268,544</strong>logical parameter bytes read</div></div>
+<p>Status: <strong>partial</strong>. Activation: gelu_erf.
+Dimensions: [512, 2048, 512].</p>
+<h2 id="operations">Lifted source operations</h2><div class="scroll"><table>
+<thead><tr><th>ID</th><th>Operation</th><th>Inputs</th><th>Outputs</th><th>Frames</th></tr></thead>
+<tbody><tr><td>op-normalize</td><td>NORMALIZE</td><td>x</td><td>x_norm</td><td>gpt_neox.layers.0.post_attention_layernorm.input<br>to gpt_neox.layers.0.post_attention_layernorm.input:normalized</td></tr><tr><td>op-read</td><td>AFFINE</td><td>x_norm</td><td>z</td><td>gpt_neox.layers.0.post_attention_layernorm.input:normalized<br>to pythia-layer-0:hidden</td></tr><tr><td>op-gate</td><td>NONLIN</td><td>z</td><td>h</td><td>pythia-layer-0:hidden<br>to pythia-layer-0:hidden</td></tr><tr><td>op-write</td><td>AFFINE</td><td>h</td><td>y</td><td>pythia-layer-0:hidden<br>to gpt_neox.layers.0.mlp.output</td></tr></tbody></table></div>
+<h2 id="contributions">Paired contributions</h2><p>Reads, biases, and writes remain associated. Norms are structural descriptors, not semantic labels.
+The output bias remains a separate constant contribution in the analysis record.</p>
+<label for="filter">Filter contribution rows</label><br><input id="filter" type="search" placeholder="Index, bias, or fingerprint">
+<div class="scroll"><table id="units"><thead><tr><th>ID</th><th>Read and bias</th><th>Gate</th><th>Write</th>
+<th>Read L2</th><th>Bias</th><th>Write L2</th><th>Pair digest prefix</th></tr></thead><tbody><tr><td>c0</td><td>W_in[0, :]<br>b_in[0]</td><td>gelu_erf</td><td>W_out[:, 0]</td><td>0.567774</td><td>-0.0531311</td><td>0.417289</td><td><code>dcbeab98d0076e13</code></td></tr><tr><td>c1</td><td>W_in[1, :]<br>b_in[1]</td><td>gelu_erf</td><td>W_out[:, 1]</td><td>0.833496</td><td>-0.150269</td><td>0.46672</td><td><code>c034ca74cbacc193</code></td></tr><tr><td>c2</td><td>W_in[2, :]<br>b_in[2]</td><td>gelu_erf</td><td>W_out[:, 2]</td><td>0.800181</td><td>-0.149902</td><td>0.477481</td><td><code>5a61f306f557b5ae</code></td></tr><tr><td>c3</td><td>W_in[3, :]<br>b_in[3]</td><td>gelu_erf</td><td>W_out[:, 3]</td><td>0.761686</td><td>-0.148804</td><td>0.488049</td><td><code>609fb9468eb9b934</code></td></tr><tr><td>c4</td><td>W_in[4, :]<br>b_in[4]</td><td>gelu_erf</td><td>W_out[:, 4]</td><td>0.551052</td><td>-0.0643311</td><td>0.403729</td><td><code>af3d64212e05974e</code></td></tr><tr><td>c5</td><td>W_in[5, :]<br>b_in[5]</td><td>gelu_erf</td><td>W_out[:, 5]</td><td>0.614976</td><td>-0.0870361</td><td>0.409255</td><td><code>c522a473405f236b</code></td></tr><tr><td>c6</td><td>W_in[6, :]<br>b_in[6]</td><td>gelu_erf</td><td>W_out[:, 6]</td><td>0.726031</td><td>-0.0364075</td><td>0.442438</td><td><code>c1cbbd14343d0016</code></td></tr><tr><td>c7</td><td>W_in[7, :]<br>b_in[7]</td><td>gelu_erf</td><td>W_out[:, 7]</td><td>0.727398</td><td>-0.0665283</td><td>0.469603</td><td><code>251731ba27607e1c</code></td></tr><tr><td>c8</td><td>W_in[8, :]<br>b_in[8]</td><td>gelu_erf</td><td>W_out[:, 8]</td><td>0.699314</td><td>-0.0480652</td><td>0.461947</td><td><code>f62b541b0899c944</code></td></tr><tr><td>c9</td><td>W_in[9, :]<br>b_in[9]</td><td>gelu_erf</td><td>W_out[:, 9]</td><td>0.687292</td><td>-0.0375671</td><td>0.437441</td><td><code>8bb423add8122c54</code></td></tr><tr><td>c10</td><td>W_in[10, :]<br>b_in[10]</td><td>gelu_erf</td><td>W_out[:, 10]</td><td>0.745724</td><td>-0.158936</td><td>0.458204</td><td><code>05978f234c404b72</code></td></tr><tr><td>c11</td><td>W_in[11, :]<br>b_in[11]</td><td>gelu_erf</td><td>W_out[:, 11]</td><td>0.741709</td><td>-0.15625</td><td>0.43453</td><td><code>7b85e9bf5844ba84</code></td></tr><tr><td>c12</td><td>W_in[12, :]<br>b_in[12]</td><td>gelu_erf</td><td>W_out[:, 12]</td><td>0.686922</td><td>-0.103821</td><td>0.42351</td><td><code>6ee238c58f3234d5</code></td></tr><tr><td>c13</td><td>W_in[13, :]<br>b_in[13]</td><td>gelu_erf</td><td>W_out[:, 13]</td><td>0.716628</td><td>-0.0870972</td><td>0.475106</td><td><code>5ce245ace5823023</code></td></tr><tr><td>c14</td><td>W_in[14, :]<br>b_in[14]</td><td>gelu_erf</td><td>W_out[:, 14]</td><td>0.72042</td><td>-0.0417175</td><td>0.462951</td><td><code>83f8f159603951b1</code></td></tr><tr><td>c15</td><td>W_in[15, :]<br>b_in[15]</td><td>gelu_erf</td><td>W_out[:, 15]</td><td>0.714606</td><td>-0.0964966</td><td>0.482314</td><td><code>b23ed2bfdbce13d3</code></td></tr><tr><td>c16</td><td>W_in[16, :]<br>b_in[16]</td><td>gelu_erf</td><td>W_out[:, 16]</td><td>0.80105</td><td>-0.227661</td><td>0.450049</td><td><code>84f8b11616152068</code></td></tr><tr><td>c17</td><td>W_in[17, :]<br>b_in[17]</td><td>gelu_erf</td><td>W_out[:, 17]</td><td>0.778573</td><td>-0.0836792</td><td>0.469764</td><td><code>7f845e30af07c05a</code></td></tr><tr><td>c18</td><td>W_in[18, :]<br>b_in[18]</td><td>gelu_erf</td><td>W_out[:, 18]</td><td>0.738587</td><td>-0.0797729</td><td>0.450947</td><td><code>af8a8b453e21c4db</code></td></tr><tr><td>c19</td><td>W_in[19, :]<br>b_in[19]</td><td>gelu_erf</td><td>W_out[:, 19]</td><td>0.696817</td><td>-0.072998</td><td>0.433344</td><td><code>a24d48bd6b27bfb9</code></td></tr><tr><td>c20</td><td>W_in[20, :]<br>b_in[20]</td><td>gelu_erf</td><td>W_out[:, 20]</td><td>0.693981</td><td>-0.0114899</td><td>0.456586</td><td><code>d2b76505f5e2cb29</code></td></tr><tr><td>c21</td><td>W_in[21, :]<br>b_in[21]</td><td>gelu_erf</td><td>W_out[:, 21]</td><td>0.624672</td><td>-0.0226898</td><td>0.417075</td><td><code>ee17700981e246e9</code></td></tr><tr><td>c22</td><td>W_in[22, :]<br>b_in[22]</td><td>gelu_erf</td><td>W_out[:, 22]</td><td>0.79508</td><td>-0.156372</td><td>0.465074</td><td><code>f34b390ea53cb130</code></td></tr><tr><td>c23</td><td>W_in[23, :]<br>b_in[23]</td><td>gelu_erf</td><td>W_out[:, 23]</td><td>0.52422</td><td>-0.0949707</td><td>0.376182</td><td><code>3a8b32738a23788f</code></td></tr><tr><td>c24</td><td>W_in[24, :]<br>b_in[24]</td><td>gelu_erf</td><td>W_out[:, 24]</td><td>0.891669</td><td>-0.567383</td><td>0.517177</td><td><code>f8cea91731e12851</code></td></tr><tr><td>c25</td><td>W_in[25, :]<br>b_in[25]</td><td>gelu_erf</td><td>W_out[:, 25]</td><td>0.602627</td><td>-0.171021</td><td>0.418891</td><td><code>359b6561630d3395</code></td></tr><tr><td>c26</td><td>W_in[26, :]<br>b_in[26]</td><td>gelu_erf</td><td>W_out[:, 26]</td><td>0.807492</td><td>-0.152954</td><td>0.500316</td><td><code>ffbd2acb3ded41e7</code></td></tr><tr><td>c27</td><td>W_in[27, :]<br>b_in[27]</td><td>gelu_erf</td><td>W_out[:, 27]</td><td>0.688882</td><td>-0.0394592</td><td>0.474989</td><td><code>fe708883c7cb3f67</code></td></tr><tr><td>c28</td><td>W_in[28, :]<br>b_in[28]</td><td>gelu_erf</td><td>W_out[:, 28]</td><td>0.535075</td><td>-0.0834961</td><td>0.399932</td><td><code>e9f4bd28e6b58bd4</code></td></tr><tr><td>c29</td><td>W_in[29, :]<br>b_in[29]</td><td>gelu_erf</td><td>W_out[:, 29]</td><td>0.736165</td><td>-0.0604553</td><td>0.457624</td><td><code>e5754dfea560f471</code></td></tr><tr><td>c30</td><td>W_in[30, :]<br>b_in[30]</td><td>gelu_erf</td><td>W_out[:, 30]</td><td>0.620866</td><td>-0.0255127</td><td>0.414452</td><td><code>d7e4e836dfeb3012</code></td></tr><tr><td>c31</td><td>W_in[31, :]<br>b_in[31]</td><td>gelu_erf</td><td>W_out[:, 31]</td><td>0.592593</td><td>-0.0755615</td><td>0.403507</td><td><code>beb47894b2b5b657</code></td></tr><tr><td>c32</td><td>W_in[32, :]<br>b_in[32]</td><td>gelu_erf</td><td>W_out[:, 32]</td><td>0.74325</td><td>-0.109192</td><td>0.472743</td><td><code>4b0dbcb07f8827c1</code></td></tr><tr><td>c33</td><td>W_in[33, :]<br>b_in[33]</td><td>gelu_erf</td><td>W_out[:, 33]</td><td>0.592841</td><td>-0.0592346</td><td>0.429081</td><td><code>e4c278e49a0248ce</code></td></tr><tr><td>c34</td><td>W_in[34, :]<br>b_in[34]</td><td>gelu_erf</td><td>W_out[:, 34]</td><td>0.629293</td><td>-0.0814209</td><td>0.412528</td><td><code>d6158f13a3f8488f</code></td></tr><tr><td>c35</td><td>W_in[35, :]<br>b_in[35]</td><td>gelu_erf</td><td>W_out[:, 35]</td><td>0.749165</td><td>-0.13208</td><td>0.473131</td><td><code>f069af5cde3930ec</code></td></tr><tr><td>c36</td><td>W_in[36, :]<br>b_in[36]</td><td>gelu_erf</td><td>W_out[:, 36]</td><td>0.768051</td><td>-0.144775</td><td>0.452142</td><td><code>5dfd0f9d81e81dee</code></td></tr><tr><td>c37</td><td>W_in[37, :]<br>b_in[37]</td><td>gelu_erf</td><td>W_out[:, 37]</td><td>0.77732</td><td>-0.109009</td><td>0.496576</td><td><code>27aef567085cc5fe</code></td></tr><tr><td>c38</td><td>W_in[38, :]<br>b_in[38]</td><td>gelu_erf</td><td>W_out[:, 38]</td><td>0.738036</td><td>-0.145752</td><td>0.51663</td><td><code>5c7ee26a75e7f978</code></td></tr><tr><td>c39</td><td>W_in[39, :]<br>b_in[39]</td><td>gelu_erf</td><td>W_out[:, 39]</td><td>0.820382</td><td>-0.286621</td><td>0.620728</td><td><code>9dc5f8c70f8d4fa4</code></td></tr><tr><td>c40</td><td>W_in[40, :]<br>b_in[40]</td><td>gelu_erf</td><td>W_out[:, 40]</td><td>0.663374</td><td>-0.0703735</td><td>0.396561</td><td><code>8bd6771e5f06999a</code></td></tr><tr><td>c41</td><td>W_in[41, :]<br>b_in[41]</td><td>gelu_erf</td><td>W_out[:, 41]</td><td>0.761782</td><td>-0.0704346</td><td>0.475975</td><td><code>41df183f112ac3fd</code></td></tr><tr><td>c42</td><td>W_in[42, :]<br>b_in[42]</td><td>gelu_erf</td><td>W_out[:, 42]</td><td>0.554274</td><td>-0.0679321</td><td>0.416518</td><td><code>0a025bc5780117d2</code></td></tr><tr><td>c43</td><td>W_in[43, :]<br>b_in[43]</td><td>gelu_erf</td><td>W_out[:, 43]</td><td>0.768746</td><td>-0.100037</td><td>0.496563</td><td><code>0e3e2325cbfc3ec2</code></td></tr><tr><td>c44</td><td>W_in[44, :]<br>b_in[44]</td><td>gelu_erf</td><td>W_out[:, 44]</td><td>0.747056</td><td>-0.0215607</td><td>0.418584</td><td><code>55e7a41c5da57365</code></td></tr><tr><td>c45</td><td>W_in[45, :]<br>b_in[45]</td><td>gelu_erf</td><td>W_out[:, 45]</td><td>0.767854</td><td>-0.0889282</td><td>0.480653</td><td><code>e437caf057124a24</code></td></tr><tr><td>c46</td><td>W_in[46, :]<br>b_in[46]</td><td>gelu_erf</td><td>W_out[:, 46]</td><td>0.673076</td><td>-0.0610352</td><td>0.418539</td><td><code>9684770c409e631c</code></td></tr><tr><td>c47</td><td>W_in[47, :]<br>b_in[47]</td><td>gelu_erf</td><td>W_out[:, 47]</td><td>0.640533</td><td>-0.0439148</td><td>0.419593</td><td><code>fc45cde47e01708f</code></td></tr><tr><td>c48</td><td>W_in[48, :]<br>b_in[48]</td><td>gelu_erf</td><td>W_out[:, 48]</td><td>0.797498</td><td>-0.118042</td><td>0.443356</td><td><code>72e35a2d8abfc106</code></td></tr><tr><td>c49</td><td>W_in[49, :]<br>b_in[49]</td><td>gelu_erf</td><td>W_out[:, 49]</td><td>0.790517</td><td>-0.0626831</td><td>0.470822</td><td><code>f585e54051159e27</code></td></tr><tr><td>c50</td><td>W_in[50, :]<br>b_in[50]</td><td>gelu_erf</td><td>W_out[:, 50]</td><td>0.742956</td><td>-0.100952</td><td>0.462922</td><td><code>a27963fd7daf55ec</code></td></tr><tr><td>c51</td><td>W_in[51, :]<br>b_in[51]</td><td>gelu_erf</td><td>W_out[:, 51]</td><td>0.59335</td><td>-0.116638</td><td>0.401071</td><td><code>c988356719c20523</code></td></tr><tr><td>c52</td><td>W_in[52, :]<br>b_in[52]</td><td>gelu_erf</td><td>W_out[:, 52]</td><td>0.77957</td><td>-0.129883</td><td>0.460271</td><td><code>1c54ef8107dd3251</code></td></tr><tr><td>c53</td><td>W_in[53, :]<br>b_in[53]</td><td>gelu_erf</td><td>W_out[:, 53]</td><td>0.58833</td><td>-0.0888672</td><td>0.416273</td><td><code>da2fad0c9e034fed</code></td></tr><tr><td>c54</td><td>W_in[54, :]<br>b_in[54]</td><td>gelu_erf</td><td>W_out[:, 54]</td><td>0.773438</td><td>-0.0831909</td><td>0.429127</td><td><code>7bd7f3ec68d22671</code></td></tr><tr><td>c55</td><td>W_in[55, :]<br>b_in[55]</td><td>gelu_erf</td><td>W_out[:, 55]</td><td>0.607079</td><td>-0.0485535</td><td>0.394309</td><td><code>26bd6254ddc4c173</code></td></tr><tr><td>c56</td><td>W_in[56, :]<br>b_in[56]</td><td>gelu_erf</td><td>W_out[:, 56]</td><td>0.56253</td><td>-0.0930786</td><td>0.408826</td><td><code>4899151560515c13</code></td></tr><tr><td>c57</td><td>W_in[57, :]<br>b_in[57]</td><td>gelu_erf</td><td>W_out[:, 57]</td><td>0.615717</td><td>-0.0592041</td><td>0.435191</td><td><code>6ff2aa9e985d14d3</code></td></tr><tr><td>c58</td><td>W_in[58, :]<br>b_in[58]</td><td>gelu_erf</td><td>W_out[:, 58]</td><td>0.533208</td><td>-0.0664062</td><td>0.432295</td><td><code>045b6370114107dc</code></td></tr><tr><td>c59</td><td>W_in[59, :]<br>b_in[59]</td><td>gelu_erf</td><td>W_out[:, 59]</td><td>0.7694</td><td>-0.0791626</td><td>0.452187</td><td><code>0cf65945e20b73fa</code></td></tr><tr><td>c60</td><td>W_in[60, :]<br>b_in[60]</td><td>gelu_erf</td><td>W_out[:, 60]</td><td>0.7677</td><td>-0.148071</td><td>0.458985</td><td><code>b9e147910c5bc36d</code></td></tr><tr><td>c61</td><td>W_in[61, :]<br>b_in[61]</td><td>gelu_erf</td><td>W_out[:, 61]</td><td>0.779826</td><td>-0.136963</td><td>0.44776</td><td><code>8971f46aeaeff5b0</code></td></tr><tr><td>c62</td><td>W_in[62, :]<br>b_in[62]</td><td>gelu_erf</td><td>W_out[:, 62]</td><td>0.761154</td><td>-0.0950928</td><td>0.47158</td><td><code>fc0aef14e1b4d9b3</code></td></tr><tr><td>c63</td><td>W_in[63, :]<br>b_in[63]</td><td>gelu_erf</td><td>W_out[:, 63]</td><td>0.778063</td><td>-0.157959</td><td>0.452935</td><td><code>e7909752f8f402d2</code></td></tr></tbody></table></div>
+<h2 id="segments">Verified algebraic segments</h2><ul><li>No verified shared-gate segments in the inspected scope.</li></ul>
+<p>Shared gates can be represented by one gate with a sum of outgoing writes in real arithmetic. This is a source-linked identity, not a guarantee about retraining, bitwise execution, or arbitrary model compression.</p>
+<h2 id="source">Source bindings</h2><div class="scroll"><table><thead><tr><th>Role</th><th>Source tensor</th><th>Shape</th><th>Dtype</th><th>Resource</th></tr></thead><tbody><tr><td>W_in</td><td>gpt_neox.layers.0.mlp.dense_h_to_4h.weight</td><td>[2048, 512]</td><td>&lt;f4</td><td>model.safetensors</td></tr><tr><td>b_in</td><td>gpt_neox.layers.0.mlp.dense_h_to_4h.bias</td><td>[2048]</td><td>&lt;f4</td><td>model.safetensors</td></tr><tr><td>W_out</td><td>gpt_neox.layers.0.mlp.dense_4h_to_h.weight</td><td>[512, 2048]</td><td>&lt;f4</td><td>model.safetensors</td></tr><tr><td>b_out</td><td>gpt_neox.layers.0.mlp.dense_4h_to_h.bias</td><td>[512]</td><td>&lt;f4</td><td>model.safetensors</td></tr><tr><td>norm_weight</td><td>gpt_neox.layers.0.post_attention_layernorm.weight</td><td>[512]</td><td>&lt;f4</td><td>model.safetensors</td></tr><tr><td>norm_bias</td><td>gpt_neox.layers.0.post_attention_layernorm.bias</td><td>[512]</td><td>&lt;f4</td><td>model.safetensors</td></tr></tbody></table></div>
+<details><summary>Source identity and excluded computation</summary><pre>{
+  &quot;identity&quot;: {
+    &quot;kind&quot;: &quot;safetensors-region&quot;,
+    &quot;artifact&quot;: &quot;model.safetensors&quot;,
+    &quot;artifact_bytes&quot;: 281715176,
+    &quot;config_sha256&quot;: &quot;002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43&quot;,
+    &quot;adapter&quot;: &quot;gpt-neox-ffn/1&quot;,
+    &quot;verification&quot;: &quot;selected values fingerprinted; whole-file digest not checked by importer&quot;,
+    &quot;verified_checkpoint&quot;: {
+      &quot;model&quot;: &quot;EleutherAI/pythia-70m&quot;,
+      &quot;revision&quot;: &quot;de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852&quot;,
+      &quot;sha256&quot;: &quot;737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272&quot;,
+      &quot;method&quot;: &quot;Whole-file SHA-256 checked before this experiment&quot;
+    }
+  },
+  &quot;context&quot;: {
+    &quot;model_type&quot;: &quot;gpt_neox&quot;,
+    &quot;layer&quot;: 0,
+    &quot;use_parallel_residual&quot;: true,
+    &quot;scope&quot;: &quot;post_attention_layernorm followed by the MLP&quot;,
+    &quot;excluded&quot;: [
+      &quot;attention&quot;,
+      &quot;residual addition&quot;,
+      &quot;other layers&quot;,
+      &quot;tokenization&quot;,
+      &quot;embedding&quot;,
+      &quot;unembedding&quot;,
+      &quot;training updates&quot;
+    ],
+    &quot;interlayer_transfer&quot;: &quot;not computed: omitted nonlinear and residual bridges remain&quot;
+  }
+}</pre></details>
+<h2 id="cost">Cost and coverage</h2><ul><li>Only a prefix is inspected; permutation invariance does not extend to uninspected rows</li></ul>
+<p>The byte budget counts logical tensor reads, including verification rereads. Physical I/O and peak working memory are not measured. Downloading or hashing a checkpoint is outside this pass's budget. The elapsed_seconds field times the scan, descriptors, and grouping; final record hashing, profile validation, and file rendering are outside that timer. The experiment report separately measures the entire analyze() call.</p>
+<pre>{
+  &quot;id&quot;: &quot;static-pass&quot;,
+  &quot;pass&quot;: &quot;pinn.static-ffn/0.1.0&quot;,
+  &quot;source&quot;: &quot;pythia-layer-0&quot;,
+  &quot;status&quot;: &quot;partial&quot;,
+  &quot;allowed_access&quot;: [
+    &quot;metadata&quot;,
+    &quot;weights&quot;
+  ],
+  &quot;budget&quot;: {
+    &quot;max_parameter_bytes&quot;: 67108864,
+    &quot;max_contributions&quot;: 64,
+    &quot;block_rows&quot;: 128,
+    &quot;sample_width&quot;: 8
+  },
+  &quot;budget_definition&quot;: &quot;Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM&quot;,
+  &quot;coverage&quot;: {
+    &quot;contributions_inspected&quot;: 64,
+    &quot;contributions_total&quot;: 2048,
+    &quot;fixed_boundary_parameters_inspected&quot;: true,
+    &quot;opaque_operations&quot;: [],
+    &quot;unverified_duplicate_groups&quot;: [],
+    &quot;hash_collision_buckets_rejected&quot;: 0,
+    &quot;scope&quot;: &quot;one FFN region; no whole-model or task-semantic coverage&quot;
+  },
+  &quot;cost&quot;: {
+    &quot;logical_parameter_bytes_read&quot;: 268544,
+    &quot;largest_tensor_read_bytes&quot;: 131072,
+    &quot;physical_io_bytes&quot;: null,
+    &quot;peak_working_bytes&quot;: null,
+    &quot;forward_evaluations&quot;: 0,
+    &quot;backward_evaluations&quot;: 0,
+    &quot;interventions&quot;: 0,
+    &quot;elapsed_seconds&quot;: 0.0026932089995170827
+  },
+  &quot;cache_dependencies&quot;: {
+    &quot;source_identity&quot;: {
+      &quot;kind&quot;: &quot;safetensors-region&quot;,
+      &quot;artifact&quot;: &quot;model.safetensors&quot;,
+      &quot;artifact_bytes&quot;: 281715176,
+      &quot;config_sha256&quot;: &quot;002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43&quot;,
+      &quot;adapter&quot;: &quot;gpt-neox-ffn/1&quot;,
+      &quot;verification&quot;: &quot;selected values fingerprinted; whole-file digest not checked by importer&quot;,
+      &quot;verified_checkpoint&quot;: {
+        &quot;model&quot;: &quot;EleutherAI/pythia-70m&quot;,
+        &quot;revision&quot;: &quot;de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852&quot;,
+        &quot;sha256&quot;: &quot;737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272&quot;,
+        &quot;method&quot;: &quot;Whole-file SHA-256 checked before this experiment&quot;
+      }
+    },
+    &quot;inspected_parameter_digest&quot;: &quot;6985265f8b61db095ddb2c186e469252a151c101803b232c336129947854e4e9&quot;,
+    &quot;ordered_contribution_digest&quot;: &quot;46950722b749b5d2b29e4230f29ed92130e741a8394592b5bc342d08465a6f2c&quot;,
+    &quot;boundary&quot;: {
+      &quot;input_frame&quot;: &quot;gpt_neox.layers.0.post_attention_layernorm.input&quot;,
+      &quot;read_frame_kind&quot;: &quot;post-layernorm&quot;,
+      &quot;output_frame&quot;: &quot;gpt_neox.layers.0.mlp.output&quot;,
+      &quot;activation&quot;: &quot;gelu_erf&quot;,
+      &quot;dimensions&quot;: [
+        512,
+        512
+      ],
+      &quot;dtypes&quot;: {
+        &quot;W_in&quot;: &quot;&lt;f4&quot;,
+        &quot;b_in&quot;: &quot;&lt;f4&quot;,
+        &quot;W_out&quot;: &quot;&lt;f4&quot;,
+        &quot;b_out&quot;: &quot;&lt;f4&quot;,
+        &quot;norm_weight&quot;: &quot;&lt;f4&quot;,
+        &quot;norm_bias&quot;: &quot;&lt;f4&quot;
+      },
+      &quot;pre_norm&quot;: {
+        &quot;kind&quot;: &quot;layer_norm&quot;,
+        &quot;epsilon&quot;: 1e-05
+      }
+    },
+    &quot;budget&quot;: {
+      &quot;max_parameter_bytes&quot;: 67108864,
+      &quot;max_contributions&quot;: 64,
+      &quot;block_rows&quot;: 128,
+      &quot;sample_width&quot;: 8
+    }
+  },
+  &quot;notes&quot;: [
+    &quot;Only a prefix is inspected; permutation invariance does not extend to uninspected rows&quot;
+  ]
+}</pre>
+<details><summary>Joint static descriptor and information loss</summary><pre>{
+  &quot;id&quot;: &quot;paired-static-summary&quot;,
+  &quot;source&quot;: &quot;pythia-layer-0&quot;,
+  &quot;construction&quot;: &quot;coordinate-sampled-affine-contraction/1&quot;,
+  &quot;input_indices&quot;: [
+    0,
+    73,
+    146,
+    219,
+    292,
+    365,
+    438,
+    511
+  ],
+  &quot;output_indices&quot;: [
+    0,
+    73,
+    146,
+    219,
+    292,
+    365,
+    438,
+    511
+  ],
+  &quot;formula&quot;: &quot;sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row&quot;,
+  &quot;values&quot;: [
+    [
+      -0.0016400747831539775,
+      -0.0014386617604031926,
+      -0.0068122634875180665,
+      0.0012976531254480506,
+      -0.002001925583499542,
+      -0.0048156505363294855,
+      0.0023805041828381945,
+      -0.0030047795526115806
+    ],
+    [
+      0.005178307375899749,
+      -0.01002387706466834,
+      -0.013453218118229415,
+      -0.0018712019727900042,
+      0.0012369353225949453,
+      -0.0017582911518729816,
+      -0.0024078069254755974,
+      -0.0010951410486086388
+    ],
+    [
+      -0.0062465675080147776,
+      -0.003618431910581421,
+      0.005148307180206757,
+      0.002645313215907663,
+      0.004721322875411715,
+      0.0015811122766535846,
+      0.010170095891226083,
+      0.012332492563473352
+    ],
+    [
+      0.0038803015430630694,
+      -0.0033372286889061797,
+      -0.003064508740862948,
+      0.004014423940134293,
+      0.0015233891126626986,
+      1.622215404495364e-05,
+      -0.001831942852732027,
+      0.006132609781161591
+    ],
+    [
+      0.0004142932225477125,
+      -0.0005960721973679028,
+      0.0067837469941878226,
+      -0.00974601277630427,
+      -0.008044582087677554,
+      0.0019387306256248849,
+      0.0052407185512493015,
+      0.004370596740045585
+    ],
+    [
+      -0.0028563633036355895,
+      -0.0026125640506506898,
+      0.0040357124653382925,
+      0.005619587472210696,
+      -0.0010166224210479413,
+      0.006290726931183599,
+      0.0008811153020360507,
+      0.0031110497984627727
+    ],
+    [
+      -0.0021670617826430316,
+      0.0076891675089427736,
+      0.00046160901547409594,
+      -0.007123338022211101,
+      0.0035023414638999384,
+      -0.009765817280822375,
+      -0.0015254855461535044,
+      -0.005440509932668647
+    ],
+    [
+      -0.0007559713335467677,
+      0.002140034073818242,
+      -0.001421788729430773,
+      0.006379504369647293,
+      -0.007349835111071457,
+      0.006254273562262824,
+      -0.001956222471903857,
+      0.009399417223463047
+    ],
+    [
+      0.0003104812822130043,
+      -0.023503671880462207,
+      -0.014858593014650978,
+      0.010614011313009541,
+      0.021810551603266504,
+      0.03456513525452465,
+      0.05030625841754954,
+      -0.02668145279312739
+    ]
+  ],
+  &quot;metric&quot;: &quot;Euclidean distance only with compatible indices, frames, activation, and domain&quot;,
+  &quot;frame&quot;: {
+    &quot;read&quot;: &quot;gpt_neox.layers.0.post_attention_layernorm.input:normalized&quot;,
+    &quot;write&quot;: &quot;gpt_neox.layers.0.mlp.output&quot;
+  },
+  &quot;coverage&quot;: {
+    &quot;rows&quot;: [
+      0,
+      64
+    ],
+    &quot;total_rows&quot;: 2048
+  },
+  &quot;invariance&quot;: &quot;selected-row multiset only&quot;,
+  &quot;known_loss&quot;: [
+    &quot;Unsampled coordinates&quot;,
+    &quot;Replaces the activation with identity; nonlinear functions can collide&quot;,
+    &quot;Higher moments&quot;,
+    &quot;Descriptor collisions are possible; no functional equivalence claim&quot;
+  ],
+  &quot;parameter_multiset_digest&quot;: &quot;6985265f8b61db095ddb2c186e469252a151c101803b232c336129947854e4e9&quot;,
+  &quot;digest_scope&quot;: &quot;selected contribution parameters and inspected boundary parameters&quot;,
+  &quot;digest_assumption&quot;: &quot;SHA-256 collision resistance; exact value encoding and source boundary conventions&quot;
+}</pre></details>
+</main><script>
+document.getElementById('filter').addEventListener('input', function() {
+ const q=this.value.toLowerCase();
+ for (const row of document.querySelectorAll('#units tbody tr')) row.hidden=!row.textContent.toLowerCase().includes(q);
+});
+</script></body></html>

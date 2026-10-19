@@ -14,16 +14,34 @@
   <nav class="site-nav" aria-label="Main navigation">
     <a href="#reports">Reports</a>
     <a href="#specifications">Specifications</a>
+    <a href="development/static-disassembly.html">Implementation</a>
     <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/experiments">Experiments</a>
     <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">GitHub</a>
   </nav>
 </div></header>
 <main id="content">
   <p class="eyebrow">Permutation Invariant Neural Normalization</p>
-  <h1>Recognizing neural functions across neuron permutations.</h1>
-  <p class="lead">Experiments in exact permutation-orbit identity and continuous behavioral comparison. Code, measurements, and reports in one project.</p>
+  <h1>Decompiling neural computation into inspectable structure.</h1>
+  <p class="lead">Source-linked static analysis, bounded functional descriptors, and experiments toward mechanistic decompilation.</p>
   <section id="reports" aria-labelledby="reports-heading">
     <h2 id="reports-heading">Research reports</h2>
+    <article class="report-card">
+      <p class="meta">Implementation 01 · Static FFN disassembly · October 19, 2026</p>
+      <h2><a href="reports/static-disassembly-v1.html">A working neural disassembler</a></h2>
+      <p>Recover source-linked operations and paired contributions, propose exact shared-gate groups, and inspect the resulting analysis. NumPy-based CLI with explicit scope and budgets.</p>
+      <div class="facts" aria-label="Implementation validation">
+        <div class="fact"><strong>12,288</strong><span>Pythia contributions inspected</span></div>
+        <div class="fact"><strong>36 / 36</strong><span>transformation controls passed</span></div>
+        <div class="fact"><strong>24</strong><span>tests passed</span></div>
+      </div>
+      <p class="note">Static structure and initial algebraic grouping. Semantic circuits are not yet discovered; a saved counterexample demonstrates descriptor collisions.</p>
+      <div class="report-links">
+        <a class="button" href="reports/static-disassembly-v1.html">Read the report →</a>
+        <a href="development/static-disassembly.html">Install &amp; use</a>
+        <a href="analyses/static-disassembly-v1/xor-wide/index.html">Inspect XOR</a>
+        <a href="analyses/static-disassembly-v1/pythia-layer0-preview/index.html">Inspect Pythia slice</a>
+      </div>
+    </article>
     <article class="report-card">
       <p class="meta">Experiment 01 · Pythia-70M · October 18, 2026</p>
       <h2><a href="reports/pythia-permutation-index-20261019-v1.html">Permutation and function indexing</a></h2>
@@ -47,7 +65,7 @@
       <p class="meta">Design draft · MGL v0.2 · October 19, 2026</p>
       <h2><a href="specifications/model-graph-language-v0.2.html">A mechanistic decompiler IR</a></h2>
       <p>An analysis language for recovering computational syntax from weights and attaching evidence about function and meaning. Source-linked contributions, overlapping circuits, update relationships, and bounded analysis passes connect the model to a navigable description.</p>
-      <p class="note">19 sections and a checked neural XOR fixture. This revision supersedes the runtime-oriented v0.1 draft. A general importer, discovery engine, and atlas are not yet implemented.</p>
+      <p class="note">19 sections and a narrow static-FFN implementation. This revision supersedes the runtime-oriented v0.1 draft. General circuit discovery and the comparative atlas remain future work.</p>
       <div class="report-links">
         <a class="button" href="specifications/model-graph-language-v0.2.html">Read the specification →</a>
         <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/blob/main/docs/specifications/model-graph-language-v0.2.md">Markdown source</a>
@@ -66,3 +84,4 @@
 <footer class="site-footer"><span>PINN · Permutation Invariant Neural Normalization</span><a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">View project on GitHub</a></footer>
 </body>
 </html>
+

@@ -11,7 +11,7 @@ MGL is a working name for the PINN project's proposed mechanistic decompiler IR:
 
 Version 0.2 is a design draft dated 2026-10-19. It replaces the runtime emphasis of [v0.1](model-graph-language-v0.1.md) with source lifting, paired contributions, candidate circuits, evidence, cost-aware passes, and comparative indexing. Updates and learning remain explicit analysis relationships.
 
-The human syntax and JSON contracts are provisional. A general importer, analysis engine, semantic segmentation algorithm, complete JSON Schema, and model-space atlas are not implemented. Native frameworks remain responsible for executing models.
+The human syntax and general JSON contracts are provisional. A [static-FFN implementation](../development/static-disassembly.md) now provides explicit imports, paired contributions, exact shared-gate grouping, bounded descriptors, and a reader for its own profile. A general semantic segmentation engine, complete JSON Schema, and model-space atlas remain unimplemented. Native frameworks remain responsible for executing source models.
 
 ## Checks performed
 
@@ -38,3 +38,4 @@ The prior PINN experiment retains its original measured claims and limitations. 
 [v0.1 Markdown](model-graph-language-v0.1.md) · [v0.1 HTML](model-graph-language-v0.1.html) · [v0.1 Boolean opcode example](examples/xor.mgl.json)
 
 The historical runtime, event, and transaction requirements are not prerequisites for v0.2.
+

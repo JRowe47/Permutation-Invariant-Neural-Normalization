@@ -1,0 +1,38 @@
+{
+  "status": "passed",
+  "checks": {
+    "xor_truth_table": true,
+    "broken_xor_truth_table": true,
+    "coherent_toy_digest": true,
+    "width_split_static_descriptor": true,
+    "wide_shared_gate_found": true,
+    "known_descriptor_collision_retained": true,
+    "all_coherent_controls": true,
+    "all_broken_controls": true,
+    "full_region_coverage": true
+  },
+  "layers": 6,
+  "contributions": 12288,
+  "operations": 24,
+  "shared_gate_segments": 0,
+  "static_parameter_bytes": 50417664,
+  "static_total_seconds": 0.5089052020011877,
+  "static_median_seconds": 0.0828617905003739,
+  "coherent_controls": 18,
+  "broken_controls": 18,
+  "max_coherent_descriptor_relative_change": 0.0,
+  "max_coherent_synthetic_response_relative_change": 8.408504084273226e-16,
+  "min_broken_descriptor_relative_change": 0.6187616457368821,
+  "min_broken_synthetic_response_relative_change": 0.5628020657887266,
+  "validation_region_batches": 42,
+  "validation_probe_examples": 336,
+  "checkpoint_bytes_verified": 281715176,
+  "elapsed_seconds_including_controls_and_hash_verification": 4.347424424000565,
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "safetensors": "0.6.2",
+    "openblas_num_threads": "1",
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.39"
+  }
+}

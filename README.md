@@ -2,19 +2,35 @@
 
 Research into neural representations that retain their identity under valid neuron relabeling, while measuring changes in the functions they compute.
 
-**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Latest HTML report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/pythia-permutation-index-20261019-v1.html)** · **[Markdown report](docs/reports/pythia-permutation-index-20261019-v1.md)**
+**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Static disassembly report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/static-disassembly-v1.html)** · **[Usage guide](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/development/static-disassembly.html)**
+
+## Static disassembler
+
+The first executable implementation, **pinn-mgl 0.1.0**, lifts an explicit FFN into source-linked operations and paired read/gate/write contributions. It emits MGL JSON and a searchable HTML inspector, preserves LayerNorm and biases, and detects exact shared-gate groups under a declared budget.
+
+- NumPy manifests and optional safetensors/GPT-NeoX import.
+- 24 passing tests, including binding, frame, coverage, and descriptor-collision controls.
+- All six pinned Pythia-70M FFNs inspected: 12,288 contributions and 36 successful transformation controls.
+- Static analysis took approximately 0.51 seconds on cached weights in the recorded environment; acquisition, hashing, and validation are separate.
+- Semantic circuit discovery and cross-model alignment remain unimplemented. A retained counterexample shows that the cheap descriptor is not a functional identity.
+
+[Implementation and usage](docs/development/static-disassembly.md) · [Source](src/pinn_mgl/) · [Measured results](results/static-disassembly-v1/) · [Inspect widened XOR](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/analyses/static-disassembly-v1/xor-wide/index.html) · [Inspect a Pythia slice](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/analyses/static-disassembly-v1/pythia-layer0-preview/index.html)
+
+~~~bash
+python -m pip install -e .
+python -m pinn_mgl fixture docs/specifications/examples/xor-analysis.mgl.json --source src-wide --output replay-output/xor-wide
+python -m unittest discover -s tests -v
+~~~
+
+Open the generated replay-output/xor-wide/index.html to inspect the analysis.
 
 ## Language design
 
-The project is developing a mechanistic decompiler: an analysis IR for recovering computational structure from neural weights and progressively identifying function and meaning.
+**[Model Graph Language v0.2 specification](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.2.html)** · [Markdown source](docs/specifications/model-graph-language-v0.2.md)
 
-**[Read the Model Graph Language v0.2 specification](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.2.html)** · [Markdown source](docs/specifications/model-graph-language-v0.2.md) · [Specification files](docs/specifications/)
+MGL describes computational syntax, overlapping functional segments, learning/update relationships, evidence, and model-space indexing. The static implementation is a narrow profile of this design. Native frameworks remain responsible for source-model execution; a universal runtime is not required. The runtime-oriented v0.1 draft is retained as superseded history.
 
-The draft defines source-linked operations, paired read/gate/write contributions, overlapping functional segments, explicit learning and update relationships, evidence requirements, and cost-aware analysis passes. Native frameworks execute the source models. A universal runtime is not a prerequisite.
-
-The [weighted neural XOR fixture](docs/specifications/examples/xor-analysis.mgl.json) includes coherent and broken permutations and an exact cross-width contribution map. Its [standard-library checker](docs/specifications/examples/check_xor_analysis.py) passes the finite numerical checks. A general importer, semantic discovery engine, and model-space atlas are not implemented. The runtime-oriented v0.1 draft is retained as superseded history.
-
-## Latest experiment
+## Prior permutation-indexing experiment
 
 The first experiment studies **Pythia-70M**: exact MLP permutation-orbit fingerprints, continuous behavioral sketches, and E8P descriptor quantization.
 
@@ -34,6 +50,8 @@ This is exploratory evidence for permutation recognition and behavioral comparis
 
 | Directory | Contents |
 | --- | --- |
+| `src/pinn_mgl/` | Static analysis library, importers, CLI, and HTML inspector |
+| `tests/` | Binding, mathematical, budget, and serialization checks |
 | `experiments/` | Experiment code, probes, dependencies, and reproduction commands |
 | `results/` | Saved measurements, protocols, descriptors, and source provenance |
 | `docs/` | Browser index, reports, language specifications, and figures |
@@ -63,3 +81,4 @@ Then visit <http://localhost:8000/>. The report index, section navigation, and f
 The experiment was imported in commit `6b92f8b1b5fe30b12213aa4fe635dada98d5bc74`. The directory cleanup updates paths and report navigation and removes obsolete workflow metadata. Scientific measurements and the numerical experiment code are unchanged. [Provenance](results/pythia-permutation-index-20261019-v1/provenance.json) records the import hashes; [result notes](results/pythia-permutation-index-20261019-v1/README.md) describe the metadata changes.
 
 The experiment Python code incorporates GPL-3.0 QuIP# code. See the [license notice](experiments/pythia-permutation-index-20261019-v1/README.md#license-and-provenance) and [full GPL-3.0 license](experiments/pythia-permutation-index-20261019-v1/QUIP_SHARP_LICENSE.txt). This cleanup assigns no additional license to the reports, authored probes, or measurements.
+

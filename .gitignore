@@ -13,3 +13,7 @@ checkpoints/
 *.pth
 pytorch_model*.bin
 replay-output/
+*.egg-info/
+build/
+dist/
+

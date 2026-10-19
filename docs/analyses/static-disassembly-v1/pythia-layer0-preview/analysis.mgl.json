@@ -1,0 +1,2359 @@
+{
+  "schema": "mgl.analysis/0.2",
+  "package": {
+    "id": "e69c5ad1952a9d6d5fbbbf5d",
+    "revision": "6e70c5a68fbdf3a42d69385e8a30cf1b081cba0343d567399fc346488d876793",
+    "producer": "pinn-mgl/0.1.0",
+    "status": "analysis",
+    "profile": "pinn.static-ffn/1"
+  },
+  "sources": [
+    {
+      "id": "pythia-layer-0",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.0.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.0.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.0.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.0.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.0.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.0.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.0.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 0,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "op-normalize",
+      "source": "pythia-layer-0",
+      "mnemonic": "NORMALIZE",
+      "inputs": [
+        "x"
+      ],
+      "outputs": [
+        "x_norm"
+      ],
+      "input_frame": "gpt_neox.layers.0.post_attention_layernorm.input",
+      "output_frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized",
+      "attributes": {
+        "kind": "layer_norm",
+        "axis": "last",
+        "variance": "population",
+        "epsilon": 1e-05
+      },
+      "bindings": {
+        "scale": "norm_weight",
+        "shift": "norm_bias"
+      }
+    },
+    {
+      "id": "op-read",
+      "source": "pythia-layer-0",
+      "mnemonic": "AFFINE",
+      "inputs": [
+        "x_norm"
+      ],
+      "outputs": [
+        "z"
+      ],
+      "input_frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized",
+      "output_frame": "pythia-layer-0:hidden",
+      "bindings": {
+        "weight": "W_in",
+        "bias": "b_in"
+      }
+    },
+    {
+      "id": "op-gate",
+      "source": "pythia-layer-0",
+      "mnemonic": "NONLIN",
+      "inputs": [
+        "z"
+      ],
+      "outputs": [
+        "h"
+      ],
+      "input_frame": "pythia-layer-0:hidden",
+      "output_frame": "pythia-layer-0:hidden",
+      "attributes": {
+        "activation": "gelu_erf",
+        "definition": "0.5*z*(1 + erf(z/sqrt(2))), elementwise",
+        "reason": null
+      }
+    },
+    {
+      "id": "op-write",
+      "source": "pythia-layer-0",
+      "mnemonic": "AFFINE",
+      "inputs": [
+        "h"
+      ],
+      "outputs": [
+        "y"
+      ],
+      "input_frame": "pythia-layer-0:hidden",
+      "output_frame": "gpt_neox.layers.0.mlp.output",
+      "bindings": {
+        "weight": "W_out",
+        "bias": "b_out"
+      }
+    }
+  ],
+  "contributions": [
+    {
+      "id": "c0",
+      "source": "pythia-layer-0",
+      "index": 0,
+      "read": {
+        "tensor": "W_in",
+        "row": 0,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 0
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 0,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "0d4a72f758d0e370b4f0e4f071c0a01be9989e0f15704c312b77dcd0b1524a37",
+      "paired_digest": "dcbeab98d0076e13a86b8129d4ce9e398c8aa9f85fa6b66953474fe4c842b1a5",
+      "statistics": {
+        "read_l2": 0.5677738933312256,
+        "write_l2": 0.4172886078387143,
+        "bias": -0.053131103515625
+      }
+    },
+    {
+      "id": "c1",
+      "source": "pythia-layer-0",
+      "index": 1,
+      "read": {
+        "tensor": "W_in",
+        "row": 1,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 1
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 1,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "fd1c4858ef64c8d6ebdbb7a51b99848fbd4a90af455d451177ce9ce7f8d75be5",
+      "paired_digest": "c034ca74cbacc19381bc55b297fc975eb39fdb640840926e73ef863a469017e6",
+      "statistics": {
+        "read_l2": 0.8334955851970239,
+        "write_l2": 0.4667202955530208,
+        "bias": -0.1502685546875
+      }
+    },
+    {
+      "id": "c2",
+      "source": "pythia-layer-0",
+      "index": 2,
+      "read": {
+        "tensor": "W_in",
+        "row": 2,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 2
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 2,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "08f5155b781a33488858a41540904aa156d5ad11a09bffca5dc1bf34d31c404e",
+      "paired_digest": "5a61f306f557b5aeeeb8d006fb6b17e900bc0275d4d6984519c65e138f16da2a",
+      "statistics": {
+        "read_l2": 0.8001810170163308,
+        "write_l2": 0.47748056621022666,
+        "bias": -0.14990234375
+      }
+    },
+    {
+      "id": "c3",
+      "source": "pythia-layer-0",
+      "index": 3,
+      "read": {
+        "tensor": "W_in",
+        "row": 3,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 3
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 3,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "9ae4a58cef2d574665a4f343e3d0cd30ed4953a9533b19392732b91d0b4deeb5",
+      "paired_digest": "609fb9468eb9b934ee3fc44ba539a03e2a2f45d31b10b018070b0d763e782f7e",
+      "statistics": {
+        "read_l2": 0.7616864460163307,
+        "write_l2": 0.48804888186724915,
+        "bias": -0.1488037109375
+      }
+    },
+    {
+      "id": "c4",
+      "source": "pythia-layer-0",
+      "index": 4,
+      "read": {
+        "tensor": "W_in",
+        "row": 4,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 4
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 4,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "bb09bc1b963824db8c7132acc2381e5ea17fcc173b06acb6aa6f97fcacf6afa6",
+      "paired_digest": "af3d64212e05974e1439559c6b18d3f2d7169402d98bd24c0fd9683937f152bb",
+      "statistics": {
+        "read_l2": 0.5510517011897004,
+        "write_l2": 0.40372932661545385,
+        "bias": -0.0643310546875
+      }
+    },
+    {
+      "id": "c5",
+      "source": "pythia-layer-0",
+      "index": 5,
+      "read": {
+        "tensor": "W_in",
+        "row": 5,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 5
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 5,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "171fb3850abc6a69e23d805637d9f6542d07a094a5e0b52f25e38e62b0979d6d",
+      "paired_digest": "c522a473405f236bed3419b4fdd3bf9ab98ef9c90b64ed8222f918011a84a2fa",
+      "statistics": {
+        "read_l2": 0.6149760264191597,
+        "write_l2": 0.40925466141821787,
+        "bias": -0.0870361328125
+      }
+    },
+    {
+      "id": "c6",
+      "source": "pythia-layer-0",
+      "index": 6,
+      "read": {
+        "tensor": "W_in",
+        "row": 6,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 6
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 6,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "10b3159563138a010bce65a84b2555a98194f4dcff4614e9fb3b0561fcbe6b51",
+      "paired_digest": "c1cbbd14343d00162f4b71ddcf56624089b4e4fc4384b24c5ee18249df9ab84b",
+      "statistics": {
+        "read_l2": 0.7260310021547368,
+        "write_l2": 0.44243820570085773,
+        "bias": -0.036407470703125
+      }
+    },
+    {
+      "id": "c7",
+      "source": "pythia-layer-0",
+      "index": 7,
+      "read": {
+        "tensor": "W_in",
+        "row": 7,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 7
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 7,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "b45b5cc4d071bcd7fc8a2b60811cdad70fedd2c75da71fd5f2ba88e973883893",
+      "paired_digest": "251731ba27607e1ce03daa7cb410483edc75408a2940334586bda7f8caab1bbb",
+      "statistics": {
+        "read_l2": 0.7273978084580718,
+        "write_l2": 0.469603410502613,
+        "bias": -0.0665283203125
+      }
+    },
+    {
+      "id": "c8",
+      "source": "pythia-layer-0",
+      "index": 8,
+      "read": {
+        "tensor": "W_in",
+        "row": 8,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 8
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 8,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "4c1a5716da5f7daac32fe826585fcb2f0e7d1cb9cdc1845ee0e3b67c10f4e5bc",
+      "paired_digest": "f62b541b0899c944928126ddf0cd77722167d91e97416bf8c571eef99b9faec6",
+      "statistics": {
+        "read_l2": 0.69931425091206,
+        "write_l2": 0.4619466982476037,
+        "bias": -0.048065185546875
+      }
+    },
+    {
+      "id": "c9",
+      "source": "pythia-layer-0",
+      "index": 9,
+      "read": {
+        "tensor": "W_in",
+        "row": 9,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 9
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 9,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "fc2cc4d14eb7ec301478958f79c87520dfafec25ab572589097a625c79c3861b",
+      "paired_digest": "8bb423add8122c5448c51557f00e14e24c9ce41efa387882f412ad24c3576c2d",
+      "statistics": {
+        "read_l2": 0.6872915360168824,
+        "write_l2": 0.4374411444836816,
+        "bias": -0.037567138671875
+      }
+    },
+    {
+      "id": "c10",
+      "source": "pythia-layer-0",
+      "index": 10,
+      "read": {
+        "tensor": "W_in",
+        "row": 10,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 10
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 10,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "5d8280234d6d61dc2592a3de5fefcdf939537cfb3b55567a44bb0a1c9087bad8",
+      "paired_digest": "05978f234c404b72d061d58d9c39b050d4d414df5ac30ea9d74d2030d8ed1fd5",
+      "statistics": {
+        "read_l2": 0.7457242326801977,
+        "write_l2": 0.45820445861056786,
+        "bias": -0.158935546875
+      }
+    },
+    {
+      "id": "c11",
+      "source": "pythia-layer-0",
+      "index": 11,
+      "read": {
+        "tensor": "W_in",
+        "row": 11,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 11
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 11,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "b771ec2469dbe1023363c28b1d71ac69fef065d0171578b85b88ee5634e44292",
+      "paired_digest": "7b85e9bf5844ba84cd6254cca1bf3aff86bdb14723c3fab7102886a7bc2e2afd",
+      "statistics": {
+        "read_l2": 0.7417090521104032,
+        "write_l2": 0.434529752332767,
+        "bias": -0.15625
+      }
+    },
+    {
+      "id": "c12",
+      "source": "pythia-layer-0",
+      "index": 12,
+      "read": {
+        "tensor": "W_in",
+        "row": 12,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 12
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 12,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "1a9d9703139f98f1d41de14bd993f0b6931e0ddc901b40a2d6357f3a3a8892aa",
+      "paired_digest": "6ee238c58f3234d5846cafec7c8cc4150efedc8ed89cd83c6dbb6b9dd39ff1a2",
+      "statistics": {
+        "read_l2": 0.6869220254506195,
+        "write_l2": 0.423509744481358,
+        "bias": -0.10382080078125
+      }
+    },
+    {
+      "id": "c13",
+      "source": "pythia-layer-0",
+      "index": 13,
+      "read": {
+        "tensor": "W_in",
+        "row": 13,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 13
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 13,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "536ba4f4aa47f60b936bcfa9f52fae1ca4a942f42254aafd156131dbd92647f4",
+      "paired_digest": "5ce245ace582302354de47757a732513add66b6518929aab495fae0f30065b6d",
+      "statistics": {
+        "read_l2": 0.7166284135768046,
+        "write_l2": 0.475106415825056,
+        "bias": -0.08709716796875
+      }
+    },
+    {
+      "id": "c14",
+      "source": "pythia-layer-0",
+      "index": 14,
+      "read": {
+        "tensor": "W_in",
+        "row": 14,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 14
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 14,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "150555278dd739277d8f55eb5dc7817e8ab829972ec045d72033a291ee897fdd",
+      "paired_digest": "83f8f159603951b1c96af6bb2f2e145c4e91ba3edf2892b01a5a9f4ef79c70df",
+      "statistics": {
+        "read_l2": 0.7204196984280109,
+        "write_l2": 0.46295066880815267,
+        "bias": -0.041717529296875
+      }
+    },
+    {
+      "id": "c15",
+      "source": "pythia-layer-0",
+      "index": 15,
+      "read": {
+        "tensor": "W_in",
+        "row": 15,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 15
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 15,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "fb27fb6fec98238e0096678dad33d290dce9c105b629ad3e75ff2c8e206156f0",
+      "paired_digest": "b23ed2bfdbce13d3def8d1bc29979dff99431f2520f8b71eac880f9d879d02de",
+      "statistics": {
+        "read_l2": 0.7146055514372425,
+        "write_l2": 0.48231370207511537,
+        "bias": -0.09649658203125
+      }
+    },
+    {
+      "id": "c16",
+      "source": "pythia-layer-0",
+      "index": 16,
+      "read": {
+        "tensor": "W_in",
+        "row": 16,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 16
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 16,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "97717e180e8c2744c01f64dda9484e6c0936314628dfd997f776779d9eb4892e",
+      "paired_digest": "84f8b116161520688080cf4d2039112a349022d7d2094de944f468e117abdc3a",
+      "statistics": {
+        "read_l2": 0.8010495115854355,
+        "write_l2": 0.4500486377322962,
+        "bias": -0.2276611328125
+      }
+    },
+    {
+      "id": "c17",
+      "source": "pythia-layer-0",
+      "index": 17,
+      "read": {
+        "tensor": "W_in",
+        "row": 17,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 17
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 17,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "8018fd13ea879e45c6b55932be51b4be26f5edb230bad80bf2396fd618b7c9e6",
+      "paired_digest": "7f845e30af07c05a9179d3b761401390bd804bc72ada278e772a68b97e68f41d",
+      "statistics": {
+        "read_l2": 0.7785730893825676,
+        "write_l2": 0.4697636246990204,
+        "bias": -0.08367919921875
+      }
+    },
+    {
+      "id": "c18",
+      "source": "pythia-layer-0",
+      "index": 18,
+      "read": {
+        "tensor": "W_in",
+        "row": 18,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 18
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 18,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "bf5090366df1bdba4e8dafab05398a24af0678df36d0788ecee7ed1512937bac",
+      "paired_digest": "af8a8b453e21c4dbf3bc4dee4e24f994e8e97d005de5231fa2c382bcab09d50a",
+      "statistics": {
+        "read_l2": 0.7385870454360773,
+        "write_l2": 0.45094713286913873,
+        "bias": -0.07977294921875
+      }
+    },
+    {
+      "id": "c19",
+      "source": "pythia-layer-0",
+      "index": 19,
+      "read": {
+        "tensor": "W_in",
+        "row": 19,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 19
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 19,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "b9c796c361e2a3df361dcf26918d887c121ad2ca8c7c47a30f00bb4764af8e98",
+      "paired_digest": "a24d48bd6b27bfb964e9f3e4f0b6f4ebfcdcb3b2a21ede23fb6ddb6aeb1896a7",
+      "statistics": {
+        "read_l2": 0.6968174626887469,
+        "write_l2": 0.43334427628743777,
+        "bias": -0.072998046875
+      }
+    },
+    {
+      "id": "c20",
+      "source": "pythia-layer-0",
+      "index": 20,
+      "read": {
+        "tensor": "W_in",
+        "row": 20,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 20
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 20,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "03bd5848c5011dedb4d5dfba3c0ca355704fc7f2be5e1f5ae791c5c1dab8422f",
+      "paired_digest": "d2b76505f5e2cb2980ede654573679b1f15c3b055ea296aeb099e53d5bf29c8d",
+      "statistics": {
+        "read_l2": 0.6939812366236391,
+        "write_l2": 0.45658552471218306,
+        "bias": -0.0114898681640625
+      }
+    },
+    {
+      "id": "c21",
+      "source": "pythia-layer-0",
+      "index": 21,
+      "read": {
+        "tensor": "W_in",
+        "row": 21,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 21
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 21,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "dfe09fbe009f5a325ed9f547d7038cd084b0b20bd5afbafbed27803af73fa1b8",
+      "paired_digest": "ee17700981e246e9f72d2ed396d48ad0c21989fad20e646a5dcf17dfaf1fafa7",
+      "statistics": {
+        "read_l2": 0.6246724907696396,
+        "write_l2": 0.41707533250921514,
+        "bias": -0.0226898193359375
+      }
+    },
+    {
+      "id": "c22",
+      "source": "pythia-layer-0",
+      "index": 22,
+      "read": {
+        "tensor": "W_in",
+        "row": 22,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 22
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 22,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "abbb84ac02d4ee4cdcee67e412d239e1daa5a6df1def51d34c09466b84827744",
+      "paired_digest": "f34b390ea53cb130bb828b216c0e2ca0fa9973df4dcccd93a1b66fbcdac3d6d2",
+      "statistics": {
+        "read_l2": 0.7950800515184714,
+        "write_l2": 0.46507417522454125,
+        "bias": -0.1563720703125
+      }
+    },
+    {
+      "id": "c23",
+      "source": "pythia-layer-0",
+      "index": 23,
+      "read": {
+        "tensor": "W_in",
+        "row": 23,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 23
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 23,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "a0875fd83cc5e370a398297ef580c76a4c699e66f257d269531125e26c69c9c9",
+      "paired_digest": "3a8b32738a23788f4f629a718c3538a798a6d83caeb7c8d9e0c4cc95ce0939a8",
+      "statistics": {
+        "read_l2": 0.5242197797149039,
+        "write_l2": 0.37618216420288453,
+        "bias": -0.094970703125
+      }
+    },
+    {
+      "id": "c24",
+      "source": "pythia-layer-0",
+      "index": 24,
+      "read": {
+        "tensor": "W_in",
+        "row": 24,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 24
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 24,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "25b747a66ee86441deb654cfea4363cefabfe02aa70db91f3c2308d714d1e24c",
+      "paired_digest": "f8cea91731e12851128d2ecf7921d744335da0172fe078dcec64abe5e1f0b97d",
+      "statistics": {
+        "read_l2": 0.8916692792411924,
+        "write_l2": 0.5171767128768913,
+        "bias": -0.5673828125
+      }
+    },
+    {
+      "id": "c25",
+      "source": "pythia-layer-0",
+      "index": 25,
+      "read": {
+        "tensor": "W_in",
+        "row": 25,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 25
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 25,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "07a89441c8b48c1b1deeacc52c245437bd5dd99af172ab449ad67aae1d58645e",
+      "paired_digest": "359b6561630d33951ef9e3c3883f5ea8b05d36d8a01ccb4fd25076c30f323e96",
+      "statistics": {
+        "read_l2": 0.6026272044261803,
+        "write_l2": 0.41889060413368046,
+        "bias": -0.1710205078125
+      }
+    },
+    {
+      "id": "c26",
+      "source": "pythia-layer-0",
+      "index": 26,
+      "read": {
+        "tensor": "W_in",
+        "row": 26,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 26
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 26,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "8a5622e1a6246edbd48bfcf6032981933af930e05dbb661c98f86aa0c52842aa",
+      "paired_digest": "ffbd2acb3ded41e79d00e1b8332d07d60d1195cb4e4b1e8e331f59282ca7d5a7",
+      "statistics": {
+        "read_l2": 0.8074915278428229,
+        "write_l2": 0.5003160737899411,
+        "bias": -0.1529541015625
+      }
+    },
+    {
+      "id": "c27",
+      "source": "pythia-layer-0",
+      "index": 27,
+      "read": {
+        "tensor": "W_in",
+        "row": 27,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 27
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 27,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "7dd5d37f6126c07d93a656535d19d6c15d7d606e63ddc699fd05ed500d6e5967",
+      "paired_digest": "fe708883c7cb3f6735ee1c21a0976e1ca2720bf1ccfe47f4579119aa475aa7a1",
+      "statistics": {
+        "read_l2": 0.6888819791206786,
+        "write_l2": 0.47498874556706816,
+        "bias": -0.039459228515625
+      }
+    },
+    {
+      "id": "c28",
+      "source": "pythia-layer-0",
+      "index": 28,
+      "read": {
+        "tensor": "W_in",
+        "row": 28,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 28
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 28,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "5adc8606161571ae911d58b8f78474b1309672030f777ff059488391dc817918",
+      "paired_digest": "e9f4bd28e6b58bd471b9da261f5d6b2350c176475e960058b62d3c5c71148dfe",
+      "statistics": {
+        "read_l2": 0.5350750167723894,
+        "write_l2": 0.3999323616626583,
+        "bias": -0.08349609375
+      }
+    },
+    {
+      "id": "c29",
+      "source": "pythia-layer-0",
+      "index": 29,
+      "read": {
+        "tensor": "W_in",
+        "row": 29,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 29
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 29,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "dc21add0933e34edc7001dcbc216c7000fc8354e22bdae8e2ed114483dbe5acf",
+      "paired_digest": "e5754dfea560f471051d319e12aaabfbf6e6ed66c1156208f4ad9542c893e48e",
+      "statistics": {
+        "read_l2": 0.7361650978164536,
+        "write_l2": 0.4576240274581105,
+        "bias": -0.060455322265625
+      }
+    },
+    {
+      "id": "c30",
+      "source": "pythia-layer-0",
+      "index": 30,
+      "read": {
+        "tensor": "W_in",
+        "row": 30,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 30
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 30,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "30b495bf0c5067b84b2a1046ad08f3cad484fc19c64c78ac933b56682089fb78",
+      "paired_digest": "d7e4e836dfeb3012bde8c6dc0ca4cd9b200a0f2a05d3d8f6c8caec1875fba231",
+      "statistics": {
+        "read_l2": 0.6208660128810782,
+        "write_l2": 0.4144521508217509,
+        "bias": -0.0255126953125
+      }
+    },
+    {
+      "id": "c31",
+      "source": "pythia-layer-0",
+      "index": 31,
+      "read": {
+        "tensor": "W_in",
+        "row": 31,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 31
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 31,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "675b10b8704d49ebcbc61798c2adf4fa083638d379f6c7e2e6815e1f28b476ba",
+      "paired_digest": "beb47894b2b5b65710bc31df6f8711c20c7d0c877e2d43f79470a58b68f21306",
+      "statistics": {
+        "read_l2": 0.5925925714668497,
+        "write_l2": 0.4035073614462734,
+        "bias": -0.0755615234375
+      }
+    },
+    {
+      "id": "c32",
+      "source": "pythia-layer-0",
+      "index": 32,
+      "read": {
+        "tensor": "W_in",
+        "row": 32,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 32
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 32,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "654d1f84f614a50b1d6819a8aa5c0b621d855dbaa7f153ac6876d4c5c21e9026",
+      "paired_digest": "4b0dbcb07f8827c16634167dcae256f766b98690bccf8c937ffdd69ef90a0cb2",
+      "statistics": {
+        "read_l2": 0.7432503439851881,
+        "write_l2": 0.4727430435176716,
+        "bias": -0.10919189453125
+      }
+    },
+    {
+      "id": "c33",
+      "source": "pythia-layer-0",
+      "index": 33,
+      "read": {
+        "tensor": "W_in",
+        "row": 33,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 33
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 33,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "495d4ae5a1287661ebdc1d670d0b40d6cb42bf663ab668bed9d387ca980ca96f",
+      "paired_digest": "e4c278e49a0248cea2635c94bdb31e7bcc2b25c3736dde9aef6ae80a0d76109c",
+      "statistics": {
+        "read_l2": 0.5928410097277751,
+        "write_l2": 0.42908116258259743,
+        "bias": -0.059234619140625
+      }
+    },
+    {
+      "id": "c34",
+      "source": "pythia-layer-0",
+      "index": 34,
+      "read": {
+        "tensor": "W_in",
+        "row": 34,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 34
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 34,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "152ee15cbf4b657c606df0418b77a8984d10875a2069c068638839ef0140cf9b",
+      "paired_digest": "d6158f13a3f8488f666bcb2156a86fa37ad53f213fc841531533e3253afe7027",
+      "statistics": {
+        "read_l2": 0.6292934658423521,
+        "write_l2": 0.41252845375688746,
+        "bias": -0.0814208984375
+      }
+    },
+    {
+      "id": "c35",
+      "source": "pythia-layer-0",
+      "index": 35,
+      "read": {
+        "tensor": "W_in",
+        "row": 35,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 35
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 35,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "08e440e72a4e6adc832ffaf01b298ca040f30a36acf3a8d89ecdbf14b118d8a5",
+      "paired_digest": "f069af5cde3930ecf1a69c48c8170439fb0006efe08384487f7bda529ea82e62",
+      "statistics": {
+        "read_l2": 0.7491654344019562,
+        "write_l2": 0.4731311086085073,
+        "bias": -0.132080078125
+      }
+    },
+    {
+      "id": "c36",
+      "source": "pythia-layer-0",
+      "index": 36,
+      "read": {
+        "tensor": "W_in",
+        "row": 36,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 36
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 36,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "0887088fe881568b9e82adf3436093f8025a14e7a6f1e3aa04c4441fe298fff8",
+      "paired_digest": "5dfd0f9d81e81deea912d476933d363efb9a2f0fb4306712af27788d5b56d2c5",
+      "statistics": {
+        "read_l2": 0.768051081077583,
+        "write_l2": 0.4521422662176132,
+        "bias": -0.144775390625
+      }
+    },
+    {
+      "id": "c37",
+      "source": "pythia-layer-0",
+      "index": 37,
+      "read": {
+        "tensor": "W_in",
+        "row": 37,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 37
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 37,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "8b5663b98673d4b1e6786f1ad413a255506017f448535740f457cc6f6976f585",
+      "paired_digest": "27aef567085cc5fe3929d87e1c9a9c652bf663e711a08df3f63d6775db0dcbd4",
+      "statistics": {
+        "read_l2": 0.7773196604111231,
+        "write_l2": 0.4965763959383751,
+        "bias": -0.1090087890625
+      }
+    },
+    {
+      "id": "c38",
+      "source": "pythia-layer-0",
+      "index": 38,
+      "read": {
+        "tensor": "W_in",
+        "row": 38,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 38
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 38,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "d86535a47db2cbebfc98efa75c867719a1def5bf5adf654e80b1b3d13e7ea2ac",
+      "paired_digest": "5c7ee26a75e7f9785f647269b16fa75f50d92dfbea9bd41165a7c0bb9fa61d4a",
+      "statistics": {
+        "read_l2": 0.7380357685018284,
+        "write_l2": 0.516630043130151,
+        "bias": -0.145751953125
+      }
+    },
+    {
+      "id": "c39",
+      "source": "pythia-layer-0",
+      "index": 39,
+      "read": {
+        "tensor": "W_in",
+        "row": 39,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 39
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 39,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "b73c37dde088345ee85e728d0f4efdb269e6eeedfa08a79e4a2b960f30a3871e",
+      "paired_digest": "9dc5f8c70f8d4fa4857ca6d4aab40c7d53ee3bdce2e2df7c1ba9119aef677c4e",
+      "statistics": {
+        "read_l2": 0.8203820625379792,
+        "write_l2": 0.6207284968986577,
+        "bias": -0.28662109375
+      }
+    },
+    {
+      "id": "c40",
+      "source": "pythia-layer-0",
+      "index": 40,
+      "read": {
+        "tensor": "W_in",
+        "row": 40,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 40
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 40,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "a51f83496ef417b49e140717ac211b0bc1f16534a8a3384ba146b77b38db603b",
+      "paired_digest": "8bd6771e5f06999a6b858ab9b394d6e12d801b8f16073f74f36cd18647e5da67",
+      "statistics": {
+        "read_l2": 0.6633738809614474,
+        "write_l2": 0.3965607930781144,
+        "bias": -0.07037353515625
+      }
+    },
+    {
+      "id": "c41",
+      "source": "pythia-layer-0",
+      "index": 41,
+      "read": {
+        "tensor": "W_in",
+        "row": 41,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 41
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 41,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "35292cd6a9c5fff12e4cbe158285ec03bb668dfe83938ad3f8dd737d18e5bb0f",
+      "paired_digest": "41df183f112ac3fd53b0abb883784673e3a963d12cfb651f5de7099676c2cb74",
+      "statistics": {
+        "read_l2": 0.7617823871923017,
+        "write_l2": 0.4759745675436933,
+        "bias": -0.0704345703125
+      }
+    },
+    {
+      "id": "c42",
+      "source": "pythia-layer-0",
+      "index": 42,
+      "read": {
+        "tensor": "W_in",
+        "row": 42,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 42
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 42,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "c7fb30443de1905dbea12a8fa798dfb3e736afb44fdbbc07ed51f9cfda24aea9",
+      "paired_digest": "0a025bc5780117d258fd8db501dd72204e3ef1dbb380d78d7ad62cc476dd42b8",
+      "statistics": {
+        "read_l2": 0.5542737725330922,
+        "write_l2": 0.41651839510478444,
+        "bias": -0.06793212890625
+      }
+    },
+    {
+      "id": "c43",
+      "source": "pythia-layer-0",
+      "index": 43,
+      "read": {
+        "tensor": "W_in",
+        "row": 43,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 43
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 43,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "a5b950027c1cf141965675a0cfbca9549bf9033912d0d39cc489b0c384c8aa0f",
+      "paired_digest": "0e3e2325cbfc3ec2b5d2cbd68b94ea2f232e3d4b9ad3e251356a184fc00ffd2d",
+      "statistics": {
+        "read_l2": 0.7687456535525197,
+        "write_l2": 0.49656253688681945,
+        "bias": -0.10003662109375
+      }
+    },
+    {
+      "id": "c44",
+      "source": "pythia-layer-0",
+      "index": 44,
+      "read": {
+        "tensor": "W_in",
+        "row": 44,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 44
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 44,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "a1e13f9fbaf13739fe53be00e6c3b052a3a4cf487961d60814dce60489699945",
+      "paired_digest": "55e7a41c5da5736502a8ebf3d7d2d552ca23d768f4819522892bbe13b538014b",
+      "statistics": {
+        "read_l2": 0.7470561732401463,
+        "write_l2": 0.41858384107650204,
+        "bias": -0.0215606689453125
+      }
+    },
+    {
+      "id": "c45",
+      "source": "pythia-layer-0",
+      "index": 45,
+      "read": {
+        "tensor": "W_in",
+        "row": 45,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 45
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 45,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "2b4044023a158b4075b6d83c30b16208e152a211a630d8a7bb9035001731d0fd",
+      "paired_digest": "e437caf057124a24d1a6c9f050cd53fefab91745cf3c9538555d3448bd118f17",
+      "statistics": {
+        "read_l2": 0.76785442257033,
+        "write_l2": 0.48065339461107265,
+        "bias": -0.08892822265625
+      }
+    },
+    {
+      "id": "c46",
+      "source": "pythia-layer-0",
+      "index": 46,
+      "read": {
+        "tensor": "W_in",
+        "row": 46,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 46
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 46,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "e28c9e8ea8c2229f1df1f594135aea806b56fd67041eeb0c7b8a467afdde6f28",
+      "paired_digest": "9684770c409e631c70ad2efd14c4044a1a3f96a1efe498e7d1841d2e931a8ffb",
+      "statistics": {
+        "read_l2": 0.6730755665303607,
+        "write_l2": 0.41853891801026616,
+        "bias": -0.06103515625
+      }
+    },
+    {
+      "id": "c47",
+      "source": "pythia-layer-0",
+      "index": 47,
+      "read": {
+        "tensor": "W_in",
+        "row": 47,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 47
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 47,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "d34b14c4169cfc3bafc799af9a65caa57f77cf8a22855fcb8b33a35ae74fdbe6",
+      "paired_digest": "fc45cde47e01708fb3d45cf4aa5a37dbdcc5ab18b7615b1d70c9a5f6cc307824",
+      "statistics": {
+        "read_l2": 0.6405328010002936,
+        "write_l2": 0.41959320159134045,
+        "bias": -0.043914794921875
+      }
+    },
+    {
+      "id": "c48",
+      "source": "pythia-layer-0",
+      "index": 48,
+      "read": {
+        "tensor": "W_in",
+        "row": 48,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 48
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 48,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "5ce4174f22229b007a2febf9cdfc188b382bbaab78b80769afd783521e8a98b7",
+      "paired_digest": "72e35a2d8abfc1064d4ce66549988e930f5d982e443b9050c74e06ff0430a804",
+      "statistics": {
+        "read_l2": 0.7974982509888061,
+        "write_l2": 0.44335580644087824,
+        "bias": -0.1180419921875
+      }
+    },
+    {
+      "id": "c49",
+      "source": "pythia-layer-0",
+      "index": 49,
+      "read": {
+        "tensor": "W_in",
+        "row": 49,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 49
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 49,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "15489ef0b3b9535b73c0e19a99f8ee73fd85c37890bf05d167eb09859d7c8269",
+      "paired_digest": "f585e54051159e2795bef5916c151b48c2b5d6df4ceacefbde14bf9f27efb355",
+      "statistics": {
+        "read_l2": 0.7905171970199263,
+        "write_l2": 0.4708221851679697,
+        "bias": -0.06268310546875
+      }
+    },
+    {
+      "id": "c50",
+      "source": "pythia-layer-0",
+      "index": 50,
+      "read": {
+        "tensor": "W_in",
+        "row": 50,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 50
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 50,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "eb76b22ecacbe1e231dcbb0b999cd2edbda2fa6b631d4b879b7a0e158f228309",
+      "paired_digest": "a27963fd7daf55ec47667341be580afd209e3f1983e21b2f0a03ab23bf7913dd",
+      "statistics": {
+        "read_l2": 0.7429562842156359,
+        "write_l2": 0.4629222048358777,
+        "bias": -0.1009521484375
+      }
+    },
+    {
+      "id": "c51",
+      "source": "pythia-layer-0",
+      "index": 51,
+      "read": {
+        "tensor": "W_in",
+        "row": 51,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 51
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 51,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "d860e102f62ce5eda258145a322e3abace7b028c9c4c666d439bbfb87f608fa2",
+      "paired_digest": "c988356719c20523841829ca2bc4d99bde41f1098f66cea693f1e42b4ae3b861",
+      "statistics": {
+        "read_l2": 0.5933502636538028,
+        "write_l2": 0.4010710556495451,
+        "bias": -0.11663818359375
+      }
+    },
+    {
+      "id": "c52",
+      "source": "pythia-layer-0",
+      "index": 52,
+      "read": {
+        "tensor": "W_in",
+        "row": 52,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 52
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 52,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "61209286c89aa3daa2fa850d6a3864eabc851e39fe153c34979c4eb800935fc4",
+      "paired_digest": "1c54ef8107dd325118359dd141fd85a49ae445307183fd22ab74c59698d774ba",
+      "statistics": {
+        "read_l2": 0.7795704052732574,
+        "write_l2": 0.4602711416772133,
+        "bias": -0.1298828125
+      }
+    },
+    {
+      "id": "c53",
+      "source": "pythia-layer-0",
+      "index": 53,
+      "read": {
+        "tensor": "W_in",
+        "row": 53,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 53
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 53,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "e9c38e56ac5b03b72e35f7304e7cfc59a498c6ecf2e8ee843ded45526e788151",
+      "paired_digest": "da2fad0c9e034fed102c9ffa643d97cdfacd89802c01b0b5bc18379ce71821c0",
+      "statistics": {
+        "read_l2": 0.5883302890911127,
+        "write_l2": 0.4162726519789464,
+        "bias": -0.0888671875
+      }
+    },
+    {
+      "id": "c54",
+      "source": "pythia-layer-0",
+      "index": 54,
+      "read": {
+        "tensor": "W_in",
+        "row": 54,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 54
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 54,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "75a479b0a620201abc221d92ff5036a6a661c94324b360ca339ae1e725521231",
+      "paired_digest": "7bd7f3ec68d2267129e768b500d155c0b90cb0303f5f2da91bb9e9e6cb3af99a",
+      "statistics": {
+        "read_l2": 0.7734379751465671,
+        "write_l2": 0.4291268342296177,
+        "bias": -0.08319091796875
+      }
+    },
+    {
+      "id": "c55",
+      "source": "pythia-layer-0",
+      "index": 55,
+      "read": {
+        "tensor": "W_in",
+        "row": 55,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 55
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 55,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "dbb44096cad73dfff1bf9a8b15042546d781bda99a713f04169dcef8783df78a",
+      "paired_digest": "26bd6254ddc4c17342512ace1594be7ea7cedd7611afc2c3499c0fd9404eeb6e",
+      "statistics": {
+        "read_l2": 0.6070788641877674,
+        "write_l2": 0.39430908759332783,
+        "bias": -0.048553466796875
+      }
+    },
+    {
+      "id": "c56",
+      "source": "pythia-layer-0",
+      "index": 56,
+      "read": {
+        "tensor": "W_in",
+        "row": 56,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 56
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 56,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "2c8d273aab519ba86373439c5c8db645a00fd1f68592b10702c08f2804c441ee",
+      "paired_digest": "4899151560515c13f977c4c38cc8306b96bba056d4104b4e86dbbde567428144",
+      "statistics": {
+        "read_l2": 0.5625297191456852,
+        "write_l2": 0.40882639460391906,
+        "bias": -0.09307861328125
+      }
+    },
+    {
+      "id": "c57",
+      "source": "pythia-layer-0",
+      "index": 57,
+      "read": {
+        "tensor": "W_in",
+        "row": 57,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 57
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 57,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "330dbacdba23c16394f8602e4abb5add012be48c893aff68e68f0cd7b62714bb",
+      "paired_digest": "6ff2aa9e985d14d3c23b2103505fa56be18ec21966bcf10b186cc21e8c986e17",
+      "statistics": {
+        "read_l2": 0.6157171048516952,
+        "write_l2": 0.4351909546063476,
+        "bias": -0.0592041015625
+      }
+    },
+    {
+      "id": "c58",
+      "source": "pythia-layer-0",
+      "index": 58,
+      "read": {
+        "tensor": "W_in",
+        "row": 58,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 58
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 58,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "37140b6a5365b105677c0408113473be5e620240cb364b720d28b04b2e04bd12",
+      "paired_digest": "045b6370114107dc3271b80ee13f81513a231ebf17e0643f7ae0e5b03ea5615a",
+      "statistics": {
+        "read_l2": 0.5332075623359052,
+        "write_l2": 0.4322946928574062,
+        "bias": -0.06640625
+      }
+    },
+    {
+      "id": "c59",
+      "source": "pythia-layer-0",
+      "index": 59,
+      "read": {
+        "tensor": "W_in",
+        "row": 59,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 59
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 59,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "f7373c8cf7463a36774fe39ada3016f8fc7f51bbb7096db4283d7fde06e6bf22",
+      "paired_digest": "0cf65945e20b73fa3c9f321193060ceae2b73b0ccd8a43a83bf41c5e368c90dd",
+      "statistics": {
+        "read_l2": 0.7694004471705075,
+        "write_l2": 0.452187157373539,
+        "bias": -0.07916259765625
+      }
+    },
+    {
+      "id": "c60",
+      "source": "pythia-layer-0",
+      "index": 60,
+      "read": {
+        "tensor": "W_in",
+        "row": 60,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 60
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 60,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "29b843126076cec3b301c0aa34e4082003ad460d05c6d23f27c9cf09542968be",
+      "paired_digest": "b9e147910c5bc36d09de48b0891c442d905819a263fa44d9775546b423997de1",
+      "statistics": {
+        "read_l2": 0.7677000867892046,
+        "write_l2": 0.4589849213298564,
+        "bias": -0.1480712890625
+      }
+    },
+    {
+      "id": "c61",
+      "source": "pythia-layer-0",
+      "index": 61,
+      "read": {
+        "tensor": "W_in",
+        "row": 61,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 61
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 61,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "81f7ecb095c65c96d7163529dd65aa5fc51624dcfb11258a6fd7c9fe442f6580",
+      "paired_digest": "8971f46aeaeff5b04d4849f7fe7eb6bded82b3f792a4450c501991db9015e71d",
+      "statistics": {
+        "read_l2": 0.7798259715879662,
+        "write_l2": 0.4477604403834656,
+        "bias": -0.136962890625
+      }
+    },
+    {
+      "id": "c62",
+      "source": "pythia-layer-0",
+      "index": 62,
+      "read": {
+        "tensor": "W_in",
+        "row": 62,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 62
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 62,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "bbf919443b31adec191e1756d598f03ac039c70057fb40d1cbd88fff4d32626e",
+      "paired_digest": "fc0aef14e1b4d9b3f6fc87f923bd81efd08fb5a0a2daead70207f272b4c0efef",
+      "statistics": {
+        "read_l2": 0.7611544684140937,
+        "write_l2": 0.4715804197203309,
+        "bias": -0.0950927734375
+      }
+    },
+    {
+      "id": "c63",
+      "source": "pythia-layer-0",
+      "index": 63,
+      "read": {
+        "tensor": "W_in",
+        "row": 63,
+        "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+      },
+      "bias": {
+        "tensor": "b_in",
+        "index": 63
+      },
+      "gate": {
+        "operation": "op-gate",
+        "activation": "gelu_erf"
+      },
+      "write": {
+        "tensor": "W_out",
+        "column": 63,
+        "frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "gate_digest": "307239b417b4f3ee8576bc1144b35f01e8e868691e0e10beba476c85d39617b4",
+      "paired_digest": "e7909752f8f402d221f7755d35abd1e77677016b5f8c2f014e5a8bc6a2cf463b",
+      "statistics": {
+        "read_l2": 0.7780627137912757,
+        "write_l2": 0.45293507914419073,
+        "bias": -0.157958984375
+      }
+    },
+    {
+      "id": "c-output-bias",
+      "source": "pythia-layer-0",
+      "kind": "constant-write",
+      "binding": {
+        "tensor": "b_out",
+        "frame": "gpt_neox.layers.0.mlp.output"
+      }
+    }
+  ],
+  "segments": [],
+  "claims": [],
+  "evidence": [],
+  "descriptors": [
+    {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-0",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -0.0016400747831539775,
+          -0.0014386617604031926,
+          -0.0068122634875180665,
+          0.0012976531254480506,
+          -0.002001925583499542,
+          -0.0048156505363294855,
+          0.0023805041828381945,
+          -0.0030047795526115806
+        ],
+        [
+          0.005178307375899749,
+          -0.01002387706466834,
+          -0.013453218118229415,
+          -0.0018712019727900042,
+          0.0012369353225949453,
+          -0.0017582911518729816,
+          -0.0024078069254755974,
+          -0.0010951410486086388
+        ],
+        [
+          -0.0062465675080147776,
+          -0.003618431910581421,
+          0.005148307180206757,
+          0.002645313215907663,
+          0.004721322875411715,
+          0.0015811122766535846,
+          0.010170095891226083,
+          0.012332492563473352
+        ],
+        [
+          0.0038803015430630694,
+          -0.0033372286889061797,
+          -0.003064508740862948,
+          0.004014423940134293,
+          0.0015233891126626986,
+          1.622215404495364e-05,
+          -0.001831942852732027,
+          0.006132609781161591
+        ],
+        [
+          0.0004142932225477125,
+          -0.0005960721973679028,
+          0.0067837469941878226,
+          -0.00974601277630427,
+          -0.008044582087677554,
+          0.0019387306256248849,
+          0.0052407185512493015,
+          0.004370596740045585
+        ],
+        [
+          -0.0028563633036355895,
+          -0.0026125640506506898,
+          0.0040357124653382925,
+          0.005619587472210696,
+          -0.0010166224210479413,
+          0.006290726931183599,
+          0.0008811153020360507,
+          0.0031110497984627727
+        ],
+        [
+          -0.0021670617826430316,
+          0.0076891675089427736,
+          0.00046160901547409594,
+          -0.007123338022211101,
+          0.0035023414638999384,
+          -0.009765817280822375,
+          -0.0015254855461535044,
+          -0.005440509932668647
+        ],
+        [
+          -0.0007559713335467677,
+          0.002140034073818242,
+          -0.001421788729430773,
+          0.006379504369647293,
+          -0.007349835111071457,
+          0.006254273562262824,
+          -0.001956222471903857,
+          0.009399417223463047
+        ],
+        [
+          0.0003104812822130043,
+          -0.023503671880462207,
+          -0.014858593014650978,
+          0.010614011313009541,
+          0.021810551603266504,
+          0.03456513525452465,
+          0.05030625841754954,
+          -0.02668145279312739
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.0.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.0.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          64
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "selected-row multiset only",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "6985265f8b61db095ddb2c186e469252a151c101803b232c336129947854e4e9",
+      "digest_scope": "selected contribution parameters and inspected boundary parameters",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    }
+  ],
+  "correspondences": [],
+  "pass_runs": [
+    {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-0",
+      "status": "partial",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 64,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 64,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 268544,
+        "largest_tensor_read_bytes": 131072,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.0026932089995170827
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "6985265f8b61db095ddb2c186e469252a151c101803b232c336129947854e4e9",
+        "ordered_contribution_digest": "46950722b749b5d2b29e4230f29ed92130e741a8394592b5bc342d08465a6f2c",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.0.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.0.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 64,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": [
+        "Only a prefix is inspected; permutation invariance does not extend to uninspected rows"
+      ]
+    }
+  ]
+}

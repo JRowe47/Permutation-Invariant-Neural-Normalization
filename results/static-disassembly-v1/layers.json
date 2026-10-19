@@ -1,0 +1,2780 @@
+[
+  {
+    "layer": 0,
+    "dimensions": [
+      512,
+      2048,
+      512
+    ],
+    "operation_count": 4,
+    "contribution_count": 2048,
+    "output_bias_records": 1,
+    "shared_gate_segments": 0,
+    "zero_write_claims": 0,
+    "analysis_pass": {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-0",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 2048,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 8402944,
+        "largest_tensor_read_bytes": 262144,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.05886283300060313
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "0ef0437452764ac89c50bfee00e29960809922759bf70ff59286544a0eff077d",
+        "ordered_contribution_digest": "aa415a9c2a5449906b6d1f34a431988f0152f0ad1e07c63db7cf3bd9345a1027",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.0.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.0.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    },
+    "descriptor": {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-0",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          0.006345293383901662,
+          -0.10534251960085328,
+          0.0945198412650825,
+          -0.027823626533972856,
+          -0.009363839443039979,
+          0.020868782382990503,
+          -0.03368550421919281,
+          0.04742284577991995
+        ],
+        [
+          -0.0008776127561986868,
+          0.017087555160173906,
+          0.008832439652906032,
+          0.003978092893703433,
+          0.043790416260691245,
+          -0.0004629068653230206,
+          -0.042452806793988884,
+          -0.026719063257132802
+        ],
+        [
+          -0.05400945749002517,
+          0.06437047887260405,
+          0.13907951966530163,
+          -0.012650418032876587,
+          0.03417731756428566,
+          0.0043798460923198945,
+          -0.0044219222068022646,
+          0.011992599156883443
+        ],
+        [
+          -0.0378474961368056,
+          -0.005061596876544172,
+          0.015707205505123056,
+          0.06424447245785814,
+          -0.07912289262233685,
+          0.037195021009040374,
+          -0.06010389097261282,
+          0.03649007815867833
+        ],
+        [
+          -0.04585681839199651,
+          -0.016691349247224707,
+          0.015029777844347336,
+          -0.08923990883033639,
+          0.0031553555028835945,
+          0.046988586306383695,
+          0.13222858534345505,
+          0.03602998360292986
+        ],
+        [
+          -0.017603440350853816,
+          -0.025205256810906462,
+          -0.023435115652091554,
+          -0.02212114261891429,
+          -0.028125601565761826,
+          0.13496193727252148,
+          -0.0774945198256205,
+          -0.05445201492267415
+        ],
+        [
+          -0.01967030839463746,
+          -0.017396386514406004,
+          -0.046723199983347286,
+          -0.060707379073733136,
+          0.008255257292603346,
+          -0.04835714283586867,
+          0.03814594617722378,
+          -0.01061323208733711
+        ],
+        [
+          0.05847443262939578,
+          -0.041452480720352014,
+          0.016005231873513992,
+          -0.05402688044034676,
+          -0.038629222919539075,
+          0.018195133916577788,
+          0.13998418799351953,
+          0.16342380261490064
+        ],
+        [
+          -0.16122292170916808,
+          0.03245743821389624,
+          0.18341888747272606,
+          0.01772899407933437,
+          0.048205271495135094,
+          0.19902436031952675,
+          -0.13998445070183152,
+          -0.04994759799910753
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.0.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.0.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          2048
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "0ef0437452764ac89c50bfee00e29960809922759bf70ff59286544a0eff077d",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    },
+    "analysis_wall_seconds": 0.08005461999982799,
+    "source_bindings": {
+      "id": "pythia-layer-0",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.0.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.0.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.0.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.0.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.0.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.0.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.0.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.0.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 0,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    },
+    "controls": [
+      {
+        "kind": "coherent",
+        "seed": 73,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 5.747784751524083e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 73,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.9292248501955014,
+        "synthetic_response_relative_change": 1.1301371806196994,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 191,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 5.86901860721784e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 191,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.134646137570987,
+        "synthetic_response_relative_change": 1.1003861394533803,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 307,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 5.777138496883552e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 307,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.975354408563414,
+        "synthetic_response_relative_change": 1.1390129848607384,
+        "passed": true
+      }
+    ],
+    "contribution_examples": [
+      {
+        "id": "c0",
+        "source": "pythia-layer-0",
+        "index": 0,
+        "read": {
+          "tensor": "W_in",
+          "row": 0,
+          "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 0
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 0,
+          "frame": "gpt_neox.layers.0.mlp.output"
+        },
+        "gate_digest": "0d4a72f758d0e370b4f0e4f071c0a01be9989e0f15704c312b77dcd0b1524a37",
+        "paired_digest": "dcbeab98d0076e13a86b8129d4ce9e398c8aa9f85fa6b66953474fe4c842b1a5",
+        "statistics": {
+          "read_l2": 0.5677738933312256,
+          "write_l2": 0.4172886078387143,
+          "bias": -0.053131103515625
+        }
+      },
+      {
+        "id": "c1",
+        "source": "pythia-layer-0",
+        "index": 1,
+        "read": {
+          "tensor": "W_in",
+          "row": 1,
+          "frame": "gpt_neox.layers.0.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 1
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 1,
+          "frame": "gpt_neox.layers.0.mlp.output"
+        },
+        "gate_digest": "fd1c4858ef64c8d6ebdbb7a51b99848fbd4a90af455d451177ce9ce7f8d75be5",
+        "paired_digest": "c034ca74cbacc19381bc55b297fc975eb39fdb640840926e73ef863a469017e6",
+        "statistics": {
+          "read_l2": 0.8334955851970239,
+          "write_l2": 0.4667202955530208,
+          "bias": -0.1502685546875
+        }
+      }
+    ],
+    "read_norm_range": [
+      0.4526955611954765,
+      1.3324227387983254
+    ],
+    "write_norm_range": [
+      0.3647494263512648,
+      0.7956943518595577
+    ]
+  },
+  {
+    "layer": 1,
+    "dimensions": [
+      512,
+      2048,
+      512
+    ],
+    "operation_count": 4,
+    "contribution_count": 2048,
+    "output_bias_records": 1,
+    "shared_gate_segments": 0,
+    "zero_write_claims": 0,
+    "analysis_pass": {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-1",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 2048,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 8402944,
+        "largest_tensor_read_bytes": 262144,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.062383851999584294
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "a5e0802ed5b508345fe3541c9e22cb5ed746ea964cfa8a533dfd0401128f52b8",
+        "ordered_contribution_digest": "2c078712bc3ed3a7137bf283f27d28b89d1b130e9c0f889ea1ff663c45151243",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.1.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.1.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    },
+    "descriptor": {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-1",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -0.3083524353714928,
+          0.005853148866364677,
+          -0.04847769750585229,
+          -0.005154667539727598,
+          0.019848051978783587,
+          0.06944349520063042,
+          -0.04990156615183139,
+          -0.04710561594515639
+        ],
+        [
+          -0.06899994211966032,
+          -0.3251588066232216,
+          0.0016975839117208125,
+          0.014176811400659517,
+          -0.01169136953188854,
+          -0.0021191356930785332,
+          0.0676217511939683,
+          0.05590062978134824
+        ],
+        [
+          -0.010570452442408396,
+          0.0184559253878831,
+          -0.27368284019666334,
+          -0.027079743518498844,
+          -0.014130429330634797,
+          0.03571158228223226,
+          -0.0016406682369733971,
+          0.020500518007906976
+        ],
+        [
+          -0.016021003269372613,
+          -0.031867560777698145,
+          -0.03571853976472994,
+          -0.3043264680707125,
+          0.006314934122300997,
+          -0.03516500071042472,
+          0.029346791400769234,
+          -0.04856307577728103
+        ],
+        [
+          0.020835026565521275,
+          -0.007991670447381694,
+          -0.07885522786074262,
+          0.046025245099542644,
+          -0.35392548619040554,
+          0.03196981519391784,
+          0.03887362714237952,
+          -0.029982363140561574
+        ],
+        [
+          0.021543303252656187,
+          0.027908011617569173,
+          -0.046790415457564905,
+          -0.03710913032853114,
+          -0.037957411623210646,
+          -0.1260866077296896,
+          -0.01452439495182034,
+          -0.04077400208532822
+        ],
+        [
+          -0.011811195705888622,
+          0.0335638767828641,
+          0.01531502338559676,
+          0.02146811606286292,
+          -0.019995923412011507,
+          -0.08465954244312002,
+          -0.17307127353507212,
+          -0.009231869653717695
+        ],
+        [
+          -0.016699408887234313,
+          -0.0005693263572084106,
+          -0.011926631065279025,
+          0.010304839593857196,
+          -0.034757259492742776,
+          0.0013126154500469056,
+          0.006028744245725193,
+          -0.39790691906250686
+        ],
+        [
+          0.025115546930464916,
+          -0.036413415128208726,
+          0.13601262553220295,
+          0.12443501960569847,
+          -0.19184497387414012,
+          -0.2376504988042143,
+          -0.2808802315448702,
+          0.13364717460717657
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.1.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.1.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          2048
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "a5e0802ed5b508345fe3541c9e22cb5ed746ea964cfa8a533dfd0401128f52b8",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    },
+    "analysis_wall_seconds": 0.0845768120007051,
+    "source_bindings": {
+      "id": "pythia-layer-1",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.1.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.1.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.1.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.1.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.1.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.1.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.1.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.1.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 1,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    },
+    "controls": [
+      {
+        "kind": "coherent",
+        "seed": 73,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 5.763624143680826e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 73,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.9920054030607688,
+        "synthetic_response_relative_change": 0.986375049168333,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 191,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 6.784287676180948e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 191,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.9934294373731468,
+        "synthetic_response_relative_change": 0.9729626677855658,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 307,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 5.35546123213611e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 307,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.0379436535248967,
+        "synthetic_response_relative_change": 0.9853653575638837,
+        "passed": true
+      }
+    ],
+    "contribution_examples": [
+      {
+        "id": "c0",
+        "source": "pythia-layer-1",
+        "index": 0,
+        "read": {
+          "tensor": "W_in",
+          "row": 0,
+          "frame": "gpt_neox.layers.1.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 0
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 0,
+          "frame": "gpt_neox.layers.1.mlp.output"
+        },
+        "gate_digest": "75ea978600929ecb415b114bde0f86e19a2c414d73e14050b18857acd7de2515",
+        "paired_digest": "29e240aaa9f82c1032294da1023bf63e0044d4359c3d34f0d3843a7592341b41",
+        "statistics": {
+          "read_l2": 0.7460126811611151,
+          "write_l2": 0.4445110228490844,
+          "bias": -0.1427001953125
+        }
+      },
+      {
+        "id": "c1",
+        "source": "pythia-layer-1",
+        "index": 1,
+        "read": {
+          "tensor": "W_in",
+          "row": 1,
+          "frame": "gpt_neox.layers.1.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 1
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 1,
+          "frame": "gpt_neox.layers.1.mlp.output"
+        },
+        "gate_digest": "ad7663c1330dde9be21c0c2ed4d6c9bb02b80d3a85ebad7fa04c794e87aca1dc",
+        "paired_digest": "c78348ef53cd51c3e96b9db9482bf32faa9117fba77fef388c8f34a237dc7d80",
+        "statistics": {
+          "read_l2": 0.6184280229093108,
+          "write_l2": 0.4679500931237259,
+          "bias": -0.0240478515625
+        }
+      }
+    ],
+    "read_norm_range": [
+      0.4396546623172543,
+      3.4971472239837453
+    ],
+    "write_norm_range": [
+      0.385907906300138,
+      3.2656584688377346
+    ]
+  },
+  {
+    "layer": 2,
+    "dimensions": [
+      512,
+      2048,
+      512
+    ],
+    "operation_count": 4,
+    "contribution_count": 2048,
+    "output_bias_records": 1,
+    "shared_gate_segments": 0,
+    "zero_write_claims": 0,
+    "analysis_pass": {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-2",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 2048,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 8402944,
+        "largest_tensor_read_bytes": 262144,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.057794207999904756
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "b6410b2ac40ca8017b0be923d7494b1f6599ac266363d6f47749db739b7a49f5",
+        "ordered_contribution_digest": "e6895e970b289e5e5a90bdace6bed6f3de67f446bf26ed8aaca38108e11832c1",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.2.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.2.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    },
+    "descriptor": {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-2",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -0.4959825056412228,
+          -0.008013838770651205,
+          0.0011192164790259085,
+          0.00482278125934954,
+          0.03874804651024988,
+          -0.009011386586109893,
+          0.024443810293689694,
+          -0.018475121437703024
+        ],
+        [
+          -0.010264970070295476,
+          -0.4459992440285987,
+          -0.033412158973078476,
+          -0.043529544806688136,
+          0.010772197369647074,
+          -0.0066355094901098255,
+          -0.004066991461286307,
+          -0.019542360442756035
+        ],
+        [
+          0.016721076160877146,
+          -0.014698573989733177,
+          -0.4607987540839531,
+          -0.015270231973318005,
+          -0.03752332598887165,
+          0.03624393387525515,
+          0.0162518109600569,
+          -0.00013999154089106014
+        ],
+        [
+          0.030881270049462728,
+          -0.05423157651497945,
+          0.027564484315007576,
+          -0.5034742078131558,
+          -0.0005456882199723623,
+          0.0534097841058383,
+          -0.06655170228327734,
+          0.020104102660681633
+        ],
+        [
+          0.04251941017048466,
+          0.005465062444528712,
+          -0.014967045872054996,
+          -0.0003260144408159249,
+          -0.44262490579001224,
+          -0.02258176643704246,
+          0.022163543804111896,
+          -0.01504119278502003
+        ],
+        [
+          -0.03163783970151002,
+          0.030621859901486914,
+          0.0011173542115443524,
+          0.0005923959939480028,
+          -0.006875521118558936,
+          -0.3188619921322129,
+          -0.008010340211740186,
+          0.04192146018215226
+        ],
+        [
+          0.019217887159015845,
+          -0.008618587367408281,
+          0.02927598963293576,
+          -0.03098488093451124,
+          0.015546018454529076,
+          -0.03965785513253195,
+          -0.4381281801495902,
+          0.018820807620102187
+        ],
+        [
+          -0.028902527592407523,
+          -0.03309288667111332,
+          0.012313449890143602,
+          -0.051675239679184415,
+          -0.006838555574859129,
+          0.008754305853813094,
+          0.003079390671246074,
+          -0.5095743271448328
+        ],
+        [
+          0.388935511847194,
+          0.27109363066324477,
+          0.41405133958687657,
+          -0.015236264813893285,
+          -0.3174901330435205,
+          -0.001466816145921257,
+          -0.3013630545831347,
+          -0.11405780385098296
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.2.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.2.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          2048
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "b6410b2ac40ca8017b0be923d7494b1f6599ac266363d6f47749db739b7a49f5",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    },
+    "analysis_wall_seconds": 0.0799597459999859,
+    "source_bindings": {
+      "id": "pythia-layer-2",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.2.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.2.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.2.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.2.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.2.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.2.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.2.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.2.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 2,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    },
+    "controls": [
+      {
+        "kind": "coherent",
+        "seed": 73,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 7.445154691365351e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 73,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.0234661038070851,
+        "synthetic_response_relative_change": 1.0739565050842008,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 191,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 6.50215545436675e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 191,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.1090504464541908,
+        "synthetic_response_relative_change": 1.0624928381231518,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 307,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 6.164902748546362e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 307,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.0788094874344467,
+        "synthetic_response_relative_change": 1.0672512660069327,
+        "passed": true
+      }
+    ],
+    "contribution_examples": [
+      {
+        "id": "c0",
+        "source": "pythia-layer-2",
+        "index": 0,
+        "read": {
+          "tensor": "W_in",
+          "row": 0,
+          "frame": "gpt_neox.layers.2.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 0
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 0,
+          "frame": "gpt_neox.layers.2.mlp.output"
+        },
+        "gate_digest": "74b7c034ded6a6e68f14a703a89efc32338e439f3b75b703f10abe5fc519517a",
+        "paired_digest": "2b12456d23ea28870e7027190090cfbe25713eee24f9f359ed85b97e0ef1b661",
+        "statistics": {
+          "read_l2": 0.8462532952994948,
+          "write_l2": 0.4396636264347657,
+          "bias": -0.375244140625
+        }
+      },
+      {
+        "id": "c1",
+        "source": "pythia-layer-2",
+        "index": 1,
+        "read": {
+          "tensor": "W_in",
+          "row": 1,
+          "frame": "gpt_neox.layers.2.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 1
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 1,
+          "frame": "gpt_neox.layers.2.mlp.output"
+        },
+        "gate_digest": "17b4aec6d201c9fececbf84376f3ee88a5f3d91aa0a9453d225475a0a7b38ac2",
+        "paired_digest": "61a1856c0322d2d3f952392dff433151597638eea0fb3f54e51bb0229588467e",
+        "statistics": {
+          "read_l2": 0.8213628177949063,
+          "write_l2": 0.4481794092535841,
+          "bias": -0.20703125
+        }
+      }
+    ],
+    "read_norm_range": [
+      0.3776535596247256,
+      12.97563620440639
+    ],
+    "write_norm_range": [
+      0.3875955686312887,
+      0.9931617208038636
+    ]
+  },
+  {
+    "layer": 3,
+    "dimensions": [
+      512,
+      2048,
+      512
+    ],
+    "operation_count": 4,
+    "contribution_count": 2048,
+    "output_bias_records": 1,
+    "shared_gate_segments": 0,
+    "zero_write_claims": 0,
+    "analysis_pass": {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-3",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 2048,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 8402944,
+        "largest_tensor_read_bytes": 262144,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.059442968999974255
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "526c9500bdb748fa7da63e7d688d9d180ead4bc581d4e459f9ed36cb70cf539b",
+        "ordered_contribution_digest": "e41e3ceec7514688e19f6a053a6eaafe81d09d923ad2ae7d8e7f27566ed81608",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.3.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.3.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    },
+    "descriptor": {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-3",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -0.274216595812959,
+          0.024813840410388366,
+          -0.06663818921437326,
+          0.03996150463262893,
+          -0.011055790683826672,
+          -0.039580269586579675,
+          0.015114338530302973,
+          0.001544765970180606
+        ],
+        [
+          0.04251369146072648,
+          -0.2522215341642209,
+          -0.05357546672553326,
+          0.022378624972589023,
+          0.009338552222686758,
+          -0.002876386470120451,
+          0.010416102236490588,
+          0.00014377860270542442
+        ],
+        [
+          -0.009343059189077962,
+          0.039815980159460196,
+          -0.2471839756569807,
+          0.03072255287167991,
+          -0.05354023918096118,
+          -0.028115711227655993,
+          0.10176749295192167,
+          0.05521418262631528
+        ],
+        [
+          0.01751395299566383,
+          0.04622448650708577,
+          0.025733733296306127,
+          -0.2912789753610241,
+          -0.036567988124375006,
+          0.07295347182764544,
+          0.13191758127845787,
+          -0.058435450397837485
+        ],
+        [
+          -0.04072539615333426,
+          0.10242423756380958,
+          0.025737960565152207,
+          0.03206542194038775,
+          -0.3631123842096713,
+          0.11582137092898392,
+          -0.023091815902148483,
+          -0.03810970882824449
+        ],
+        [
+          -0.0007933431069773178,
+          -0.07091125144438593,
+          0.0005529147160103776,
+          -0.06455464867894989,
+          -0.04817396100656879,
+          -0.21808328952806733,
+          0.045513702238054066,
+          0.014743030805107082
+        ],
+        [
+          -0.003501340656793417,
+          -0.01381363525953816,
+          0.06482483550880147,
+          0.008069729556012817,
+          0.02483566824139416,
+          0.025065336074476363,
+          -0.12725087571925542,
+          -0.07738589514784167
+        ],
+        [
+          -0.05413886439762905,
+          0.05858661908803242,
+          -0.010191338373203962,
+          0.03477156099916101,
+          0.004541175398685482,
+          0.01265424041235974,
+          0.023155385570873932,
+          -0.30880130606806233
+        ],
+        [
+          -0.15242788953037234,
+          1.613366134575699,
+          -0.2308193267808747,
+          0.981012476521073,
+          -0.10894145442989611,
+          1.11057625895819,
+          -0.48602754666978853,
+          -0.47038443319979706
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.3.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.3.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          2048
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "526c9500bdb748fa7da63e7d688d9d180ead4bc581d4e459f9ed36cb70cf539b",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    },
+    "analysis_wall_seconds": 0.0811467690000427,
+    "source_bindings": {
+      "id": "pythia-layer-3",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.3.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.3.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.3.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.3.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.3.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.3.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.3.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.3.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 3,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    },
+    "controls": [
+      {
+        "kind": "coherent",
+        "seed": 73,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 8.235989850728859e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 73,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.8079583849453605,
+        "synthetic_response_relative_change": 1.3526324350507144,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 191,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 8.408504084273226e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 191,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.6187616457368821,
+        "synthetic_response_relative_change": 1.317746513984318,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 307,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 8.093475808932945e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 307,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 0.7718330912292982,
+        "synthetic_response_relative_change": 1.345002852280012,
+        "passed": true
+      }
+    ],
+    "contribution_examples": [
+      {
+        "id": "c0",
+        "source": "pythia-layer-3",
+        "index": 0,
+        "read": {
+          "tensor": "W_in",
+          "row": 0,
+          "frame": "gpt_neox.layers.3.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 0
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 0,
+          "frame": "gpt_neox.layers.3.mlp.output"
+        },
+        "gate_digest": "f98964f0e79cce67da571e065c176019c69a54ffe957d8def9f5edb0218f3cd6",
+        "paired_digest": "dd3b1ba4328b7c9562235cc745f8b7d4a9842889cd30e4a5bfaeb8b2573b135b",
+        "statistics": {
+          "read_l2": 0.6621014445134469,
+          "write_l2": 0.5695128861867262,
+          "bias": -0.1376953125
+        }
+      },
+      {
+        "id": "c1",
+        "source": "pythia-layer-3",
+        "index": 1,
+        "read": {
+          "tensor": "W_in",
+          "row": 1,
+          "frame": "gpt_neox.layers.3.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 1
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 1,
+          "frame": "gpt_neox.layers.3.mlp.output"
+        },
+        "gate_digest": "cca85fed40d386174f341a36dee641249ed3a451c20500968912a0f72ed3bd86",
+        "paired_digest": "eee45dcc3f990bb8c3b66018874bf5e1444f2e3175140fbd56eafbd09b89bf2a",
+        "statistics": {
+          "read_l2": 0.7195539103593083,
+          "write_l2": 0.5452266980593657,
+          "bias": -0.1060791015625
+        }
+      }
+    ],
+    "read_norm_range": [
+      0.28014939743483275,
+      1.2459355061727526
+    ],
+    "write_norm_range": [
+      0.3870016512168483,
+      2.4386266738438516
+    ]
+  },
+  {
+    "layer": 4,
+    "dimensions": [
+      512,
+      2048,
+      512
+    ],
+    "operation_count": 4,
+    "contribution_count": 2048,
+    "output_bias_records": 1,
+    "shared_gate_segments": 0,
+    "zero_write_claims": 0,
+    "analysis_pass": {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-4",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 2048,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 8402944,
+        "largest_tensor_read_bytes": 262144,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.0690126159997817
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "a3924893ef8879e7d3b0980acc8f465c90efa5f6eeb9893250dce58aaf908c26",
+        "ordered_contribution_digest": "7fec512539671f99c132a63df5a89e0ac9c6f99deebabd6b2483c5be98a87564",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.4.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.4.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    },
+    "descriptor": {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-4",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -0.1379297747325836,
+          -0.025157836649668752,
+          -0.03075662939374979,
+          -0.032640074001164976,
+          -0.06431705962155831,
+          0.03742530686429291,
+          -0.004316433703252187,
+          0.004326385062569216
+        ],
+        [
+          0.05748187728767107,
+          -0.24506413200475663,
+          0.004973383688366084,
+          0.02110766692328525,
+          -0.006294153275803183,
+          -0.05638417127342166,
+          -0.03298172578342928,
+          -0.007476519036345053
+        ],
+        [
+          -0.03138433650917705,
+          0.01395399421392085,
+          -0.10745437692537507,
+          0.025486541802820284,
+          -0.00457095431261223,
+          -0.013478074963330755,
+          -0.043402507840710314,
+          -0.024550464346930312
+        ],
+        [
+          -0.04341249845060702,
+          -0.04755176428068353,
+          0.08990057575636001,
+          -0.16914121987906583,
+          0.014323643468287628,
+          -0.0197679614656181,
+          0.07192193853556716,
+          -0.010556478469197828
+        ],
+        [
+          -0.019640062566111283,
+          0.01886514497743974,
+          0.04115236146742518,
+          -0.012272038776131922,
+          -0.18040138547934248,
+          0.013221490149476267,
+          -0.025055597848471223,
+          -0.00962493084568905
+        ],
+        [
+          -0.026274118457422446,
+          -0.023859953142647328,
+          0.0100566666525026,
+          0.051191751015949194,
+          0.05210786531320366,
+          -0.16734147786507947,
+          -0.002241163021153625,
+          0.02339374022000129
+        ],
+        [
+          -0.015046677113645046,
+          0.03600529251707485,
+          -0.046954594280464335,
+          0.0032119792607545605,
+          -0.04171509027673892,
+          -0.03606798577038717,
+          -0.26456800237565403,
+          0.017108842678453584
+        ],
+        [
+          -0.015613659232315058,
+          -0.013514547278902,
+          -0.006520156925205356,
+          -0.02393927081311631,
+          0.018545867897046264,
+          0.022698000414493436,
+          0.00830305756346661,
+          -0.1483832153703588
+        ],
+        [
+          0.01960844541190454,
+          -0.43365866239969364,
+          0.017743667994068346,
+          -0.7154274215936312,
+          -0.2191629188191655,
+          0.3786346981814859,
+          -0.05383055491415689,
+          -0.2338294636883802
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.4.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.4.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          2048
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "a3924893ef8879e7d3b0980acc8f465c90efa5f6eeb9893250dce58aaf908c26",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    },
+    "analysis_wall_seconds": 0.09419386100034899,
+    "source_bindings": {
+      "id": "pythia-layer-4",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.4.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.4.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.4.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.4.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.4.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.4.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.4.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.4.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 4,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    },
+    "controls": [
+      {
+        "kind": "coherent",
+        "seed": 73,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 7.246160009457478e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 73,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.1333175728291753,
+        "synthetic_response_relative_change": 1.0493979556288857,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 191,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 7.251018619566514e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 191,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.1981417979202158,
+        "synthetic_response_relative_change": 1.0416436126682243,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 307,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 7.271863766295625e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 307,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.066099487180844,
+        "synthetic_response_relative_change": 1.0264500691462084,
+        "passed": true
+      }
+    ],
+    "contribution_examples": [
+      {
+        "id": "c0",
+        "source": "pythia-layer-4",
+        "index": 0,
+        "read": {
+          "tensor": "W_in",
+          "row": 0,
+          "frame": "gpt_neox.layers.4.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 0
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 0,
+          "frame": "gpt_neox.layers.4.mlp.output"
+        },
+        "gate_digest": "5828d5b47e1fabba2e39fa494b675d905d72169a515bf87beb2fb2950f5440cc",
+        "paired_digest": "bff958278e45eaa3346e44c03c31b74fd80016620152a7885f0912595b89b3b8",
+        "statistics": {
+          "read_l2": 0.6546083366461102,
+          "write_l2": 0.7161384129239966,
+          "bias": -0.1431884765625
+        }
+      },
+      {
+        "id": "c1",
+        "source": "pythia-layer-4",
+        "index": 1,
+        "read": {
+          "tensor": "W_in",
+          "row": 1,
+          "frame": "gpt_neox.layers.4.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 1
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 1,
+          "frame": "gpt_neox.layers.4.mlp.output"
+        },
+        "gate_digest": "dc44805dec6f100546a28469d879d86a9655edc8d507649d0f1f02461f4b022b",
+        "paired_digest": "dfe846928af055256b78ca4b5a4c6d052d1191fdac966523bfb3b81ac2af8e84",
+        "statistics": {
+          "read_l2": 0.6026340796676016,
+          "write_l2": 0.5165527770710477,
+          "bias": -0.0628662109375
+        }
+      }
+    ],
+    "read_norm_range": [
+      0.45458909722447943,
+      1.5849121551396095
+    ],
+    "write_norm_range": [
+      0.345136308402157,
+      2.2579613479653555
+    ]
+  },
+  {
+    "layer": 5,
+    "dimensions": [
+      512,
+      2048,
+      512
+    ],
+    "operation_count": 4,
+    "contribution_count": 2048,
+    "output_bias_records": 1,
+    "shared_gate_segments": 0,
+    "zero_write_claims": 0,
+    "analysis_pass": {
+      "id": "static-pass",
+      "pass": "pinn.static-ffn/0.1.0",
+      "source": "pythia-layer-5",
+      "status": "completed",
+      "allowed_access": [
+        "metadata",
+        "weights"
+      ],
+      "budget": {
+        "max_parameter_bytes": 67108864,
+        "max_contributions": 4096,
+        "block_rows": 128,
+        "sample_width": 8
+      },
+      "budget_definition": "Logical returned parameter bytes, including duplicate-verification rereads; not OS I/O or total RAM",
+      "coverage": {
+        "contributions_inspected": 2048,
+        "contributions_total": 2048,
+        "fixed_boundary_parameters_inspected": true,
+        "opaque_operations": [],
+        "unverified_duplicate_groups": [],
+        "hash_collision_buckets_rejected": 0,
+        "scope": "one FFN region; no whole-model or task-semantic coverage"
+      },
+      "cost": {
+        "logical_parameter_bytes_read": 8402944,
+        "largest_tensor_read_bytes": 262144,
+        "physical_io_bytes": null,
+        "peak_working_bytes": null,
+        "forward_evaluations": 0,
+        "backward_evaluations": 0,
+        "interventions": 0,
+        "elapsed_seconds": 0.06430231099966477
+      },
+      "cache_dependencies": {
+        "source_identity": {
+          "kind": "safetensors-region",
+          "artifact": "model.safetensors",
+          "artifact_bytes": 281715176,
+          "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+          "adapter": "gpt-neox-ffn/1",
+          "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+          "verified_checkpoint": {
+            "model": "EleutherAI/pythia-70m",
+            "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "method": "Whole-file SHA-256 checked before this experiment"
+          }
+        },
+        "inspected_parameter_digest": "e7982b9697db4c743afee549f01fbb036b37ff79fd35e348b07ec4a769bf3d5e",
+        "ordered_contribution_digest": "ec10b897104c17c10b28b85d09c546b756bffa576dcb09e0a27e835773595389",
+        "boundary": {
+          "input_frame": "gpt_neox.layers.5.post_attention_layernorm.input",
+          "read_frame_kind": "post-layernorm",
+          "output_frame": "gpt_neox.layers.5.mlp.output",
+          "activation": "gelu_erf",
+          "dimensions": [
+            512,
+            512
+          ],
+          "dtypes": {
+            "W_in": "<f4",
+            "b_in": "<f4",
+            "W_out": "<f4",
+            "b_out": "<f4",
+            "norm_weight": "<f4",
+            "norm_bias": "<f4"
+          },
+          "pre_norm": {
+            "kind": "layer_norm",
+            "epsilon": 1e-05
+          }
+        },
+        "budget": {
+          "max_parameter_bytes": 67108864,
+          "max_contributions": 4096,
+          "block_rows": 128,
+          "sample_width": 8
+        }
+      },
+      "notes": []
+    },
+    "descriptor": {
+      "id": "paired-static-summary",
+      "source": "pythia-layer-5",
+      "construction": "coordinate-sampled-affine-contraction/1",
+      "input_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "output_indices": [
+        0,
+        73,
+        146,
+        219,
+        292,
+        365,
+        438,
+        511
+      ],
+      "formula": "sum_j outer(concat(W_in[j,input_indices], b_in[j]), W_out[output_indices,j]); add b_out[output_indices] to final row",
+      "values": [
+        [
+          -0.25169899486292024,
+          -0.010553842164938487,
+          -0.08742575692929222,
+          0.06525166538744998,
+          0.043818382631911845,
+          0.04522305381078695,
+          0.05542210147973492,
+          -0.03132305806775548
+        ],
+        [
+          0.024302131043612007,
+          -0.28620352293290807,
+          -0.01019847844963806,
+          -0.030809151368828225,
+          -0.030300405360435434,
+          -0.06794827727048869,
+          -0.09047346486009644,
+          0.007990426380956706
+        ],
+        [
+          -0.013206832129299073,
+          0.0008341499572281919,
+          -0.31686709662972135,
+          0.009376559458360134,
+          0.04191495436270998,
+          -0.001873521070933748,
+          -0.0017203585252900666,
+          -0.05399818452951877
+        ],
+        [
+          -0.009708694963023845,
+          0.024879223226434988,
+          -0.0578677176954443,
+          -0.292797857009262,
+          0.007819245419796061,
+          -0.0122305452283058,
+          -0.007835012704276778,
+          0.018852332388064497
+        ],
+        [
+          0.03462630035460279,
+          -0.025478897752805096,
+          0.0016664229353011706,
+          0.018347635515311822,
+          -0.31941080639808206,
+          -0.042572057905772454,
+          0.023575160692985264,
+          0.06978844793059125
+        ],
+        [
+          0.005180543667449911,
+          0.03835465019540152,
+          0.1404605890868993,
+          -0.03382165411494498,
+          0.020785593376530187,
+          -0.361151940049524,
+          -0.04538778351673045,
+          0.03695405490088888
+        ],
+        [
+          0.013486364990285438,
+          0.03206319943363667,
+          0.11932340479529557,
+          -0.13291059285575102,
+          0.013774586786155396,
+          -0.06913486544112857,
+          -0.41213006787006634,
+          -0.02958260367273624
+        ],
+        [
+          0.03514487434948421,
+          -0.03208995068814602,
+          0.010405809897292784,
+          -0.11791925126681235,
+          -0.006848239259852562,
+          -0.01823463968867145,
+          -0.06388653579961101,
+          -0.2545412120287551
+        ],
+        [
+          1.3499978119575644,
+          0.1640789515849974,
+          1.8983243846855657,
+          -2.005652901290887,
+          -1.409557282383048,
+          -1.1783873410822707,
+          -2.3017226006109013,
+          1.894473644595564
+        ]
+      ],
+      "metric": "Euclidean distance only with compatible indices, frames, activation, and domain",
+      "frame": {
+        "read": "gpt_neox.layers.5.post_attention_layernorm.input:normalized",
+        "write": "gpt_neox.layers.5.mlp.output"
+      },
+      "coverage": {
+        "rows": [
+          0,
+          2048
+        ],
+        "total_rows": 2048
+      },
+      "invariance": "complete-scope coherent hidden reindexing, within summation rounding",
+      "known_loss": [
+        "Unsampled coordinates",
+        "Replaces the activation with identity; nonlinear functions can collide",
+        "Higher moments",
+        "Descriptor collisions are possible; no functional equivalence claim"
+      ],
+      "parameter_multiset_digest": "e7982b9697db4c743afee549f01fbb036b37ff79fd35e348b07ec4a769bf3d5e",
+      "digest_scope": "complete region parameters modulo hidden permutation",
+      "digest_assumption": "SHA-256 collision resistance; exact value encoding and source boundary conventions"
+    },
+    "analysis_wall_seconds": 0.08897339400027704,
+    "source_bindings": {
+      "id": "pythia-layer-5",
+      "identity": {
+        "kind": "safetensors-region",
+        "artifact": "model.safetensors",
+        "artifact_bytes": 281715176,
+        "config_sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "adapter": "gpt-neox-ffn/1",
+        "verification": "selected values fingerprinted; whole-file digest not checked by importer",
+        "verified_checkpoint": {
+          "model": "EleutherAI/pythia-70m",
+          "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+          "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+          "method": "Whole-file SHA-256 checked before this experiment"
+        }
+      },
+      "architecture": {
+        "family": "ordinary-ffn",
+        "activation": "gelu_erf",
+        "equation": "y = W_out * phi(W_in * x + b_in) + b_out",
+        "equation_input": "post-normalization",
+        "dimensions": [
+          512,
+          2048,
+          512
+        ],
+        "pre_norm": {
+          "kind": "layer_norm",
+          "epsilon": 1e-05
+        },
+        "input_frame": "gpt_neox.layers.5.post_attention_layernorm.input",
+        "output_frame": "gpt_neox.layers.5.mlp.output"
+      },
+      "tensors": {
+        "W_in": {
+          "name": "gpt_neox.layers.5.mlp.dense_h_to_4h.weight",
+          "shape": [
+            2048,
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_in": {
+          "name": "gpt_neox.layers.5.mlp.dense_h_to_4h.bias",
+          "shape": [
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "W_out": {
+          "name": "gpt_neox.layers.5.mlp.dense_4h_to_h.weight",
+          "shape": [
+            512,
+            2048
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "b_out": {
+          "name": "gpt_neox.layers.5.mlp.dense_4h_to_h.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_weight": {
+          "name": "gpt_neox.layers.5.post_attention_layernorm.weight",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        },
+        "norm_bias": {
+          "name": "gpt_neox.layers.5.post_attention_layernorm.bias",
+          "shape": [
+            512
+          ],
+          "dtype": "<f4",
+          "locator": "model.safetensors"
+        }
+      },
+      "context": {
+        "model_type": "gpt_neox",
+        "layer": 5,
+        "use_parallel_residual": true,
+        "scope": "post_attention_layernorm followed by the MLP",
+        "excluded": [
+          "attention",
+          "residual addition",
+          "other layers",
+          "tokenization",
+          "embedding",
+          "unembedding",
+          "training updates"
+        ],
+        "interlayer_transfer": "not computed: omitted nonlinear and residual bridges remain"
+      },
+      "learning": {
+        "status": "unknown",
+        "reason": "No update logs were supplied"
+      }
+    },
+    "controls": [
+      {
+        "kind": "coherent",
+        "seed": 73,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 3.879180184849441e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 73,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.074276505942618,
+        "synthetic_response_relative_change": 0.5732648522446683,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 191,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 3.96079788273601e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 191,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.107850759494521,
+        "synthetic_response_relative_change": 0.5676663930480178,
+        "passed": true
+      },
+      {
+        "kind": "coherent",
+        "seed": 307,
+        "parameter_digest_matches": true,
+        "descriptor_relative_change": 0.0,
+        "synthetic_response_relative_change": 3.969874975789159e-16,
+        "passed": true
+      },
+      {
+        "kind": "broken",
+        "seed": 307,
+        "parameter_digest_matches": false,
+        "descriptor_relative_change": 1.2274131623590667,
+        "synthetic_response_relative_change": 0.5628020657887266,
+        "passed": true
+      }
+    ],
+    "contribution_examples": [
+      {
+        "id": "c0",
+        "source": "pythia-layer-5",
+        "index": 0,
+        "read": {
+          "tensor": "W_in",
+          "row": 0,
+          "frame": "gpt_neox.layers.5.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 0
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 0,
+          "frame": "gpt_neox.layers.5.mlp.output"
+        },
+        "gate_digest": "896292001459761c0d1a0ef27d1b9667b9879a18995d9307013c747ddbf21b19",
+        "paired_digest": "e1693836f3852984cd0bc4dca83e60dad0e67c180dc44c5f24205d107e6fc93d",
+        "statistics": {
+          "read_l2": 0.5894431544435255,
+          "write_l2": 0.7839168294051686,
+          "bias": -0.05078125
+        }
+      },
+      {
+        "id": "c1",
+        "source": "pythia-layer-5",
+        "index": 1,
+        "read": {
+          "tensor": "W_in",
+          "row": 1,
+          "frame": "gpt_neox.layers.5.post_attention_layernorm.input:normalized"
+        },
+        "bias": {
+          "tensor": "b_in",
+          "index": 1
+        },
+        "gate": {
+          "operation": "op-gate",
+          "activation": "gelu_erf"
+        },
+        "write": {
+          "tensor": "W_out",
+          "column": 1,
+          "frame": "gpt_neox.layers.5.mlp.output"
+        },
+        "gate_digest": "401f8da039a28d3282c1cca48758b66d789371889f24406548b8318c87d3b134",
+        "paired_digest": "8422cd65de9b2ae6621e0472b674573d005c6ad45703e9a5a35b81d0ca271702",
+        "statistics": {
+          "read_l2": 0.7081096484851543,
+          "write_l2": 0.7689686389353414,
+          "bias": -0.1512451171875
+        }
+      }
+    ],
+    "read_norm_range": [
+      0.4432630641596243,
+      2.799762729939496
+    ],
+    "write_norm_range": [
+      0.3750107670978503,
+      2.5865530067733284
+    ]
+  }
+]
