@@ -2,7 +2,21 @@
 
 Research into neural representations that retain their identity under valid neuron relabeling, while measuring changes in the functions they compute.
 
-**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Contextual analysis report](docs/reports/contextual-analysis-v1.md)** · **[Usage guide](docs/development/contextual-analysis.md)**
+**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Downstream intervention report](docs/reports/downstream-effects-v1.md)** · **[Usage guide](docs/development/downstream-effects.md)**
+
+## Native downstream evidence
+
+**pinn-mgl 0.3.0** connects source-linked FFN contributions to measured changes through the actual remaining model: native transformer blocks, final normalization and the full vocabulary readout. The optional GPT-NeoX adapter records intervention selectors, frames, calibration provenance, numerical controls and bounded costs.
+
+- 51 passing tests, including native execution, causal controls, fixed readout arithmetic, source preservation and hook cleanup.
+- 1,152 single-token interventions across six Pythia-70M FFNs; all local/causal controls and six exact zero-gain shams pass.
+- Full removal of top-ranked groups produces greater same-token KL than random groups in all six layers.
+- After matching local-effect RMS on calibration data, top groups exceed random groups in only **1 of 18 comparisons**. Actual holdout local RMS ratios range from 0.681 to 1.152, so matching is explicitly imperfect.
+- Local magnitude alone is insufficient evidence for downstream importance. The next target is output-sensitive directions and their dependence on context.
+
+These are total intervention effects on reused diagnostic passages. Human semantic categories, path-specific circuit attribution, cross-model alignment and learning dynamics remain open.
+
+[Report](docs/reports/downstream-effects-v1.md) · [Browser report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/downstream-effects-v1.html) · [Evidence inspector](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/analyses/downstream-effects-v1/index.html) · [Source and reproduction](experiments/downstream-effects-v1/) · [Saved evidence](results/downstream-effects-v1/)
 
 ## Contextual decompiler pass
 
@@ -62,7 +76,7 @@ This is exploratory evidence for permutation recognition and behavioral comparis
 
 | Directory | Contents |
 | --- | --- |
-| `src/pinn_mgl/` | Static/contextual analysis, importers, CLI, and HTML inspectors |
+| `src/pinn_mgl/` | Static/contextual analysis, native intervention adapter, importers, CLI and inspectors |
 | `tests/` | Binding, mathematical, budget, and serialization checks |
 | `experiments/` | Experiment code, probes, dependencies, and reproduction commands |
 | `results/` | Saved measurements, protocols, descriptors, and source provenance |
@@ -70,13 +84,17 @@ This is exploratory evidence for permutation recognition and behavioral comparis
 
 ## Check saved evidence
 
-For the current contextual implementation, with NumPy installed:
+For the current downstream implementation, with NumPy installed:
 
 ```bash
-python experiments/contextual-analysis-v1/verify_saved.py
+python experiments/downstream-effects-v1/verify_saved.py
 ```
 
-The following commands verify the original permutation-indexing experiment:
+This verifies source hashes, all saved trial controls and aggregations, and selected full-vocabulary logits without loading model weights or PyTorch. Full native reproduction is documented in [the experiment README](experiments/downstream-effects-v1/README.md).
+
+Historical source-hash verifiers must be run at their recorded implementation commits. The contextual experiment corresponds to commit `99bca98b0586d09916d61cd1593cab65fc5d01e4`; its source manifest intentionally differs from the new package. Prior measurement files remain unchanged.
+
+The following command verifies the original permutation-indexing experiment:
 
 With NumPy and SciPy installed, run from the repository root:
 

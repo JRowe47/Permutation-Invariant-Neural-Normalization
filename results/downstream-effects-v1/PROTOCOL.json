@@ -1,0 +1,52 @@
+{
+  "name": "downstream-effects-v1",
+  "prior_evidence_commit": "99bca98b0586d09916d61cd1593cab65fc5d01e4",
+  "checkpoint": {
+    "config.json": {
+      "filename": "config.json",
+      "bytes": 567,
+      "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/config.json"
+    },
+    "model.safetensors": {
+      "filename": "model.safetensors",
+      "bytes": 281715176,
+      "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/model.safetensors"
+    }
+  },
+  "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+  "input_hashes": {
+    "results/pythia-permutation-index-20261019-v1/tokens.json": "b44996411d5ad0945897237b4cebe7a21a88b0e4734b4f85391944eaba038b3e",
+    "results/contextual-analysis-v1/layers.json": "e468592936ee53843038971fa45134f0d5a1d23eb8341f026fb69406f23e5da0",
+    "results/contextual-analysis-v1/captured_contexts.npz": "ecdc1bfdfcae8b0c2cbacc644e109f0f1a87b4c5cc5f9fe9cef8201661de3451",
+    "results/contextual-analysis-v1/probe_locations.json": "8ed80c2ad82e6b270161c14bb8065565111e1c97009a001396940ef8d3650cd7"
+  },
+  "budget": {
+    "max_forwards": 1200,
+    "max_sequence_length": 128,
+    "max_readout_positions": 4,
+    "max_intervened_units": 32
+  },
+  "calibration_region_batches": 6,
+  "calibration_examples_per_region": 24,
+  "native_dtype": "float32",
+  "metric_dtype": "float64",
+  "attention": "eager",
+  "cache": false,
+  "readout_numerics": "Each vocabulary readout uses fixed [1,1,hidden] input shape, independent of requested position count",
+  "future_offset": 8,
+  "seeds": [
+    73,
+    191,
+    307
+  ],
+  "groups": "prior top32, prior bottom32, three uniform random32 groups",
+  "matching": "Pair top/random calibration full-output effect RMS at their minimum using gains in (0,1]; no holdout fitting",
+  "intervention": "Exactly one token in one FFN per forward; attenuate selected gate outputs before native outgoing projection; weights unchanged",
+  "primary_metrics": "KL(reference||edited) and signed observed-next-token NLL change at edited and future token; full vocabulary",
+  "aggregation": "Mean within each passage across its two distinct single-site experiments, then mean across 12 passages",
+  "fidelity": "Unchanged upstream blocks, causal prefix and nonedited source positions must be bitwise equal; local delta error <= 1e-4*predicted_delta_L2 + 2e-6*reference_MLP_L2 + 1e-8",
+  "limits": "Reused diagnostic holdout, not fresh blind data or a language benchmark; zero ablation is a counterfactual that may leave the activation distribution; no feature semantics or mediated path attribution inferred",
+  "training_updates": 0
+}

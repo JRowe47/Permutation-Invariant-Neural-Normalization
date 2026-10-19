@@ -14,7 +14,7 @@
   <nav class="site-nav" aria-label="Main navigation">
     <a href="#reports">Reports</a>
     <a href="#specifications">Specifications</a>
-    <a href="development/contextual-analysis.html">Implementation</a>
+    <a href="development/downstream-effects.html">Implementation</a>
     <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/experiments">Experiments</a>
     <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">GitHub</a>
   </nav>
@@ -22,9 +22,26 @@
 <main id="content">
   <p class="eyebrow">Permutation Invariant Neural Normalization</p>
   <h1>Decompiling neural computation into inspectable structure.</h1>
-  <p class="lead">Source-linked neural syntax, contextual contribution evidence, and experiments toward mechanistic decompilation.</p>
+  <p class="lead">Source-linked neural syntax, contextual contributions, and measured downstream effects toward mechanistic decompilation.</p>
   <section id="reports" aria-labelledby="reports-heading">
     <h2 id="reports-heading">Research reports</h2>
+    <article class="report-card">
+      <p class="meta">Implementation 03 · Native downstream interventions · October 19, 2026</p>
+      <h2><a href="reports/downstream-effects-v1.html">Local magnitude does not reliably predict downstream importance</a></h2>
+      <p>Follow single-token FFN edits through native transformer blocks and the full vocabulary readout. Calibration-matched controls change the interpretation of the earlier local ranking.</p>
+      <div class="facts" aria-label="Downstream validation">
+        <div class="fact"><strong>1,152</strong><span>single-site interventions with passing controls</span></div>
+        <div class="fact"><strong>1 / 18</strong><span>matched comparisons where top groups exceed random KL</span></div>
+        <div class="fact"><strong>51</strong><span>tests passed</span></div>
+      </div>
+      <p class="note">Holdout local magnitude matching is imperfect. These are total effects on reused diagnostic passages; semantic categories and path-specific circuits remain open.</p>
+      <div class="report-links">
+        <a class="button" href="reports/downstream-effects-v1.html">Read the report →</a>
+        <a href="development/downstream-effects.html">Implementation &amp; conventions</a>
+        <a href="analyses/downstream-effects-v1/index.html">Inspect interventions</a>
+        <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/results/downstream-effects-v1">Raw evidence</a>
+      </div>
+    </article>
     <article class="report-card">
       <p class="meta">Implementation 02 · Contextual contribution analysis · October 19, 2026</p>
       <h2><a href="reports/contextual-analysis-v1.html">From static structure to contextual evidence</a></h2>
@@ -82,7 +99,7 @@
       <p class="meta">Design draft · MGL v0.2 · October 19, 2026</p>
       <h2><a href="specifications/model-graph-language-v0.2.html">A mechanistic decompiler IR</a></h2>
       <p>An analysis language for recovering computational syntax from weights and attaching evidence about function and meaning. Source-linked contributions, overlapping circuits, update relationships, and bounded analysis passes connect the model to a navigable description.</p>
-      <p class="note">19 sections and a narrow static-FFN implementation. This revision supersedes the runtime-oriented v0.1 draft. General circuit discovery and the comparative atlas remain future work.</p>
+      <p class="note">19 sections with narrow static, contextual and native-intervention profiles. This revision supersedes the runtime-oriented v0.1 draft. General circuit discovery and the comparative atlas remain future work.</p>
       <div class="report-links">
         <a class="button" href="specifications/model-graph-language-v0.2.html">Read the specification →</a>
         <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/blob/main/docs/specifications/model-graph-language-v0.2.md">Markdown source</a>

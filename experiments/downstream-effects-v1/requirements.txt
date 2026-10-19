@@ -1,0 +1,8 @@
+numpy==2.3.5
+safetensors==0.6.2
+transformers==4.57.1
+huggingface-hub==0.36.0
+tokenizers==0.22.1
+# Native capture: install torch==2.8.0 from https://download.pytorch.org/whl/cpu
+# Optional report generation (not needed by the saved-evidence verifier):
+matplotlib==3.10.8

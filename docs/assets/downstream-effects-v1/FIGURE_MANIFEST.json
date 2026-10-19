@@ -1,0 +1,10 @@
+{
+  "source": "results/downstream-effects-v1/SUMMARY.json",
+  "source_sha256": "5a715c57c8f8f997855c1474c49cc7e507867e4e0e24e1b5658da3066d1d38d5",
+  "figure": "comparison.svg",
+  "figure_sha256": "97756169d65773f29072bcf45dfb0eb611d13021210a5e3248e649ac65cc13d1",
+  "generator": "experiments/downstream-effects-v1/build_report.py",
+  "matplotlib": "3.10.8",
+  "numpy": "2.3.5",
+  "conventions": "Panel A seed range is min/max, not uncertainty. Panel B uses actual holdout local RMS and KL ratios; shapes denote seeds 73, 191, 307."
+}

@@ -12,6 +12,8 @@ This revision supersedes the runtime-oriented [v0.1 draft](model-graph-language-
 
 **Contextual implementation update:** [pinn-mgl 0.2.0](../development/contextual-analysis.md) adds explicit context banks, projected contribution ledgers, empirical preactivation cohorts, guarded response comparison, and native Pythia capture validation. This is a second narrow implementation profile. Its contextual groups do not establish semantic categories; downstream circuit analysis and cross-model chart alignment remain unimplemented.
 
+**Downstream implementation update:** [pinn-mgl 0.3.0](../development/downstream-effects.md) adds a bounded native GPT-NeoX intervention adapter and a source-linked downstream-evidence profile. It measures single-site FFN edits through actual block boundaries, final normalization and the vocabulary readout. Calibration-matched controls show that local magnitude alone is insufficient evidence for downstream importance. This measures total effects; path-specific circuit attribution, semantic categories, cross-model alignment and learning dynamics remain open.
+
 ## 1. Objective and design boundary
 
 The intended workflow is:

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PINN — Downstream evidence usage</title><link rel="stylesheet" href="../assets/site.css">
+<style>pre{overflow:auto;background:#edf3f5;padding:18px;font-size:.85em}pre code{padding:0;overflow-wrap:normal}</style>
+</head><body><a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="header-inner"><a class="brand" href="../index.html">PINN / DEVELOPMENT</a>
+<nav class="site-nav"><a href="../index.html">Reports</a><a href="../development/downstream-effects.html">Usage guide</a>
+<a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">Repository</a></nav></div></header>
+<main id="content" class="report"><h1 id="downstream-intervention-evidence">Downstream intervention evidence</h1>
+<p><strong>pinn-mgl 0.3.0 · Experimental native intervention profile 1</strong></p>
+<p>This pass connects source-linked FFN contributions to measured changes after the actual downstream model computation. It retains intervention selectors, frozen selection provenance, observed boundaries, native bridge conventions, readout metrics and explicit costs. It wraps an existing native model; it does not define a model runtime or optimizer.</p>
+<p><a href="../reports/downstream-effects-v1.html">Measured results</a> · <a href="contextual-analysis.html">Contextual analysis</a> · <a href="../specifications/model-graph-language-v0.2.html">MGL design</a></p>
+<h2 id="native-scope-and-intervention">Native scope and intervention</h2>
+<p>The current adapter supports evaluation-mode GPT-NeoX with parallel residual blocks. Sequential-residual configurations and other architectures are rejected for this profile. Native PyTorch and Transformers are optional experiment dependencies; the static/contextual analyzers and saved-evidence verifier remain NumPy-based.</p>
+<p>A source contribution c_j is still the tuple of incoming read, bias, activation and outgoing write. The intervention selects unit indices in the activation immediately before dense_4h_to_h and multiplies those values by one minus a gain, at exactly one token in a single sequence.</p>
+<pre><code>from pinn_mgl.effects import ActivationEdit, ForwardBudget
+from pinn_mgl.native import GPTNeoXProbe
+
+# native_model is an already-loaded, pinned GPT-NeoX model in eval mode.
+budget = ForwardBudget(max_forwards=2, max_sequence_length=128)
+with GPTNeoXProbe(native_model, budget) as probe:
+    reference = probe.run(token_ids, readout_positions=[16, 24])
+    edited = probe.run(
+        token_ids, readout_positions=[16, 24],
+        edit=ActivationEdit(layer=2, token_position=16, units=(7, 13), gain=1.0),
+    )</code></pre>
+<p>Gain 1 removes the selected contributions at that token. Gain 0 is an exact sham. Intermediate gains attenuate them. Gains outside [0,1], repeated or out-of-range unit indices, invalid token positions, training mode, unsupported bridge conventions and exceeded budgets are rejected. Caller tensors and weights are preserved. Temporary edit hooks are removed even if a forward raises an exception.</p>
+<h2 id="bridge-and-boundary-conventions">Bridge and boundary conventions</h2>
+<div class="scroll"><table><thead><tr><th>Observation or bridge</th><th>Meaning</th></tr></thead><tbody><tr><td>dense_4h_to_h.input</td><td>Gate activations h, before the outgoing affine projection</td></tr><tr><td>Native affine write and residual sum</td><td>The actual FFN write/bias, parallel attention output and input residual</td></tr><tr><td>gpt_neox.layers.i.output</td><td>Residual stream after block i, before the next block&#x27;s normalizations</td></tr><tr><td>Native parallel transformer block</td><td>Both LayerNorms, causal attention, GELU FFN and residual additions</td></tr><tr><td>gpt_neox.final_layer_norm.output</td><td>Native final normalized residual</td></tr><tr><td>embed_out.logits</td><td>Native full-vocabulary readout</td></tr></tbody></table></div>
+<p>The adapter observes these boundaries without replacing any bridge with an inferred rotation, a weight product, or a direct coupling matrix. It captures the total downstream effect of an edit. Observing multiple boundaries does not isolate which particular attention head or alternative path mediates that effect; path-specific claims require additional intervention designs.</p>
+<p>The source convention is explicit in each condition:</p>
+<pre><code>{
+  &quot;id&quot;: &quot;example-condition&quot;,
+  &quot;layer&quot;: 2,
+  &quot;units&quot;: [7, 13],
+  &quot;gain&quot;: 1.0,
+  &quot;target_frame&quot;: &quot;gpt_neox.layers.2.mlp.dense_4h_to_h.input&quot;,
+  &quot;operation&quot;: &quot;h[0,token,units] *= (1-gain)&quot;,
+  &quot;selection&quot;: {
+    &quot;split&quot;: &quot;calibration&quot;,
+    &quot;source_sha256&quot;: &quot;ACTUAL_SELECTION_ARTIFACT_HASH&quot;
+  }
+}</code></pre>
+<p>This JSON is an analysis record, not a human-syntax parser or executable assembly program. Trial records supply the specific passage and token position, boundary measurements, controls and final distribution changes. Checkpoint and context identities scope every coordinate; an index from a different model is not automatically interchangeable.</p>
+<h2 id="metrics-and-numerical-conventions">Metrics and numerical conventions</h2>
+<p>Vector records contain absolute L2 change, reference L2, relative L2 and maximum coordinate change. Relative L2 is null for a zero reference norm. Distribution records use full-vocabulary KL(reference || edited), total variation, centered logit RMS, the observed-next-token negative log likelihood (NLL) change, and argmax changes. KL and NLL are in nats; NLL change is signed and can improve or worsen after an edit.</p>
+<p>Native computation uses FP32 in the experiment; metric reductions use binary64. Each vocabulary projection has fixed [1,1,hidden] input shape, independent of how many positions are requested. This prevents baseline and edited runs from taking different FP32 matrix-multiplication reduction paths solely because their readout batches differ. Zero-gain controls must remain exactly unchanged.</p>
+<p>The dataset is teacher-forced: tokens after the edited position are fixed to the original passage. A later-token measurement captures propagation through native causal attention on that same sequence, not a newly generated continuation. Final-layer FFN edits have no later attention layer through which to influence another token; this gives a useful architectural zero-effect control.</p>
+<h2 id="calibration-matching">Calibration matching</h2>
+<p>Large local changes can dominate a naive intervention ranking. The experiment therefore compares prior top-32 and bottom-32 groups with three fixed random groups of the same size. It additionally pairs the top group with each random group and matches their aggregate calibration local-effect RMS to the smaller of the two, using attenuation gains at most one.</p>
+<p>Gains and selections are frozen before holdout evaluation. Calibration matching does not force equal effect sizes on holdout and does not match every individual input. The observed holdout local RMS ratio is retained alongside each downstream comparison. Any interpretation must account for that discrepancy and for nonlinear dependence on intervention strength.</p>
+<h2 id="budgets-and-profiles">Budgets and profiles</h2>
+<p>ForwardBudget limits backbone forward attempts, sequence length, readout positions and selected units. Failed attempted forwards remain charged. The inspector retains complete block/MLP/gate activation arrays for a bounded sequence, so this adapter is intended for small experiments, not unrestricted activation collection on giant models. Limits do not measure model loading, native FLOPs, parameter hashing, physical I/O, total RAM or kernel workspace.</p>
+<p>The recorded experiment uses 1,170 backbone forwards: 12 baselines, six shams and 1,152 single-site edits. Six small calibration-region evaluations are separate. A separate seven-forward audit retains raw vocabulary logits for six example edits and checks their metrics with PyTorch. No training occurs. The main experiment cap is 1,200 forwards; the audit has its own seven-forward cap.</p>
+<p>The emitted profile is pinn.downstream-intervention/1 under the MGL analysis/0.2 envelope. Its validator checks the implemented bindings, frames, splits, readout metrics and basic accounting. The saved experiment verifier also checks the complete condition/site cross product, causal controls, matched-pair receipts, aggregations, hashes and selected raw-logit audits. Neither establishes the truth of arbitrary externally supplied provenance or validates the entire proposed MGL language.</p>
+<h2 id="development-implication">Development implication</h2>
+<p>These records provide measurable links between local contributions, later residual boundaries and selected outputs. They do not establish human semantic categories, a privileged global origin, cross-model alignment, training dynamics or complete circuit decompositions. The next representation should retain output-sensitive directions and their context dependence, so candidate grouping can be evaluated by how perturbations actually propagate.</p></main>
+<footer class="site-footer"><span>PINN · Downstream effects v1 · 19 October 2026</span><a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">Source and measurements</a></footer>
+</body></html>
