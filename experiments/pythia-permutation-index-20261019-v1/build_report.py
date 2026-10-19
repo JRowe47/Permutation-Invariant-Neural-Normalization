@@ -1,6 +1,4 @@
 """Generate the report from saved measurements; never rerun models."""
-import base64
-import html
 import json
 import pathlib
 import numpy as np
@@ -9,11 +7,11 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-ROOT=pathlib.Path(__file__).resolve().parents[3]
+ROOT=pathlib.Path(__file__).resolve().parents[2]
 RUN='pythia-permutation-index-20261019-v1'
-OUT=ROOT/'auto-research/results'/RUN
-GRAPHS=ROOT/'auto-research/graphs'/RUN
-REPORTS=ROOT/'auto-research/reports'
+OUT=ROOT/'results'/RUN
+GRAPHS=ROOT/'docs/assets'/RUN
+REPORTS=ROOT/'docs/reports'
 load=lambda name:json.loads((OUT/name).read_text())
 rows=load('atlas_records.json'); retrieval=load('retrieval.json'); distances=load('distance_prediction.json')
 whole=load('whole_model.json'); numerical=load('numerical_followup.json'); timing=load('timing.json')
@@ -109,7 +107,7 @@ Exploratory inference-only experiment, 18 October 2026 America/Denver. Run `{RUN
 
 Pythia-70M is sufficient for a useful first test. Exact MLP permutation-orbit IDs and compact full-precision behavioral sketches work in this controlled setting. QuIP#'s E8P geometry is useful for compressing the descriptors, but its discrete codes and quantized distances lose small behavioral differences. These findings support continued work on the real model; they do not establish semantic function categories or scaling.
 
-![Measured experiment overview](../graphs/{RUN}/overview.png)
+![Measured experiment overview](../assets/{RUN}/overview.png)
 
 ## What ran
 
@@ -166,41 +164,12 @@ Code, frozen protocol, exact tokens, intervention seeds, raw rows, descriptors, 
 
 **Decision:** continue on Pythia-70M with an exact orbit ID plus a continuous behavioral descriptor. Treat E8P as optional coarse storage, not the identity or fine-distance metric. Next, test matched-norm edits aimed at distinct behaviors and probe families; then replicate on another pretrained seed and model size. The present results establish controlled feasibility, not semantic categorization, continual-learning gains, or scaling.
 
-Reproduction: [source and commands](../research-scratch/{RUN}/README.md). Measurements: [result directory](../results/{RUN}/).
+Reproduction: [source and commands](../../experiments/{RUN}/README.md). Measurements: [result directory](../../results/{RUN}/).
 
 Primary references: [QuIP#](https://proceedings.mlr.press/v235/tseng24a.html), [official E8P implementation](https://github.com/Cornell-RelaxML/quip-sharp/blob/main/lib/codebook/latticee8_padded12.py), [Pythia](https://github.com/EleutherAI/pythia), [Git Re-Basin](https://arxiv.org/abs/2209.04836).
 '''
 (REPORTS/f'{RUN}.md').write_text(report)
-# Minimal deterministic Markdown renderer for this generated report only.
-lines=report.splitlines(); parts=[]; inlist=False; i=0
-import re
-def inline(s):
-    s=html.escape(s)
-    s=re.sub(r'\*\*(.+?)\*\*',r'<strong>\1</strong>',s)
-    s=re.sub(r'`([^`]+)`',r'<code>\1</code>',s)
-    s=re.sub(r'\[([^\]]+)\]\(([^)]+)\)',r'<a href="\2">\1</a>',s)
-    return s
-while i<len(lines):
-    line=lines[i]
-    if line.startswith('| '):
-        block=[]
-        while i<len(lines) and lines[i].startswith('| '):block.append(lines[i]);i+=1
-        parts.append('<div class="scroll"><table><thead><tr>'+''.join('<th>'+inline(c.strip())+'</th>' for c in block[0].strip('|').split('|'))+'</tr></thead><tbody>')
-        for row in block[2:]:parts.append('<tr>'+''.join('<td>'+inline(c.strip())+'</td>' for c in row.strip('|').split('|'))+'</tr>')
-        parts.append('</tbody></table></div>');continue
-    if line.startswith('- '):
-        if not inlist:parts.append('<ul>');inlist=True
-        parts.append('<li>'+inline(line[2:])+'</li>')
-    else:
-        if inlist:parts.append('</ul>');inlist=False
-        if line.startswith('!['):
-            encoded=base64.b64encode((GRAPHS/'overview.png').read_bytes()).decode()
-            parts.append('<img alt="Measured Pythia permutation index results" src="data:image/png;base64,'+encoded+'">')
-        elif line.startswith('## '):parts.append('<h2>'+inline(line[3:])+'</h2>')
-        elif line.startswith('# '):parts.append('<h1>'+inline(line[2:])+'</h1>')
-        elif line:parts.append('<p>'+inline(line)+'</p>')
-    i+=1
-style='body{margin:0;background:#edf1f5;color:#172b40;font:16px/1.6 system-ui,sans-serif}main{max-width:1120px;margin:auto;background:white;padding:40px}h1{font-size:34px;line-height:1.2}h2{margin-top:34px;font-size:23px}img{width:100%;height:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{padding:9px 12px;border-bottom:1px solid #dbe4ec;text-align:left}th{background:#e9f1f5}.scroll{overflow-x:auto}a{color:#216787}code{background:#edf2f5;padding:2px 4px}li{margin:.35em 0}@media(max-width:700px){main{padding:22px 15px}h1{font-size:28px}}'
-page='<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Pythia-70M permutation indexing</title><style>'+style+'</style><main>'+''.join(parts)+'</main></html>'
-(REPORTS/f'{RUN}.html').write_text(page)
+# Render the generated Markdown with the report site's navigation.
+from render_report import render_report
+render_report(REPORTS/f'{RUN}.md')
 print(json.dumps({'report':str(REPORTS/f'{RUN}.html'),'summary':str(OUT/'SUMMARY.json'),'figure':str(GRAPHS/'overview.png')},indent=2))

@@ -1,0 +1,15 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+.env
+.env.*
+model-cache/
+checkpoints/
+*.safetensors
+*.pt
+*.pth
+pytorch_model*.bin
+replay-output/

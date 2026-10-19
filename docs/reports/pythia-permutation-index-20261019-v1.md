@@ -6,7 +6,7 @@ Exploratory inference-only experiment, 18 October 2026 America/Denver. Run `pyth
 
 Pythia-70M is sufficient for a useful first test. Exact MLP permutation-orbit IDs and compact full-precision behavioral sketches work in this controlled setting. QuIP#'s E8P geometry is useful for compressing the descriptors, but its discrete codes and quantized distances lose small behavioral differences. These findings support continued work on the real model; they do not establish semantic function categories or scaling.
 
-![Measured experiment overview](../graphs/pythia-permutation-index-20261019-v1/overview.png)
+![Measured experiment overview](../assets/pythia-permutation-index-20261019-v1/overview.png)
 
 ## What ran
 
@@ -83,6 +83,6 @@ Code, frozen protocol, exact tokens, intervention seeds, raw rows, descriptors, 
 
 **Decision:** continue on Pythia-70M with an exact orbit ID plus a continuous behavioral descriptor. Treat E8P as optional coarse storage, not the identity or fine-distance metric. Next, test matched-norm edits aimed at distinct behaviors and probe families; then replicate on another pretrained seed and model size. The present results establish controlled feasibility, not semantic categorization, continual-learning gains, or scaling.
 
-Reproduction: [source and commands](../research-scratch/pythia-permutation-index-20261019-v1/README.md). Measurements: [result directory](../results/pythia-permutation-index-20261019-v1/).
+Reproduction: [source and commands](../../experiments/pythia-permutation-index-20261019-v1/README.md). Measurements: [result directory](../../results/pythia-permutation-index-20261019-v1/).
 
 Primary references: [QuIP#](https://proceedings.mlr.press/v235/tseng24a.html), [official E8P implementation](https://github.com/Cornell-RelaxML/quip-sharp/blob/main/lib/codebook/latticee8_padded12.py), [Pythia](https://github.com/EleutherAI/pythia), [Git Re-Basin](https://arxiv.org/abs/2209.04836).

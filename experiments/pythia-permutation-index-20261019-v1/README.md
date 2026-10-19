@@ -2,7 +2,7 @@
 
 Inference-only experiment: 102 MLP variants, 84 distinct parameter orbits,
 three intervention seeds, six blocks, two published checkpoints. The report
-and complete raw measurements are under `../../reports/` and `../../results/`.
+and complete raw measurements are in [docs/reports](../../docs/reports/) and [results](../../results/pythia-permutation-index-20261019-v1/).
 
 This experiment does not train or quantize the language model. E8P compresses
 the diagnostic descriptors only. No toy model substitution was needed.
@@ -13,9 +13,9 @@ Use a fresh Python 3.12 environment. From the repository root:
 
 ```bash
 python -m pip install torch==2.8.0 --index-url https://download.pytorch.org/whl/cpu
-python -m pip install -r auto-research/research-scratch/pythia-permutation-index-20261019-v1/requirements.txt
-python auto-research/research-scratch/pythia-permutation-index-20261019-v1/fetch_pinned.py --manifest auto-research/results/pythia-permutation-index-20261019-v1/checkpoint_manifest.json --cache /tmp/pythia-index-models
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=3 python auto-research/research-scratch/pythia-permutation-index-20261019-v1/run_experiment.py --cache /tmp/pythia-index-models --output /tmp/pythia-index-replay
+python -m pip install -r experiments/pythia-permutation-index-20261019-v1/requirements.txt
+python experiments/pythia-permutation-index-20261019-v1/fetch_pinned.py --manifest results/pythia-permutation-index-20261019-v1/checkpoint_manifest.json --cache /tmp/pythia-index-models
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=3 python experiments/pythia-permutation-index-20261019-v1/run_experiment.py --cache /tmp/pythia-index-models --output /tmp/pythia-index-replay
 ```
 
 The primary script deliberately exits nonzero if its original FP32 fidelity
@@ -23,14 +23,15 @@ gate fails. Our saved run narrowly failed this gate. Do not loosen it to make
 the run pass. Continue the explicit numerical diagnosis:
 
 ```bash
-OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=3 python auto-research/research-scratch/pythia-permutation-index-20261019-v1/numerical_followup.py --cache /tmp/pythia-index-models --output /tmp/pythia-index-replay
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=3 python experiments/pythia-permutation-index-20261019-v1/numerical_followup.py --cache /tmp/pythia-index-models --output /tmp/pythia-index-replay
 ```
 
 The follow-up tests one failed seed for both transformations, in FP32/FP64
 with one/three threads. Its saved FP64 check passes; original failed receipts
 are retained. Do not overwrite the published result directory during replay.
 
-`build_report.py` regenerates figures and report from the published measurements.
+`build_report.py` regenerates figures, the summary, and reports from the published measurements.
+To update only the HTML presentation, run `python experiments/pythia-permutation-index-20261019-v1/render_report.py` from the repository root. This uses the existing Markdown report and figures.
 `download_models.py` is the original acquisition script; `fetch_pinned.py`
 is the recommended immutable reproduction path. Public weights total about
 563 MB and are not duplicated in Git. No official test dataset is used.

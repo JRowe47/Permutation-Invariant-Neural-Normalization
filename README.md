@@ -1,29 +1,55 @@
-# Permutation-Invariant-Neural-Normalization
+# Permutation Invariant Neural Normalization
 
-Pythia-70M permutation-orbit indexing, behavioral sketches, and reproducible experiments.
+Research into neural representations that retain their identity under valid neuron relabeling, while measuring changes in the functions they compute.
+
+**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Latest HTML report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/pythia-permutation-index-20261019-v1.html)** · **[Markdown report](docs/reports/pythia-permutation-index-20261019-v1.md)**
 
 ## Latest experiment
 
-- [Experiment report](auto-research/reports/pythia-permutation-index-20261019-v1.md)
-- [HTML report](auto-research/reports/pythia-permutation-index-20261019-v1.html)
-- [Source and reproduction instructions](auto-research/research-scratch/pythia-permutation-index-20261019-v1/README.md)
-- [Raw results](auto-research/results/pythia-permutation-index-20261019-v1/)
-- [SHA-256 hashes of all 39 imported files](IMPORT_MANIFEST.sha256.json)
+The first experiment studies **Pythia-70M**: exact MLP permutation-orbit fingerprints, continuous behavioral sketches, and E8P descriptor quantization.
 
-The original experiment files are preserved byte-for-byte. This import does not rerun training or model inference. The experiment itself is inference-only: 102 MLP variants, 84 distinct parameter orbits, six blocks, and two published checkpoints.
+- Six MLP blocks, two checkpoints from one training trajectory, and three intervention seeds.
+- 102 atlas entries representing 84 distinct parameter orbits.
+- Behavioral sketches retrieved all 102 coherently permuted queries; the raw-weight sketch retrieved 2.
+- A 1,024-coordinate FP32 behavioral sketch had 3.59% median relative distance error on the tested nearby edits. E8P compression substantially distorted these fine distances.
+- The original whole-model FP32 tolerance failed narrowly. A separate FP64 diagnostic supports rounding as the explanation; the original failed check remains recorded.
+
+This is exploratory evidence for permutation recognition and behavioral comparison. It does not establish semantic function categories, cross-model equivalence, scaling, or training improvements.
+
+[Source and reproduction](experiments/pythia-permutation-index-20261019-v1/) · [Raw results](results/pythia-permutation-index-20261019-v1/)
+
+![Pythia-70M permutation-indexing results](docs/assets/pythia-permutation-index-20261019-v1/overview.png)
+
+## Project structure
+
+| Directory | Contents |
+| --- | --- |
+| `experiments/` | Experiment code, probes, dependencies, and reproduction commands |
+| `results/` | Saved measurements, protocols, descriptors, and source provenance |
+| `docs/` | Browser report index, HTML and Markdown reports, and figures |
 
 ## Check saved evidence
 
-With NumPy and SciPy installed:
+With NumPy and SciPy installed, run from the repository root:
 
 ```bash
-python auto-research/research-scratch/pythia-permutation-index-20261019-v1/verify_saved.py
+python experiments/pythia-permutation-index-20261019-v1/verify_saved.py
 ```
 
-The saved-evidence audit passes. The original FP32 whole-model fidelity gate failed narrowly; its failed receipt remains preserved alongside a separate passing FP64 numerical diagnosis. This is exploratory evidence for permutation recognition and behavioral comparison, not proof of general functional categorization.
+This checks the saved source hashes, numerical summaries, descriptor arrays, and recorded outcomes without downloading weights or running the model. Full reproduction commands and pinned dependencies are in the [experiment README](experiments/pythia-permutation-index-20261019-v1/README.md).
+
+## View the reports locally
+
+Open `docs/index.html` in a browser, or serve the documentation directory:
+
+```bash
+python -m http.server 8000 --directory docs
+```
+
+Then visit <http://localhost:8000/>. The report index, section navigation, and figures work locally as well as on GitHub Pages. Source and raw-data links open their GitHub locations.
 
 ## Provenance and licensing
 
-The archived PRESERVATION.json records the originally intended Super-1 destination; it is retained as historical evidence. This repository imports the prepared experiment archive instead.
+The experiment was imported in commit `6b92f8b1b5fe30b12213aa4fe635dada98d5bc74`. The directory cleanup updates paths and report navigation and removes obsolete workflow metadata. Scientific measurements and the numerical experiment code are unchanged. [Provenance](results/pythia-permutation-index-20261019-v1/provenance.json) records the import hashes; [result notes](results/pythia-permutation-index-20261019-v1/README.md) describe the metadata changes.
 
-The experiment Python code incorporates GPL-3.0 QuIP# code. Read the experiment README, QUIP_SHARP_LICENSE.txt, and SOURCE_CORRECTION.json before reuse. No broader license is assigned here to reports, authored probes, or measurements.
+The experiment Python code incorporates GPL-3.0 QuIP# code. See the [license notice](experiments/pythia-permutation-index-20261019-v1/README.md#license-and-provenance) and [full GPL-3.0 license](experiments/pythia-permutation-index-20261019-v1/QUIP_SHARP_LICENSE.txt). This cleanup assigns no additional license to the reports, authored probes, or measurements.

@@ -5,9 +5,9 @@ import pathlib
 import numpy as np
 from scipy.stats import spearmanr
 
-root=pathlib.Path(__file__).resolve().parents[3]
+root=pathlib.Path(__file__).resolve().parents[2]
 run='pythia-permutation-index-20261019-v1'
-out=root/'auto-research/results'/run
+out=root/'results'/run
 load=lambda n:json.loads((out/n).read_text())
 source=load('SOURCE_MANIFEST.json');correction=load('SOURCE_CORRECTION.json')
 for path,digest in source.items():

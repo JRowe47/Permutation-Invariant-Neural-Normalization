@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Pythia-70M permutation-orbit indexing, behavioral sketches, and numerical checks.">
+  <title>Pythia-70M permutation indexing — PINN</title>
+  <link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="../index.html">PINN / RESEARCH</a>
+  <nav class="site-nav" aria-label="Main navigation">
+    <a href="../index.html">All reports</a>
+    <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/experiments/pythia-permutation-index-20261019-v1">Code &amp; reproduction</a>
+    <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/results/pythia-permutation-index-20261019-v1">Raw results</a>
+    <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/blob/main/docs/reports/pythia-permutation-index-20261019-v1.md">Markdown</a>
+  </nav>
+</div></header>
+<main id="content" class="report">
+<h1>Pythia-70M permutation and function indexing</h1>
+<p>Exploratory inference-only experiment, 18 October 2026 America/Denver. Run <code>pythia-permutation-index-20261019-v1</code>.</p>
+<details class="toc" open><summary>On this page</summary><ul><li><a href="#finding">Finding</a></li><li><a href="#what-ran">What ran</a></li><li><a href="#exact-equivalence-and-the-crucial-negative-control">Exact equivalence and the crucial negative control</a></li><li><a href="#predicting-heldout-behavioral-changes">Predicting heldout behavioral changes</a></li><li><a href="#what-e8p-contributes-and-what-it-loses">What E8P contributes, and what it loses</a></li><li><a href="#whole-model-checks-and-numerical-diagnosis">Whole-model checks and numerical diagnosis</a></li><li><a href="#cost-reproducibility-and-decision">Cost, reproducibility, and decision</a></li></ul></details>
+<h2 id="finding">Finding</h2>
+<p>Pythia-70M is sufficient for a useful first test. Exact MLP permutation-orbit IDs and compact full-precision behavioral sketches work in this controlled setting. QuIP#&#x27;s E8P geometry is useful for compressing the descriptors, but its discrete codes and quantized distances lose small behavioral differences. These findings support continued work on the real model; they do not establish semantic function categories or scaling.</p>
+<img alt="Measured experiment overview" src="../assets/pythia-permutation-index-20261019-v1/overview.png">
+<h2 id="what-ran">What ran</h2>
+<ul>
+<li>EleutherAI/pythia-70m: 70,426,624 parameters; final step143000 and step64000 from the same training trajectory, pinned and hashed.</li>
+<li>All six MLP sublayers, each composed with its own input LayerNorm, in a fixed residual-stream coordinate system. Whole-head permutations were checked separately in the complete language model.</li>
+<li>102 atlas entries representing 84 distinct parameter orbits: six originals, 18 coherent permutations, 18 broken pairings, 54 Gaussian edits, and six older-checkpoint module transplants.</li>
+<li>Every atlas entry received another independent coherent permutation as a retrieval query. Three intervention seeds: 73, 191, 307. These are not three pretrained models. The 54 noise rows reuse 18 directions at three strengths.</li>
+<li>12 calibration and 12 holdout passages, 601 and 608 input tokens respectively. These are original short diagnostics, not a standardized quality benchmark.</li>
+<li>Two common probe banks, each 128 residual states sampled across six layers. Heldout functional distances use the separate bank; whole-model checks use intact heldout documents.</li>
+<li>32 primary whole-model evaluations, including baseline, duplicate, exact transformations, and altered modules. No optimizer steps or new training.</li>
+</ul>
+<h2 id="exact-equivalence-and-the-crucial-negative-control">Exact equivalence and the crucial negative control</h2>
+<p>All 102 permuted queries retained their exact orbit hashes; all 18 coherent permutations matched the original layer&#x27;s orbit. All 78 genuinely changed entries had different orbit IDs. The hash sorts complete incoming-weight, hidden-bias, outgoing-weight tuples, preserving neuron pairing. It includes the fixed output bias and LayerNorm parameters. It is an exact parameter-orbit fingerprint modulo SHA256 collisions, not a universal function identifier.</p>
+<p>The median raw-weight Hadamard change under a valid permutation was <strong>1.443 relative RMS</strong>, although the actual heldout MLP response changed by only <strong>2.75e-7</strong>. Raw-weight nearest-neighbor retrieval recognized only <strong>2/102</strong> permuted queries among the 84 orbits. Behavioral sketches recognized <strong>102/102</strong>, even at 64 coordinates. This tests retrieval of a stored function under exact relabeling, not discovery of an unseen equivalent function.</p>
+<p>Permuting only the incoming neuron rows retains the separate matrices&#x27; value distributions and norm multisets while breaking their correspondence. Our marginal descriptor changed by at most <strong>2.48e-7</strong>, but the actual MLP responses changed by <strong>0.676–1.370 relative RMS</strong>. Full-model KL increased by <strong>0.871–10.301 nats</strong> in these six single-layer controls. A permutation-invariant summary can therefore be almost completely blind to a function-changing edit. Correctly retaining connected-matrix correspondence is essential.</p>
+<h2 id="predicting-heldout-behavioral-changes">Predicting heldout behavioral changes</h2>
+<p>The uncompressed 128-by-512 response bank is 262,144 bytes per module in FP32. A 1,024-coordinate sketch is 4,096 bytes, a 64-fold descriptor reduction. These are descriptor sizes, not model compression or inference memory savings.</p>
+<div class="scroll"><table><thead><tr>
+<th scope="col">Coordinates</th>
+<th scope="col">FP32 bytes</th>
+<th scope="col">Spearman with holdout</th>
+<th scope="col">Median relative distance error</th>
+</tr></thead><tbody>
+<tr><td>64</td><td>256</td><td>0.978</td><td>10.77%</td></tr>
+<tr><td>256</td><td>1,024</td><td>0.965</td><td>7.22%</td></tr>
+<tr><td>1024</td><td>4,096</td><td>0.971</td><td>3.59%</td></tr>
+</tbody></table></div>
+<p>The table uses 60 noise/checkpoint edits. Full calibration responses give Spearman <strong>0.981</strong> and median error <strong>4.70%</strong>, reflecting the calibration/holdout probe mismatch. The sketch&#x27;s slightly lower median error is not evidence that compression improves the underlying function measurement.</p>
+<p>The high pooled correlation partly separates the three intervention magnitudes. At each fixed noise strength, across 18 layer/seed cases, Spearman falls to <strong>0.647</strong> for the 1,024D behavioral sketch, compared with <strong>0.148</strong> for raw-weight sketch distance and <strong>0.769</strong> for the full calibration response. This is a promising but substantially weaker signal about direction-sensitive behavior. No semantic labels such as copying or arithmetic were learned or validated.</p>
+<h2 id="what-e8p-contributes-and-what-it-loses">What E8P contributes, and what it loses</h2>
+<p>The CPU implementation uses the paper&#x27;s 65,536 eight-dimensional E8P codewords, checked against exhaustive nearest-neighbor search and code roundtrips. It acts on the descriptor after Hadamard sketching. It does not quantize model weights, use BlockLDLQ/Hessian feedback, or execute the complete QuIP# pipeline. Two-pass residual E8P supplies the 4-bit variant. Scalar controls use the same payload bits; E8P-4 carries one additional 4-byte scale.</p>
+<div class="scroll"><table><thead><tr>
+<th scope="col">1,024D descriptor</th>
+<th scope="col">Bytes incl. scales</th>
+<th scope="col">Exact query retrieval</th>
+<th scope="col">Distinct code-only keys / 84</th>
+<th scope="col">Median fine-distance error</th>
+</tr></thead><tbody>
+<tr><td>fp32</td><td>4096</td><td>100%</td><td>n/a</td><td>3.6%</td></tr>
+<tr><td>e8p2</td><td>260</td><td>100%</td><td>70</td><td>350.1%</td></tr>
+<tr><td>e8p4</td><td>520</td><td>100%</td><td>82</td><td>379.9%</td></tr>
+<tr><td>scalar2</td><td>260</td><td>100%</td><td>n/a</td><td>393.3%</td></tr>
+<tr><td>scalar4</td><td>516</td><td>100%</td><td>n/a</td><td>321.7%</td></tr>
+</tbody></table></div>
+<p>All methods retrieved the exact queries, but the FP32 scale metadata was part of the reconstructed vector. E8P-2&#x27;s lattice keys alone produced only <strong>70 distinct keys for 84 distinct orbits</strong>; E8P-4 produced 82. A lookup by codeword alone has collisions. A 100% retrieval score with scale metadata is not a collision-free semantic hash.</p>
+<p>E8P reduced median absolute vector reconstruction error: <strong>30.0% versus 34.2%</strong> for the 2-bit scalar control and <strong>9.44% versus 10.32%</strong> at 4 bits. Nevertheless, distances between nearby vectors were badly distorted because small changes can stay within one quantization cell or cross a cell boundary. The 1,024D E8P-2 median relative fine-distance error was <strong>350%</strong>, versus <strong>3.59%</strong> without quantization. E8P-4 was <strong>380%</strong>. These relative errors are large partly because the true changes are small; they do not mean the reconstructed descriptors themselves have 350% error.</p>
+<p>At 1,024D, E8P-2 passes the preregistered relative-to-scalar gate by about 11%, but that gate did not constrain absolute distance error. This is an explicitly recognized weakness of the gate, not a reason to promote E8P for fine update measurements. E8P-4 fails the analogous scalar-4 comparison. Use full-precision sketches for continuous comparisons; optionally use lattice keys for coarse candidate grouping followed by full-precision reranking.</p>
+<h2 id="whole-model-checks-and-numerical-diagnosis">Whole-model checks and numerical diagnosis</h2>
+<p>All six all-layer coherent MLP/head permutation runs retained all <strong>96 checked next-token argmax predictions</strong>. Four exceeded the original FP32 relative-logprob tolerance of 1e-5; the largest error was <strong>1.09845e-5</strong>. The primary terminal status remains <code>COMPLETED_WITH_FAILED_CHECKS</code>. It is not silently relabeled as a clean pass.</p>
+<p>A separately frozen follow-up repeated the first failed seed for both MLP and whole-head permutations in FP32 and FP64, with one and three threads. The FP32 discrepancies reproduced. FP64 relative logprob errors were at most <strong>3.85e-15</strong>, below the follow-up threshold of 1e-10; raw logit relative errors were at most 2.43e-16. This supports rounding amplification as the explanation. The diagnostic confirms the intended mathematical symmetry for the tested seed; it does not change the original FP32 threshold or substitute three independent model replications.</p>
+<div class="scroll"><table><thead><tr>
+<th scope="col">Block</th>
+<th scope="col">Max local exact response error</th>
+<th scope="col">Broken MLP KL (nats)</th>
+<th scope="col">Step64000 module transplant KL</th>
+</tr></thead><tbody>
+<tr><td>0</td><td>2.31e-07</td><td>4.376</td><td>0.337</td></tr>
+<tr><td>1</td><td>2.98e-07</td><td>1.033</td><td>0.341</td></tr>
+<tr><td>2</td><td>2.79e-07</td><td>1.489</td><td>0.664</td></tr>
+<tr><td>3</td><td>3.38e-07</td><td>0.871</td><td>0.338</td></tr>
+<tr><td>4</td><td>2.78e-07</td><td>2.654</td><td>0.557</td></tr>
+<tr><td>5</td><td>1.50e-07</td><td>10.301</td><td>18.651</td></tr>
+</tbody></table></div>
+<p>Earlier modules were transplanted one at a time with their LayerNorm into the final checkpoint. Large errors, particularly at the last block, can reflect incompatibility with the final model&#x27;s other parameters. They are not evidence that the intact step64000 model performs that badly. Baseline diagnostic next-token NLL was 4.5973 nats over 596 targets. No quality-improvement claim is made.</p>
+<h2 id="cost-reproducibility-and-decision">Cost, reproducibility, and decision</h2>
+<p>The primary suite took <strong>48.5 seconds</strong> with three CPU threads; the explicit numerical follow-up took <strong>16.1 seconds</strong>. Downloads, implementation, rendering, and publication are excluded. Median per-module times were <strong>8.90 ms</strong> for the orbit hash, <strong>3.75 ms</strong> for one 128-input MLP response bank, and <strong>1.43 ms</strong> for the sketch. Probe extraction and full-model execution are additional. These are diagnostic costs, not training or decoding speedups.</p>
+<p>Code, frozen protocol, exact tokens, intervention seeds, raw rows, descriptors, codewords, hashes, numerical failure receipt, and follow-up are retained. Public checkpoint weights are downloadable by immutable commit and SHA256 and are excluded from Git. The only correction to primary executed source was a license attribution in a docstring; its original byte-exact source and correction receipt are preserved.</p>
+<p><strong>Decision:</strong> continue on Pythia-70M with an exact orbit ID plus a continuous behavioral descriptor. Treat E8P as optional coarse storage, not the identity or fine-distance metric. Next, test matched-norm edits aimed at distinct behaviors and probe families; then replicate on another pretrained seed and model size. The present results establish controlled feasibility, not semantic categorization, continual-learning gains, or scaling.</p>
+<p>Reproduction: <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/blob/main/experiments/pythia-permutation-index-20261019-v1/README.md">source and commands</a>. Measurements: <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/results/pythia-permutation-index-20261019-v1/">result directory</a>.</p>
+<p>Primary references: <a href="https://proceedings.mlr.press/v235/tseng24a.html">QuIP#</a>, <a href="https://github.com/Cornell-RelaxML/quip-sharp/blob/main/lib/codebook/latticee8_padded12.py">official E8P implementation</a>, <a href="https://github.com/EleutherAI/pythia">Pythia</a>, <a href="https://arxiv.org/abs/2209.04836">Git Re-Basin</a>.</p>
+</main>
+<footer class="site-footer"><a href="../index.html">← All reports</a><a href="#content">Back to top ↑</a></footer>
+</body>
+</html>
