@@ -10,6 +10,8 @@ This revision supersedes the runtime-oriented [v0.1 draft](model-graph-language-
 
 **Implementation update:** [pinn-mgl 0.1.0](../development/static-disassembly.md) now implements a narrow static-FFN profile: explicit import, paired contributions, exact shared-gate grouping, bounded descriptors, and an HTML inspector. General circuit discovery and the model-space atlas remain future work.
 
+**Contextual implementation update:** [pinn-mgl 0.2.0](../development/contextual-analysis.md) adds explicit context banks, projected contribution ledgers, empirical preactivation cohorts, guarded response comparison, and native Pythia capture validation. This is a second narrow implementation profile. Its contextual groups do not establish semantic categories; downstream circuit analysis and cross-model chart alignment remain unimplemented.
+
 ## 1. Objective and design boundary
 
 The intended workflow is:

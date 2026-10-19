@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pinn-mgl"
-version = "0.1.0"
-description = "Source-linked static analysis of neural FFN contributions"
+version = "0.2.0"
+description = "Source-linked static and bounded contextual analysis of neural FFN contributions"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.24,<3"]
 

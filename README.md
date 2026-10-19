@@ -2,7 +2,19 @@
 
 Research into neural representations that retain their identity under valid neuron relabeling, while measuring changes in the functions they compute.
 
-**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Static disassembly report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/static-disassembly-v1.html)** · **[Usage guide](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/development/static-disassembly.html)**
+**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Contextual analysis report](docs/reports/contextual-analysis-v1.md)** · **[Usage guide](docs/development/contextual-analysis.md)**
+
+## Contextual decompiler pass
+
+**pinn-mgl 0.2.0** adds bounded evidence from explicit input banks: projected response coordinates, signed contribution ledgers, source-linked statistics, and observed preactivation cohorts. The NumPy analyzer accepts native model captures without requiring a universal runtime.
+
+- 38 passing tests, including finite-bank and projection collisions, frames, budgets, width splitting and ledger reconstruction.
+- Native Pythia-70M capture: 24 calibration and 24 holdout contexts per layer across all six FFNs.
+- 36 coherent-reordering and 36 broken-pairing checks pass; 24 local erasure measurements agree with native FP64 evaluation.
+- Calibration-selected top-32 contributions have greater full-output holdout effects than bottom-32 in all six layers. These are region-local effects, not task-performance results.
+- Sign cohorts change with context; semantic segmentation, downstream circuit effects and cross-model alignment remain open.
+
+[Report](docs/reports/contextual-analysis-v1.md) · [Browser report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/contextual-analysis-v1.html) · [Source and reproduction](experiments/contextual-analysis-v1/) · [Saved evidence](results/contextual-analysis-v1/) · [Complete layer-0 inspector](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/analyses/contextual-analysis-v1/pythia-layer0-holdout/index.html)
 
 ## Static disassembler
 
@@ -50,13 +62,21 @@ This is exploratory evidence for permutation recognition and behavioral comparis
 
 | Directory | Contents |
 | --- | --- |
-| `src/pinn_mgl/` | Static analysis library, importers, CLI, and HTML inspector |
+| `src/pinn_mgl/` | Static/contextual analysis, importers, CLI, and HTML inspectors |
 | `tests/` | Binding, mathematical, budget, and serialization checks |
 | `experiments/` | Experiment code, probes, dependencies, and reproduction commands |
 | `results/` | Saved measurements, protocols, descriptors, and source provenance |
 | `docs/` | Browser index, reports, language specifications, and figures |
 
 ## Check saved evidence
+
+For the current contextual implementation, with NumPy installed:
+
+```bash
+python experiments/contextual-analysis-v1/verify_saved.py
+```
+
+The following commands verify the original permutation-indexing experiment:
 
 With NumPy and SciPy installed, run from the repository root:
 

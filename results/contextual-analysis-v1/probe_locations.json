@@ -1,0 +1,246 @@
+{
+  "calibration": [
+    {
+      "passage": 0,
+      "position": 18,
+      "token_id": 13405
+    },
+    {
+      "passage": 0,
+      "position": 36,
+      "token_id": 1078
+    },
+    {
+      "passage": 1,
+      "position": 16,
+      "token_id": 2439
+    },
+    {
+      "passage": 1,
+      "position": 32,
+      "token_id": 7101
+    },
+    {
+      "passage": 2,
+      "position": 15,
+      "token_id": 15
+    },
+    {
+      "passage": 2,
+      "position": 31,
+      "token_id": 329
+    },
+    {
+      "passage": 3,
+      "position": 17,
+      "token_id": 5058
+    },
+    {
+      "passage": 3,
+      "position": 34,
+      "token_id": 1304
+    },
+    {
+      "passage": 4,
+      "position": 16,
+      "token_id": 15
+    },
+    {
+      "passage": 4,
+      "position": 33,
+      "token_id": 15
+    },
+    {
+      "passage": 5,
+      "position": 15,
+      "token_id": 5147
+    },
+    {
+      "passage": 5,
+      "position": 30,
+      "token_id": 281
+    },
+    {
+      "passage": 6,
+      "position": 18,
+      "token_id": 403
+    },
+    {
+      "passage": 6,
+      "position": 36,
+      "token_id": 15
+    },
+    {
+      "passage": 7,
+      "position": 15,
+      "token_id": 2170
+    },
+    {
+      "passage": 7,
+      "position": 30,
+      "token_id": 12215
+    },
+    {
+      "passage": 8,
+      "position": 15,
+      "token_id": 10419
+    },
+    {
+      "passage": 8,
+      "position": 31,
+      "token_id": 9521
+    },
+    {
+      "passage": 9,
+      "position": 16,
+      "token_id": 15
+    },
+    {
+      "passage": 9,
+      "position": 32,
+      "token_id": 5861
+    },
+    {
+      "passage": 10,
+      "position": 17,
+      "token_id": 1223
+    },
+    {
+      "passage": 10,
+      "position": 34,
+      "token_id": 253
+    },
+    {
+      "passage": 11,
+      "position": 15,
+      "token_id": 2732
+    },
+    {
+      "passage": 11,
+      "position": 30,
+      "token_id": 20906
+    }
+  ],
+  "holdout": [
+    {
+      "passage": 0,
+      "position": 16,
+      "token_id": 5777
+    },
+    {
+      "passage": 0,
+      "position": 32,
+      "token_id": 247
+    },
+    {
+      "passage": 1,
+      "position": 17,
+      "token_id": 11834
+    },
+    {
+      "passage": 1,
+      "position": 35,
+      "token_id": 616
+    },
+    {
+      "passage": 2,
+      "position": 16,
+      "token_id": 15
+    },
+    {
+      "passage": 2,
+      "position": 33,
+      "token_id": 20667
+    },
+    {
+      "passage": 3,
+      "position": 16,
+      "token_id": 4916
+    },
+    {
+      "passage": 3,
+      "position": 32,
+      "token_id": 285
+    },
+    {
+      "passage": 4,
+      "position": 16,
+      "token_id": 2896
+    },
+    {
+      "passage": 4,
+      "position": 33,
+      "token_id": 253
+    },
+    {
+      "passage": 5,
+      "position": 17,
+      "token_id": 15
+    },
+    {
+      "passage": 5,
+      "position": 34,
+      "token_id": 369
+    },
+    {
+      "passage": 6,
+      "position": 16,
+      "token_id": 253
+    },
+    {
+      "passage": 6,
+      "position": 32,
+      "token_id": 5974
+    },
+    {
+      "passage": 7,
+      "position": 16,
+      "token_id": 2217
+    },
+    {
+      "passage": 7,
+      "position": 33,
+      "token_id": 12491
+    },
+    {
+      "passage": 8,
+      "position": 15,
+      "token_id": 380
+    },
+    {
+      "passage": 8,
+      "position": 31,
+      "token_id": 15
+    },
+    {
+      "passage": 9,
+      "position": 16,
+      "token_id": 665
+    },
+    {
+      "passage": 9,
+      "position": 32,
+      "token_id": 253
+    },
+    {
+      "passage": 10,
+      "position": 16,
+      "token_id": 253
+    },
+    {
+      "passage": 10,
+      "position": 32,
+      "token_id": 13
+    },
+    {
+      "passage": 11,
+      "position": 17,
+      "token_id": 40641
+    },
+    {
+      "passage": 11,
+      "position": 34,
+      "token_id": 5955
+    }
+  ]
+}

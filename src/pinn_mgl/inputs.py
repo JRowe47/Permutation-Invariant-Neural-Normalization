@@ -134,3 +134,14 @@ def pythia_ffn(checkpoint, config, layer):
             raise ValueError("Checkpoint dimensions disagree with configuration")
         yield ffn
 
+def load_context_bank(path):
+    """Read an explicit bank manifest and mmap its .npy states without pickle."""
+    from .contextual import ContextBank
+    path = Path(path)
+    doc = json.loads(path.read_text())
+    if doc.get("format") != "pinn.context-bank/1":
+        raise ValueError("Expected pinn.context-bank/1")
+    values = np.load(path.parent / doc["values"], mmap_mode="r", allow_pickle=False)
+    return ContextBank(doc["id"], values, doc["frame"], doc["sample_ids"],
+                       doc["split"], doc["provenance"])
+

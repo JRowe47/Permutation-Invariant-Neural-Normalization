@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PINN — Contextual analysis usage</title><link rel="stylesheet" href="../assets/site.css">
+<style>pre{overflow:auto;background:#edf3f5;padding:18px;font-size:.85em}pre code{padding:0;overflow-wrap:normal}</style>
+</head><body><a class="skip-link" href="#content">Skip to content</a>
+<header class="site-header"><div class="header-inner"><a class="brand" href="../index.html">PINN / DEVELOPMENT</a>
+<nav class="site-nav"><a href="../index.html">Reports</a><a href="../development/contextual-analysis.html">Usage guide</a>
+<a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">Repository</a></nav></div></header>
+<main id="content" class="report"><h1 id="contextual-analysis-of-ffn-contributions">Contextual analysis of FFN contributions</h1>
+<p><strong>pinn-mgl 0.2.0 · Experimental contextual profile 1</strong></p>
+<p>The contextual pass attaches finite empirical evidence to the same source-linked FFN syntax used by the <a href="static-disassembly.html">static disassembler</a>. It accepts explicit input states at a declared boundary, evaluates a bounded contribution prefix, and records projected output sums, per-unit statistics, and observed preactivation cohorts. Native frameworks supply model states; the package does not implement a model runtime or training loop.</p>
+<p><a href="../reports/contextual-analysis-v1.html">Measured results</a> · <a href="../specifications/model-graph-language-v0.2.html">MGL design</a></p>
+<h2 id="install-and-run">Install and run</h2>
+<pre><code>python -m pip install -e &#x27;.[safetensors]&#x27;
+python -m pinn_mgl pythia --checkpoint model-cache/143000/model.safetensors --config model-cache/143000/config.json --layer 0 --contexts bank.json --max-contexts 24 --sample-width 8 --output replay-output/contextual-layer0</code></pre>
+<p>The <strong>--contexts</strong> option also works with <strong>fixture</strong> and <strong>analyze</strong>. Omitting it retains the existing static pass. The output directory contains analysis.mgl.json and a self-contained index.html inspector.</p>
+<p>An explicit input bank manifest points to a floating-point .npy matrix with shape [examples, region_input_dimension]. Paths are relative to the manifest; loading disables pickle.</p>
+<pre><code>{
+  &quot;format&quot;: &quot;pinn.context-bank/1&quot;,
+  &quot;id&quot;: &quot;layer0-calibration&quot;,
+  &quot;values&quot;: &quot;states.npy&quot;,
+  &quot;frame&quot;: &quot;gpt_neox.layers.0.post_attention_layernorm.input&quot;,
+  &quot;sample_ids&quot;: [&quot;passage-0/token-12&quot;, &quot;passage-0/token-24&quot;],
+  &quot;split&quot;: &quot;calibration&quot;,
+  &quot;provenance&quot;: {
+    &quot;kind&quot;: &quot;native-model-capture&quot;,
+    &quot;model_revision&quot;: &quot;PIN_THE_ACTUAL_CHECKPOINT&quot;,
+    &quot;boundary&quot;: &quot;post_attention_layernorm input&quot;
+  }
+}</code></pre>
+<p>Use the exact pre-LayerNorm states for the Pythia importer: the analyzer applies the bound LayerNorm itself. Supplying already normalized states would apply normalization twice. The experiment hooks the named module input directly rather than inferring it from a hidden-state tuple index.</p>
+<h2 id="what-the-coordinates-mean">What the coordinates mean</h2>
+<p>For each supplied raw region input x, the pass computes the declared normalization N, then z_j = w_j N(x) + b_j and h_j = activation(z_j). Its projected contribution is h_j times the selected coordinates of the outgoing vector v_j. The descriptor is the signed sum of these vectors plus the selected output bias, in input-bank order.</p>
+<div class="scroll"><table><thead><tr><th>Record</th><th>Meaning</th><th>Limit</th></tr></thead><tbody><tr><td>Source operations</td><td>NORMALIZE, AFFINE, NONLIN, AFFINE with tensor bindings</td><td>One declared FFN region</td></tr><tr><td>Contribution c_j</td><td>Read row, incoming bias, gate, outgoing column</td><td>A source term, not necessarily a semantic feature</td></tr><tr><td>Positive mask</td><td>z_j &gt; 0 at each selected context</td><td>A threshold observation; negative GELU is not inactive</td></tr><tr><td>Contribution RMS L2</td><td>Root mean squared norm of its projected output vector</td><td>Coordinate-, distribution-, and factorization-dependent</td></tr><tr><td>Cohort</td><td>Positive on all, nonpositive on all, or mixed across the bank</td><td>Co-occurrence does not establish equivalent functions</td></tr><tr><td>Response descriptor</td><td>Ordered projected sums plus bias</td><td>Finite inputs and output-axis sampling can hide differences</td></tr></tbody></table></div>
+<p>Cohort sums form an auditable signed ledger: their sum plus output bias reconstructs the recorded response. The pass does not calculate a dense examples × hidden units × output dimensions tensor. It processes contribution blocks and accumulates projected sums.</p>
+<p>Complete response sums preserve coherent hidden reorderings and exact duplicate-gate write splitting, within floating-point rounding. The individual contribution statistics and rankings are not width-invariant: changing the factorization can change each term while preserving its sum. Cohort boundaries are empirical, context dependent, and sensitive to preactivations near zero.</p>
+<h2 id="python-api-and-comparison-guards">Python API and comparison guards</h2>
+<pre><code>from pinn_mgl import ContextBank, ContextBudget, analyze_contexts, compare_contexts
+
+bank = ContextBank(
+    id=&quot;measured-inputs&quot;, values=states, frame=ffn.input_frame,
+    sample_ids=sample_ids, split=&quot;holdout&quot;,
+    provenance={&quot;kind&quot;: &quot;native-capture&quot;, &quot;checkpoint&quot;: checkpoint_hash},
+)
+record = analyze_contexts(ffn, bank, ContextBudget(max_contexts=24, output_width=8))
+comparison = compare_contexts(reference_record, record)</code></pre>
+<p>Comparison requires complete contribution sums, identical selected input values and ordered sample IDs, and compatible boundary frames, dimensions, and selected output axes. It can compare different hidden widths or internal activations. It refuses to compare an incomplete prefix as a full region response. If only a context prefix fits, comparison is still allowed on that exact selected prefix, with the omitted contexts reported.</p>
+<p>The API returns absolute L2, relative L2, and maximum absolute discrepancy. Relative L2 is null when the reference response norm is zero. No threshold silently upgrades agreement into an all-input equivalence claim.</p>
+<p>Frame names are explicit caller assertions, not discovered alignments. Giving unrelated models the same frame name does not establish a shared residual basis or semantic coordinate system. A cross-model chart or bridge must be established separately.</p>
+<h2 id="bounds-arithmetic-and-provenance">Bounds, arithmetic, and provenance</h2>
+<div class="scroll"><table><thead><tr><th>Budget field</th><th>Default</th><th>What it bounds</th></tr></thead><tbody><tr><td>max_parameter_bytes</td><td>67,108,864</td><td>Logical tensor bytes returned for this pass</td></tr><tr><td>max_context_bytes</td><td>8,388,608</td><td>Selected caller-supplied input values in their original dtype</td></tr><tr><td>max_contexts</td><td>64</td><td>Input prefix length</td></tr><tr><td>max_contributions</td><td>4,096</td><td>Contribution prefix length</td></tr><tr><td>max_multiply_adds</td><td>100,000,000</td><td>q × n × (input dimension + selected output width)</td></tr><tr><td>block_rows</td><td>128</td><td>Contribution rows per processing block</td></tr><tr><td>output_width</td><td>8</td><td>Evenly spaced output coordinates; maximum 32</td></tr></tbody></table></div>
+<p>The CLI uses <strong>--sample-width</strong> for the contextual output width, <strong>--max-context-bytes</strong> for input bytes, and <strong>--max-multiply-adds</strong> for dot-product work. Native capture, model loading, whole-file hashing, caller-owned arrays, physical I/O, JSON serialization, and total process memory are outside these budgets. The work counter excludes nonlinearities, normalization, reductions and bookkeeping; gate evaluations are recorded separately. Selected parameter and context prefixes are not representative samples.</p>
+<p>The diagnostic arithmetic is binary64. Supported activations are ReLU, identity, and erf GELU, evaluated with the complementary-error-function form for the negative tail. Unknown activations are rejected for this pass; the static lifter can still preserve them as opaque. Numerical agreement with a native implementation is measured separately, not assumed.</p>
+<p>Each record retains selected-state content hashes, sample ordering, split, caller-supplied provenance, ordered inspected-parameter identity, source bindings, budgets, and costs. Package identity is separate from the receipt revision. These hashes bind observed evidence, but cannot verify that a caller&#x27;s provenance narrative is true. The validator checks the implemented profile and its ledger; it is not a general MGL validator or external proof checker.</p>
+<h2 id="scope-of-the-current-result">Scope of the current result</h2>
+<p>The pass provides empirical coordinates for source contributions and regions, plus coarse candidate groupings. It does not identify human semantic categories, prove arbitrary equivalence, recover an invariant global origin, infer training updates, or trace causal effects through downstream layers. A local removal of an additive FFN contribution has a measurable effect at this region boundary; interpreting its effect on behavior requires propagating the intervention through the native model.</p>
+<p>The next useful step is a bridge-aware downstream intervention pass: freeze candidate selections on calibration inputs, patch or remove their contributions in the native model, and measure held-out output effects. That would test whether these local coordinates identify useful cross-layer mechanisms.</p></main>
+<footer class="site-footer"><span>PINN · Contextual analysis v1 · 19 October 2026</span><a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization">Source and measurements</a></footer>
+</body></html>

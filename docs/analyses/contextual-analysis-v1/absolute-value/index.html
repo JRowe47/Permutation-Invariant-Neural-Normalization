@@ -1,0 +1,243 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>Contextual evidence · absolute-value</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f0f5f7;color:#183244;font:16px/1.6 system-ui,sans-serif}
+main{max-width:1200px;margin:auto;background:white;padding:32px}h1{line-height:1.2}h2{margin-top:2.3rem}
+a{color:#126b70}.meta{color:#546c7c}.notice{padding:16px;background:#fff8eb;border-left:4px solid #ba8740}
+nav{display:flex;flex-wrap:wrap;gap:18px}.scroll{overflow:auto}table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{padding:9px;border-bottom:1px solid #dbe6eb;text-align:left}th{background:#edf4f6}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;padding:16px;background:#f0f5f7;font-size:.8rem}
+input{font:inherit;padding:8px;width:min(100%,450px);margin-bottom:16px}code{font-family:ui-monospace,monospace}
+details{margin:20px 0}summary{cursor:pointer}@media(max-width:700px){main{padding:20px}}
+</style></head><body><main>
+<p class="meta">PINN · MGL v0.2 / contextual FFN profile</p><h1>absolute-value</h1>
+<p class="notice">Measured contribution evidence on a finite input bank. This does not establish semantic categories or global equivalence.</p>
+<nav><a href="#response">Response</a><a href="#cohorts">Cohorts</a><a href="#contributions">Contributions</a>
+<a href="#scope">Scope and cost</a><a href="analysis.mgl.json">Full analysis JSON</a></nav>
+<p><strong>2 / 2</strong> contributions ·
+<strong>5 / 5</strong> contexts ·
+<strong>1 / 1</strong> output coordinates.
+Status: <strong>completed</strong>.</p>
+<p>Bank: toy-domain. Split: diagnostic. Input frame: <code>scalar-input</code>.
+Output frame: <code>scalar-output</code>.</p>
+<h2 id="response">Projected response</h2><p>Each row is an ordered supplied context. The response is the signed sum of all inspected contributions plus the output bias.
+Complete contribution coverage: <strong>True</strong>. An incomplete sum is not a region response.</p><div class='scroll'><table><thead><tr><th>Context</th><th>y[0]</th></tr></thead><tbody><tr><td>minus2</td><td>2</td></tr><tr><td>minus1</td><td>1</td></tr><tr><td>zero</td><td>0</td></tr><tr><td>one</td><td>1</td></tr><tr><td>two</td><td>2</td></tr></tbody></table></div>
+<h2 id="cohorts">Observed preactivation cohorts</h2>
+<p>Positive means z &gt; 0 before the activation. Nonpositive means z ≤ 0. These are measured regimes, not equivalent functions.
+GELU contributions at negative preactivation need not be zero. Exact signed cohort sums are retained in the JSON ledger.</p>
+<table><thead><tr><th>Regime on this bank</th><th>Contributions</th></tr></thead><tbody><tr><td>mixed-on-bank</td><td>2</td></tr></tbody></table>
+<h2 id="contributions">Source-linked contribution statistics</h2>
+<p>c<i>j</i> binds W_in[j, :], b_in[j], the declared gate, and W_out[:, j]. Projected contribution RMS is the root mean squared output-vector norm over this bank.
+It is a local additive effect, not a downstream causal or semantic score.</p>
+<label for="filter">Filter by contribution or observed regime</label><br><input id="filter" type="search" placeholder="c17 or mixed-on-bank">
+<div class="scroll"><table id="units"><thead><tr><th>ID</th><th>Regime</th><th>Fraction z &gt; 0</th>
+<th>Activation RMS</th><th>Contribution RMS L2</th><th>Positive mask in bank order</th></tr></thead><tbody><tr><td>c0</td><td>mixed-on-bank</td><td>0.400</td><td>1</td><td>1</td><td><code>00011</code></td></tr><tr><td>c1</td><td>mixed-on-bank</td><td>0.400</td><td>1</td><td>1</td><td><code>11000</code></td></tr></tbody></table></div>
+<h2 id="scope">Scope, provenance, and cost</h2><ul><li>Finite contexts and sampled output coordinates can hide functional differences</li><li>A preactivation sign cohort is a measured grouping, not a shared feature or equivalent gate</li><li>GELU at negative preactivation can contribute; the sign statistic is not an on/off gate</li><li>Additive terms describe this region&#x27;s projected output, not downstream task causation</li><li>No human semantic category, cross-model frame alignment, or learning dynamics inferred</li></ul>
+<details><summary>Context provenance and content hash</summary><pre>{
+  &quot;id&quot;: &quot;bank&quot;,
+  &quot;label&quot;: &quot;toy-domain&quot;,
+  &quot;frame&quot;: &quot;scalar-input&quot;,
+  &quot;split&quot;: &quot;diagnostic&quot;,
+  &quot;provenance&quot;: {
+    &quot;kind&quot;: &quot;hand-authored&quot;
+  },
+  &quot;sample_ids&quot;: [
+    &quot;minus2&quot;,
+    &quot;minus1&quot;,
+    &quot;zero&quot;,
+    &quot;one&quot;,
+    &quot;two&quot;
+  ],
+  &quot;content_digest&quot;: &quot;2bf3f54cf0c487a28448758773966ff2727bbdcb7f105eabb28adc58d248196d&quot;,
+  &quot;dtype&quot;: &quot;&lt;f8&quot;,
+  &quot;selected_shape&quot;: [
+    5,
+    1
+  ],
+  &quot;total_examples&quot;: 5,
+  &quot;encoding&quot;: &quot;selected raw states converted to binary64-le; frame and ordered sample IDs included&quot;
+}</pre></details>
+<details><summary>Source operations and bindings</summary><pre>{
+  &quot;source&quot;: {
+    &quot;id&quot;: &quot;absolute-value&quot;,
+    &quot;identity&quot;: {},
+    &quot;architecture&quot;: {
+      &quot;family&quot;: &quot;ordinary-ffn&quot;,
+      &quot;activation&quot;: &quot;relu&quot;,
+      &quot;equation&quot;: &quot;y = W_out * phi(W_in * x + b_in) + b_out&quot;,
+      &quot;equation_input&quot;: &quot;region input&quot;,
+      &quot;dimensions&quot;: [
+        1,
+        2,
+        1
+      ],
+      &quot;pre_norm&quot;: null,
+      &quot;input_frame&quot;: &quot;scalar-input&quot;,
+      &quot;output_frame&quot;: &quot;scalar-output&quot;
+    },
+    &quot;tensors&quot;: {
+      &quot;W_in&quot;: {
+        &quot;name&quot;: &quot;W_in&quot;,
+        &quot;shape&quot;: [
+          2,
+          1
+        ],
+        &quot;dtype&quot;: &quot;&lt;f8&quot;,
+        &quot;locator&quot;: &quot;in-memory&quot;
+      },
+      &quot;b_in&quot;: {
+        &quot;name&quot;: &quot;b_in&quot;,
+        &quot;shape&quot;: [
+          2
+        ],
+        &quot;dtype&quot;: &quot;&lt;f8&quot;,
+        &quot;locator&quot;: &quot;in-memory&quot;
+      },
+      &quot;W_out&quot;: {
+        &quot;name&quot;: &quot;W_out&quot;,
+        &quot;shape&quot;: [
+          1,
+          2
+        ],
+        &quot;dtype&quot;: &quot;&lt;f8&quot;,
+        &quot;locator&quot;: &quot;in-memory&quot;
+      },
+      &quot;b_out&quot;: {
+        &quot;name&quot;: &quot;b_out&quot;,
+        &quot;shape&quot;: [
+          1
+        ],
+        &quot;dtype&quot;: &quot;&lt;f8&quot;,
+        &quot;locator&quot;: &quot;in-memory&quot;
+      }
+    },
+    &quot;context&quot;: {},
+    &quot;learning&quot;: {
+      &quot;status&quot;: &quot;unknown&quot;,
+      &quot;reason&quot;: &quot;No update logs were supplied&quot;
+    }
+  },
+  &quot;operations&quot;: [
+    {
+      &quot;id&quot;: &quot;op-read&quot;,
+      &quot;source&quot;: &quot;absolute-value&quot;,
+      &quot;mnemonic&quot;: &quot;AFFINE&quot;,
+      &quot;inputs&quot;: [
+        &quot;x&quot;
+      ],
+      &quot;outputs&quot;: [
+        &quot;z&quot;
+      ],
+      &quot;input_frame&quot;: &quot;scalar-input&quot;,
+      &quot;output_frame&quot;: &quot;absolute-value:hidden&quot;,
+      &quot;bindings&quot;: {
+        &quot;weight&quot;: &quot;W_in&quot;,
+        &quot;bias&quot;: &quot;b_in&quot;
+      }
+    },
+    {
+      &quot;id&quot;: &quot;op-gate&quot;,
+      &quot;source&quot;: &quot;absolute-value&quot;,
+      &quot;mnemonic&quot;: &quot;NONLIN&quot;,
+      &quot;inputs&quot;: [
+        &quot;z&quot;
+      ],
+      &quot;outputs&quot;: [
+        &quot;h&quot;
+      ],
+      &quot;input_frame&quot;: &quot;absolute-value:hidden&quot;,
+      &quot;output_frame&quot;: &quot;absolute-value:hidden&quot;,
+      &quot;attributes&quot;: {
+        &quot;activation&quot;: &quot;relu&quot;,
+        &quot;definition&quot;: &quot;max(0, z), elementwise&quot;,
+        &quot;reason&quot;: null
+      }
+    },
+    {
+      &quot;id&quot;: &quot;op-write&quot;,
+      &quot;source&quot;: &quot;absolute-value&quot;,
+      &quot;mnemonic&quot;: &quot;AFFINE&quot;,
+      &quot;inputs&quot;: [
+        &quot;h&quot;
+      ],
+      &quot;outputs&quot;: [
+        &quot;y&quot;
+      ],
+      &quot;input_frame&quot;: &quot;absolute-value:hidden&quot;,
+      &quot;output_frame&quot;: &quot;scalar-output&quot;,
+      &quot;bindings&quot;: {
+        &quot;weight&quot;: &quot;W_out&quot;,
+        &quot;bias&quot;: &quot;b_out&quot;
+      }
+    }
+  ]
+}</pre></details>
+<pre>{
+  &quot;id&quot;: &quot;context-pass&quot;,
+  &quot;pass&quot;: &quot;pinn.contextual-ffn/0.1.0&quot;,
+  &quot;source&quot;: &quot;absolute-value&quot;,
+  &quot;status&quot;: &quot;completed&quot;,
+  &quot;allowed_access&quot;: [
+    &quot;metadata&quot;,
+    &quot;weights&quot;,
+    &quot;supplied-contexts&quot;
+  ],
+  &quot;budget&quot;: {
+    &quot;max_parameter_bytes&quot;: 67108864,
+    &quot;max_context_bytes&quot;: 8388608,
+    &quot;max_contexts&quot;: 64,
+    &quot;max_contributions&quot;: 4096,
+    &quot;max_multiply_adds&quot;: 100000000,
+    &quot;block_rows&quot;: 128,
+    &quot;output_width&quot;: 8
+  },
+  &quot;coverage&quot;: {
+    &quot;contributions_inspected&quot;: 2,
+    &quot;contributions_total&quot;: 2,
+    &quot;contexts_inspected&quot;: 5,
+    &quot;contexts_total&quot;: 5,
+    &quot;output_coordinates&quot;: [
+      0
+    ],
+    &quot;output_dimension&quot;: 1,
+    &quot;selection&quot;: &quot;bounded prefixes; output axes evenly spaced; not representative sampling&quot;
+  },
+  &quot;cost&quot;: {
+    &quot;logical_parameter_bytes_read&quot;: 56,
+    &quot;logical_context_bytes_read&quot;: 40,
+    &quot;largest_parameter_read_bytes&quot;: 16,
+    &quot;dot_product_multiply_adds&quot;: 20,
+    &quot;gate_scalar_evaluations&quot;: 10,
+    &quot;region_examples_evaluated&quot;: 5,
+    &quot;complete_region_examples&quot;: 5,
+    &quot;native_model_forwards&quot;: 0,
+    &quot;backward_evaluations&quot;: 0,
+    &quot;interventions&quot;: 0,
+    &quot;physical_io_bytes&quot;: null,
+    &quot;peak_working_bytes&quot;: null,
+    &quot;elapsed_seconds&quot;: 0.0010049100001197075
+  },
+  &quot;cost_scope&quot;: &quot;Diagnostic pass only; matrix multiply-add count excludes normalization, nonlinearities, reductions, hashing and bookkeeping; timer excludes final identity hashing/validation/rendering&quot;,
+  &quot;cache_dependencies&quot;: {
+    &quot;ordered_selected_parameters&quot;: &quot;79a63336269c3038ab060a9dc0335a24f83716c598526e35516a3aa2ecea7247&quot;,
+    &quot;context_content_digest&quot;: &quot;2bf3f54cf0c487a28448758773966ff2727bbdcb7f105eabb28adc58d248196d&quot;,
+    &quot;budget&quot;: {
+      &quot;max_parameter_bytes&quot;: 67108864,
+      &quot;max_context_bytes&quot;: 8388608,
+      &quot;max_contexts&quot;: 64,
+      &quot;max_contributions&quot;: 4096,
+      &quot;max_multiply_adds&quot;: 100000000,
+      &quot;block_rows&quot;: 128,
+      &quot;output_width&quot;: 8
+    }
+  },
+  &quot;notes&quot;: [
+    &quot;Finite contexts and sampled output coordinates can hide functional differences&quot;,
+    &quot;A preactivation sign cohort is a measured grouping, not a shared feature or equivalent gate&quot;,
+    &quot;GELU at negative preactivation can contribute; the sign statistic is not an on/off gate&quot;,
+    &quot;Additive terms describe this region&#x27;s projected output, not downstream task causation&quot;,
+    &quot;No human semantic category, cross-model frame alignment, or learning dynamics inferred&quot;
+  ]
+}</pre></main>
+<script>document.getElementById('filter').addEventListener('input',function(){const q=this.value.toLowerCase();for(const r of document.querySelectorAll('#units tbody tr'))r.hidden=!r.textContent.toLowerCase().includes(q);});</script>
+</body></html>

@@ -1,0 +1,277 @@
+{
+  "static_collision": {
+    "static_a": [
+      [
+        0.0
+      ],
+      [
+        0.0
+      ]
+    ],
+    "static_b": [
+      [
+        0.0
+      ],
+      [
+        0.0
+      ]
+    ],
+    "contexts": [
+      [
+        -2.0
+      ],
+      [
+        -1.0
+      ],
+      [
+        0.0
+      ],
+      [
+        1.0
+      ],
+      [
+        2.0
+      ]
+    ],
+    "absolute_value": [
+      [
+        2.0
+      ],
+      [
+        1.0
+      ],
+      [
+        0.0
+      ],
+      [
+        1.0
+      ],
+      [
+        2.0
+      ]
+    ],
+    "zero": [
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ],
+      [
+        0.0
+      ]
+    ],
+    "distance": {
+      "kind": "empirical-response-distance",
+      "reference": "context-12ec7b2c610715bd7f392d12",
+      "candidate": "context-4e679e34a4c8e3208cb38c9b",
+      "domain": {
+        "bank": "bank",
+        "examples": 5,
+        "output_indices": [
+          0
+        ],
+        "input_frame": "scalar-input",
+        "output_frame": "scalar-output",
+        "numerics": "NumPy binary64 diagnostics; not native execution identity"
+      },
+      "absolute_l2": 3.1622776601683795,
+      "relative_l2": 1.0,
+      "reference_l2": 3.1622776601683795,
+      "max_absolute": 2.0,
+      "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+    }
+  },
+  "finite_bank_collision": {
+    "calibration": {
+      "relu": [
+        [
+          1.0
+        ],
+        [
+          2.0
+        ]
+      ],
+      "identity": [
+        [
+          1.0
+        ],
+        [
+          2.0
+        ]
+      ],
+      "distance": {
+        "kind": "empirical-response-distance",
+        "reference": "context-c0032193450212c82274e1e1",
+        "candidate": "context-0ba5006c7009dbc8de07e591",
+        "domain": {
+          "bank": "bank",
+          "examples": 2,
+          "output_indices": [
+            0
+          ],
+          "input_frame": "scalar-input",
+          "output_frame": "scalar-output",
+          "numerics": "NumPy binary64 diagnostics; not native execution identity"
+        },
+        "absolute_l2": 0.0,
+        "relative_l2": 0.0,
+        "reference_l2": 2.23606797749979,
+        "max_absolute": 0.0,
+        "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+      }
+    },
+    "holdout": {
+      "relu": [
+        [
+          0.0
+        ],
+        [
+          0.0
+        ]
+      ],
+      "identity": [
+        [
+          -1.0
+        ],
+        [
+          -2.0
+        ]
+      ],
+      "distance": {
+        "kind": "empirical-response-distance",
+        "reference": "context-70b6a2a6913d2e25f4f3203c",
+        "candidate": "context-541f8d5dae43ae5d93b35ebe",
+        "domain": {
+          "bank": "bank",
+          "examples": 2,
+          "output_indices": [
+            0
+          ],
+          "input_frame": "scalar-input",
+          "output_frame": "scalar-output",
+          "numerics": "NumPy binary64 diagnostics; not native execution identity"
+        },
+        "absolute_l2": 2.23606797749979,
+        "relative_l2": null,
+        "reference_l2": 0.0,
+        "max_absolute": 2.0,
+        "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+      }
+    }
+  },
+  "xor_controls": {
+    "src-wide": {
+      "kind": "empirical-response-distance",
+      "reference": "context-44429bb998df2e138cc43f0a",
+      "candidate": "context-4e1ba657640d65c3c7d606a3",
+      "domain": {
+        "bank": "bank",
+        "examples": 5,
+        "output_indices": [
+          0
+        ],
+        "input_frame": "xor-input",
+        "output_frame": "xor-output",
+        "numerics": "NumPy binary64 diagnostics; not native execution identity"
+      },
+      "absolute_l2": 0.0,
+      "relative_l2": 0.0,
+      "reference_l2": 1.4142135623730951,
+      "max_absolute": 0.0,
+      "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+    },
+    "src-permuted": {
+      "kind": "empirical-response-distance",
+      "reference": "context-44429bb998df2e138cc43f0a",
+      "candidate": "context-74ad785f73be3b3da754dc59",
+      "domain": {
+        "bank": "bank",
+        "examples": 5,
+        "output_indices": [
+          0
+        ],
+        "input_frame": "xor-input",
+        "output_frame": "xor-output",
+        "numerics": "NumPy binary64 diagnostics; not native execution identity"
+      },
+      "absolute_l2": 0.0,
+      "relative_l2": 0.0,
+      "reference_l2": 1.4142135623730951,
+      "max_absolute": 0.0,
+      "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+    },
+    "src-broken": {
+      "kind": "empirical-response-distance",
+      "reference": "context-44429bb998df2e138cc43f0a",
+      "candidate": "context-2b0d9b50a9c422270e89efb0",
+      "domain": {
+        "bank": "bank",
+        "examples": 5,
+        "output_indices": [
+          0
+        ],
+        "input_frame": "xor-input",
+        "output_frame": "xor-output",
+        "numerics": "NumPy binary64 diagnostics; not native execution identity"
+      },
+      "absolute_l2": 6.0,
+      "relative_l2": 4.242640687119285,
+      "reference_l2": 1.4142135623730951,
+      "max_absolute": 3.0,
+      "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+    }
+  },
+  "projection_collision": {
+    "2": {
+      "kind": "empirical-response-distance",
+      "reference": "context-26f27fd1b7290479d6183e2d",
+      "candidate": "context-a1dffcb1e0222086563fd450",
+      "domain": {
+        "bank": "bank",
+        "examples": 5,
+        "output_indices": [
+          0,
+          2
+        ],
+        "input_frame": "scalar-input",
+        "output_frame": "scalar-output",
+        "numerics": "NumPy binary64 diagnostics; not native execution identity"
+      },
+      "absolute_l2": 0.0,
+      "relative_l2": 0.0,
+      "reference_l2": 3.1622776601683795,
+      "max_absolute": 0.0,
+      "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+    },
+    "3": {
+      "kind": "empirical-response-distance",
+      "reference": "context-445126726e6d812eb10811ef",
+      "candidate": "context-79a831ef7ca2deb2a8b65a04",
+      "domain": {
+        "bank": "bank",
+        "examples": 5,
+        "output_indices": [
+          0,
+          1,
+          2
+        ],
+        "input_frame": "scalar-input",
+        "output_frame": "scalar-output",
+        "numerics": "NumPy binary64 diagnostics; not native execution identity"
+      },
+      "absolute_l2": 219.1346617949794,
+      "relative_l2": 56.58032638058332,
+      "reference_l2": 3.872983346207417,
+      "max_absolute": 196.0,
+      "interpretation": "Distance on supplied inputs and output coordinates only; no global functional-equivalence claim"
+    }
+  },
+  "passed": true
+}

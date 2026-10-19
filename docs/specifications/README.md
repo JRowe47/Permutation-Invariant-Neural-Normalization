@@ -13,6 +13,8 @@ Version 0.2 is a design draft dated 2026-10-19. It replaces the runtime emphasis
 
 The human syntax and general JSON contracts are provisional. A [static-FFN implementation](../development/static-disassembly.md) now provides explicit imports, paired contributions, exact shared-gate grouping, bounded descriptors, and a reader for its own profile. A general semantic segmentation engine, complete JSON Schema, and model-space atlas remain unimplemented. Native frameworks remain responsible for executing source models.
 
+The [contextual profile](../development/contextual-analysis.md) adds supplied input banks, signed projected contribution ledgers, observed preactivation cohorts, guarded response comparisons, and held-out local-effect measurements. These are finite empirical coordinates, not discovered semantic categories or a global model-space alignment.
+
 ## Checks performed
 
 The example is a manually authored two-ReLU XOR network. The standard-library checker validates record IDs and selected bindings, tensor shapes and selectors, all four Boolean cases, a broken-pairing counterexample, and unchanged marginal descriptors under that broken pairing. It also checks an explicit coherent-permutation witness, a contribution-splitting witness, and finite regression agreement across an 81-point rational grid.

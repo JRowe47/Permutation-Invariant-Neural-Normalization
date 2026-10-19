@@ -1,0 +1,67 @@
+{
+  "name": "contextual-analysis-v1",
+  "model": "EleutherAI/pythia-70m",
+  "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+  "artifacts": {
+    "config.json": {
+      "filename": "config.json",
+      "bytes": 567,
+      "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/config.json"
+    },
+    "model.safetensors": {
+      "filename": "model.safetensors",
+      "bytes": 281715176,
+      "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/model.safetensors"
+    }
+  },
+  "token_source": {
+    "path": "results/pythia-permutation-index-20261019-v1/tokens.json",
+    "sha256": "b44996411d5ad0945897237b4cebe7a21a88b0e4734b4f85391944eaba038b3e"
+  },
+  "passage_source": {
+    "path": "experiments/pythia-permutation-index-20261019-v1/probes.json",
+    "sha256": "9f9362053217f0c8a2f6ea3b18d99500ca34421f9b75d70e33a27466cebb4f36"
+  },
+  "contexts": {
+    "passages_per_split": 12,
+    "positions_per_passage": 2,
+    "examples_per_layer_per_split": 24,
+    "selection": "positions max(1,floor((length-1)/3)) and max(2,floor(2*(length-1)/3)); same token positions for all layers",
+    "capture": "Native PyTorch CPU FP32 eval-mode GPTNeoX backbone; pre-hooks at post_attention_layernorm input and hooks at MLP output; eager attention; no cache",
+    "scope": "Disjoint original diagnostic passages, reused from prior experiment. Holdout is excluded from this pass's selection but is not a new blinded benchmark"
+  },
+  "analysis_budget": {
+    "max_parameter_bytes": 67108864,
+    "max_context_bytes": 8388608,
+    "max_contexts": 24,
+    "max_contributions": 4096,
+    "max_multiply_adds": 100000000,
+    "block_rows": 128,
+    "output_width": 8
+  },
+  "seeds": [
+    73,
+    191,
+    307
+  ],
+  "thresholds": {
+    "coherent_relative_l2": 1e-12,
+    "broken_min_relative_l2": 1e-06,
+    "numpy_vs_native_fp64_relative_l2": 1e-11,
+    "numpy_vs_captured_native_fp32_relative_l2": 5e-05
+  },
+  "selection_control": {
+    "count": 32,
+    "score": "calibration projected contribution RMS L2",
+    "variants": [
+      "zero outgoing writes for top-scored units",
+      "zero outgoing writes for bottom-scored units"
+    ],
+    "tie_break": "ascending original unit index",
+    "holdout_use": "evaluation only; no selection or threshold tuning"
+  },
+  "interpretation": "Projected empirical response, sign cohorts and region-local edits; no downstream task effects or semantic discovery",
+  "training_updates": 0
+}

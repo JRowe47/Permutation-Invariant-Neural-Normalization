@@ -1,0 +1,22 @@
+{
+  "docs/specifications/examples/xor-analysis.mgl.json": "63ecaf32fc71d4f143c3acd3c7d1ec42ee53a9e4adc0c37d88048eabad2f165f",
+  "experiments/contextual-analysis-v1/build_report.py": "35bddbe6f1224d2d43ecd397ff4d6a918e2b49fde9e2aabcc6b5936b1050bb47",
+  "experiments/contextual-analysis-v1/requirements.txt": "4e7c1ddfb04bd73b4716667f61117cd6c7052b28690e095927a5c598b8b46a1c",
+  "experiments/contextual-analysis-v1/run.py": "ee6a81cffe4a837125107ea8b7ee269dd9d62cafb1dbf33aa3ffb1a72b63d977",
+  "experiments/contextual-analysis-v1/verify_saved.py": "2acd2e3afd84564bab4d3fd5d33bc0ad50d2dadeec2507c25fdb03336c745e05",
+  "experiments/pythia-permutation-index-20261019-v1/probes.json": "9f9362053217f0c8a2f6ea3b18d99500ca34421f9b75d70e33a27466cebb4f36",
+  "experiments/static-disassembly-v1/build_report.py": "5d46e08c502b171d71b1e5f8c8ba5f0e454b64291fd484d4bb18213232f9fcd0",
+  "pyproject.toml": "eb3e595a0e1dfc4e8b4360c9564e79acf3fdcf87f8763622f2c9463344a8dae9",
+  "results/pythia-permutation-index-20261019-v1/checkpoint_manifest.json": "af5b9f0f184b3a2aef94c252952dc49539547aebab7f2778080b5dc0237c6281",
+  "results/pythia-permutation-index-20261019-v1/tokens.json": "b44996411d5ad0945897237b4cebe7a21a88b0e4734b4f85391944eaba038b3e",
+  "src/pinn_mgl/__init__.py": "c36c96f4a0099f53936d3660fdfcc9c63a422c7651d14111b5bdd3c3ab7aff0d",
+  "src/pinn_mgl/__main__.py": "6d8b7d7846a845059d7a3107143f11131f63c5511d669b44085b15ec5e3d2279",
+  "src/pinn_mgl/cli.py": "1b0db8db30e2d617a98df04022fceeec6cdd46c274833c9b55a5fc21e186392b",
+  "src/pinn_mgl/context_render.py": "759e2124da23d707b758b7398416a9e0c3457cd6c379fcd2b010413da2b297b4",
+  "src/pinn_mgl/contextual.py": "ace9e7044c1326b1683dbf707e90342f1eb5b9d7f441ff3a27445c185ac44a03",
+  "src/pinn_mgl/core.py": "60505125aeb616c871bb2f5e3be6293bbd50e720f5e6d07f48c36b51100418d5",
+  "src/pinn_mgl/inputs.py": "2c96759b1a6bb27bd712a7af3e5afad9a1bce96dcfff2051f6ab6c3a2ad1a8b8",
+  "src/pinn_mgl/render.py": "3c0f3de6e2ef87aaad66035d2fbd03a3361e5c4bac9a7723ba707fc0c1426e75",
+  "tests/test_contextual.py": "588e9c370375a1de74278146975516c92b1ac544850ca8300e7352dd8f8eab3b",
+  "tests/test_static_analysis.py": "cb074c739508eec84b4a0df82e261469da23cb46eecef621e54be1390c0328e6"
+}
