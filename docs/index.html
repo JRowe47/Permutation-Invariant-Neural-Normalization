@@ -26,6 +26,23 @@
   <section id="reports" aria-labelledby="reports-heading">
     <h2 id="reports-heading">Research reports</h2>
     <article class="report-card">
+      <p class="meta">Experiment 04 · Conditional downstream prediction · October 19, 2026</p>
+      <h2><a href="reports/downstream-surrogates-v1.html">Context-sensitive sketches improve rankings, with a numerical caveat</a></h2>
+      <p>Compare local magnitude, transferred calibration metrics and derivative sketches on fresh inputs. Test three edit strengths and measure the cost of predicting many interventions.</p>
+      <div class="facts" aria-label="Surrogate measurements">
+        <div class="fact"><strong>0.743 → 0.860</strong><span>same-token group-ranking correlation at 10% removal</span></div>
+        <div class="fact"><strong>1,728</strong><span>fresh evaluation interventions</span></div>
+        <div class="fact"><strong>56</strong><span>unit tests passed</span></div>
+      </div>
+      <p class="note">The primary FP32 derivative consistency audit failed 16 of 24 observations. A separate FP64-softmax reference diagnostic passes on a small subset; the original failure remains recorded.</p>
+      <div class="report-links">
+        <a class="button" href="reports/downstream-surrogates-v1.html">Read the report →</a>
+        <a href="development/downstream-surrogates.html">Coordinate conventions</a>
+        <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/experiments/downstream-surrogates-v1">Reproduction</a>
+        <a href="https://github.com/JRowe47/Permutation-Invariant-Neural-Normalization/tree/main/results/downstream-surrogates-v1">Raw evidence</a>
+      </div>
+    </article>
+    <article class="report-card">
       <p class="meta">Implementation 03 · Native downstream interventions · October 19, 2026</p>
       <h2><a href="reports/downstream-effects-v1.html">Local magnitude does not reliably predict downstream importance</a></h2>
       <p>Follow single-token FFN edits through native transformer blocks and the full vocabulary readout. Calibration-matched controls change the interpretation of the earlier local ranking.</p>

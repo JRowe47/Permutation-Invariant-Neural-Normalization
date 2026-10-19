@@ -1,0 +1,384 @@
+{
+  "records": [
+    {
+      "layer": 0,
+      "group": "top",
+      "group_index": 0,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0009081402099795528,
+          "exact_nll_derivative": -0.015676340412925455,
+          "sketch4": 0.001138289422992236,
+          "sketch16": 0.0007676371200492509,
+          "projection_l2_error": 5.0591272681120275e-05,
+          "projection_l2_bound": 1.667140991192006e-05,
+          "nll_error": 2.525812749822054e-07,
+          "nll_bound": 1.1567634041292547e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 3.599207584761846e-05,
+          "exact_nll_derivative": -0.004064191768705094,
+          "sketch4": 3.3209598266746304e-05,
+          "sketch16": 4.063623098288314e-05,
+          "projection_l2_error": 3.0014869570944863e-05,
+          "projection_l2_bound": 4.607500574290673e-06,
+          "nll_error": 6.195077635200857e-06,
+          "nll_bound": 1.040641917687051e-05,
+          "passed": false
+        }
+      ],
+      "retained_tangent_array": "layer0_top_tangent"
+    },
+    {
+      "layer": 0,
+      "group": "random73",
+      "group_index": 2,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.00189852702069534,
+          "exact_nll_derivative": 0.004192544600104278,
+          "sketch4": 0.003198593539363949,
+          "sketch16": 0.002357933071972469,
+          "projection_l2_error": 5.5791416980012024e-05,
+          "projection_l2_bound": 2.846766241891761e-05,
+          "nll_error": 2.0507221125502795e-05,
+          "nll_bound": 1.0419254460010429e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 5.145164144956644e-06,
+          "exact_nll_derivative": 0.0006137145627786254,
+          "sketch4": 1.5719222239103478e-06,
+          "sketch16": 4.598735484275121e-06,
+          "projection_l2_error": 1.4199036514872905e-05,
+          "projection_l2_bound": 2.2135496371433244e-06,
+          "nll_error": 2.0091129280487216e-06,
+          "nll_bound": 1.0061371456277864e-05,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "layer": 1,
+      "group": "top",
+      "group_index": 0,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0052998306687127945,
+          "exact_nll_derivative": -0.09244316482397927,
+          "sketch4": 0.0064543446403746525,
+          "sketch16": 0.0076354333407407105,
+          "projection_l2_error": 0.00018167311088193897,
+          "projection_l2_bound": 5.043232712385947e-05,
+          "nll_error": 1.186551814531811e-05,
+          "nll_bound": 1.9244316482397927e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 3.705889847418253e-05,
+          "exact_nll_derivative": -0.004879567658552526,
+          "sketch4": 1.9295214047220036e-05,
+          "sketch16": 2.156295080598454e-05,
+          "projection_l2_error": 2.028810664637593e-05,
+          "projection_l2_bound": 3.6277306139324503e-06,
+          "nll_error": 1.5574562422480953e-06,
+          "nll_bound": 1.0487956765855254e-05,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "layer": 1,
+      "group": "random73",
+      "group_index": 2,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.002762882582450478,
+          "exact_nll_derivative": -0.11810590705673873,
+          "sketch4": 0.0027608285968384163,
+          "sketch16": 0.003326345456473974,
+          "projection_l2_error": 0.00010799355875937744,
+          "projection_l2_bound": 3.36257228290423e-05,
+          "nll_error": 2.4174034384691345e-05,
+          "nll_bound": 2.1810590705673875e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 5.184160692219766e-06,
+          "exact_nll_derivative": 0.001063748077407136,
+          "sketch4": 4.8485974702250515e-06,
+          "sketch16": 6.60364553739001e-06,
+          "projection_l2_error": 2.5266280135258193e-05,
+          "projection_l2_bound": 2.4539106213199394e-06,
+          "nll_error": 3.893782221940905e-06,
+          "nll_bound": 1.0106374807740714e-05,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "layer": 2,
+      "group": "top",
+      "group_index": 0,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0010685442685018712,
+          "exact_nll_derivative": 0.03160161008905951,
+          "sketch4": 0.0004278231613872133,
+          "sketch16": 0.001149512496499337,
+          "projection_l2_error": 8.857593768167002e-05,
+          "projection_l2_bound": 2.0179836894962738e-05,
+          "nll_error": 1.3993064485712248e-05,
+          "nll_bound": 1.3160161008905952e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 1.2175135224233588e-06,
+          "exact_nll_derivative": -0.0008435725250362895,
+          "sketch4": 6.314124750451935e-07,
+          "sketch16": 9.247425052095788e-07,
+          "projection_l2_error": 4.589856019716681e-06,
+          "projection_l2_bound": 1.5439756313846664e-06,
+          "nll_error": 7.499577031697818e-08,
+          "nll_bound": 1.008435725250363e-05,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "layer": 2,
+      "group": "random73",
+      "group_index": 2,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0009748287104922662,
+          "exact_nll_derivative": 0.02166189756106529,
+          "sketch4": 0.0010091228889644109,
+          "sketch16": 0.001103531301166273,
+          "projection_l2_error": 9.688998295317713e-05,
+          "projection_l2_bound": 1.9786812056753536e-05,
+          "nll_error": 3.500931098375168e-05,
+          "nll_bound": 1.216618975610653e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 1.5536481129584132e-06,
+          "exact_nll_derivative": -0.0014899426599590988,
+          "sketch4": 1.0311874541178113e-06,
+          "sketch16": 1.139275397865009e-06,
+          "projection_l2_error": 3.7649918481131035e-06,
+          "projection_l2_bound": 1.6040126449010122e-06,
+          "nll_error": 2.524946188285984e-07,
+          "nll_bound": 1.014899426599591e-05,
+          "passed": false
+        }
+      ]
+    },
+    {
+      "layer": 3,
+      "group": "top",
+      "group_index": 0,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.045950902679219016,
+          "exact_nll_derivative": 0.3536164841892124,
+          "sketch4": 0.011811278246057167,
+          "sketch16": 0.0202956777353612,
+          "projection_l2_error": 0.0006128040336357377,
+          "projection_l2_bound": 8.157609634174306e-05,
+          "nll_error": 4.683681915984561e-05,
+          "nll_bound": 4.536164841892124e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 8.406997894898863e-07,
+          "exact_nll_derivative": -6.356489267844668e-06,
+          "sketch4": 6.202103363474727e-07,
+          "sketch16": 9.314072481587515e-07,
+          "projection_l2_error": 1.0694100172398087e-07,
+          "projection_l2_bound": 1.5459394485370047e-06,
+          "nll_error": 1.533332959705719e-07,
+          "nll_bound": 1.0000635648926785e-05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "layer": 3,
+      "group": "random73",
+      "group_index": 2,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0031658735353626427,
+          "exact_nll_derivative": 0.1243987264087569,
+          "sketch4": 0.0012655403248445687,
+          "sketch16": 0.0023374780625102466,
+          "projection_l2_error": 0.0001720380794636334,
+          "projection_l2_bound": 2.8356365388343393e-05,
+          "nll_error": 1.7227669123209832e-06,
+          "nll_bound": 2.243987264087569e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 3.8150017838731066e-07,
+          "exact_nll_derivative": 0.00018937502955970753,
+          "sketch4": 2.1009259259816543e-07,
+          "sketch16": 4.3103929075723707e-07,
+          "projection_l2_error": 2.2711038480580713e-07,
+          "projection_l2_bound": 1.3714013595991177e-06,
+          "nll_error": 1.0390849043896049e-07,
+          "nll_bound": 1.0018937502955971e-05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "layer": 4,
+      "group": "top",
+      "group_index": 0,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.017220906794729235,
+          "exact_nll_derivative": 0.348970540818644,
+          "sketch4": 0.006667910373424018,
+          "sketch16": 0.021359120527352504,
+          "projection_l2_error": 0.0020134300782092894,
+          "projection_l2_bound": 8.364852898280628e-05,
+          "nll_error": 0.0006425617704133302,
+          "nll_bound": 4.48970540818644e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 1.4328605854487013e-14,
+          "exact_nll_derivative": -7.616690122712242e-08,
+          "sketch4": 1.099242955199542e-14,
+          "sketch16": 8.161500102446762e-15,
+          "projection_l2_error": 3.1344796579234278e-12,
+          "projection_l2_bound": 1.0000511046035036e-06,
+          "nll_error": 2.4511022500081794e-11,
+          "nll_bound": 1.0000007616690123e-05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "layer": 4,
+      "group": "random73",
+      "group_index": 2,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0015162467035713494,
+          "exact_nll_derivative": -0.0852538397214821,
+          "sketch4": 0.0010979322519751105,
+          "sketch16": 0.0018634803479664827,
+          "projection_l2_error": 0.00017347476553357003,
+          "projection_l2_bound": 2.5416965828818444e-05,
+          "nll_error": 2.8424997228354565e-05,
+          "nll_bound": 1.852538397214821e-05,
+          "passed": false
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 1.2998661956493765e-16,
+          "exact_nll_derivative": -7.672708961354737e-09,
+          "sketch4": 5.890239045575277e-17,
+          "sketch16": 4.2819490366809836e-17,
+          "projection_l2_error": 3.131912104861471e-13,
+          "projection_l2_bound": 1.0000037016613412e-06,
+          "nll_error": 1.1003365877900082e-12,
+          "nll_bound": 1.0000000767270896e-05,
+          "passed": true
+        }
+      ]
+    },
+    {
+      "layer": 5,
+      "group": "top",
+      "group_index": 0,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.12960692890802683,
+          "exact_nll_derivative": 0.14769601632792373,
+          "sketch4": 0.2475559642057098,
+          "sketch16": 0.20688742706139188,
+          "projection_l2_error": 1.4933919320275244e-05,
+          "projection_l2_bound": 0.00025830161889475365,
+          "nll_error": 2.188680322079417e-05,
+          "nll_bound": 2.4769601632792372e-05,
+          "passed": true
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 0.0,
+          "exact_nll_derivative": 0.0,
+          "sketch4": 0.0,
+          "sketch16": 0.0,
+          "projection_l2_error": 0.0,
+          "projection_l2_bound": 1e-06,
+          "nll_error": 0.0,
+          "nll_bound": 1e-05,
+          "passed": true
+        }
+      ],
+      "retained_tangent_array": "layer5_top_tangent"
+    },
+    {
+      "layer": 5,
+      "group": "random73",
+      "group_index": 2,
+      "observations": [
+        {
+          "role": "site",
+          "exact_quadratic_kl": 0.0005749608446177633,
+          "exact_nll_derivative": -0.05111294051575126,
+          "sketch4": 0.0003098572166403744,
+          "sketch16": 0.0008327420055353394,
+          "projection_l2_error": 1.1028859680512406e-06,
+          "projection_l2_bound": 1.732415455832532e-05,
+          "nll_error": 1.061123731682656e-05,
+          "nll_bound": 1.5111294051575127e-05,
+          "passed": true
+        },
+        {
+          "role": "future",
+          "exact_quadratic_kl": 0.0,
+          "exact_nll_derivative": 0.0,
+          "sketch4": 0.0,
+          "sketch16": 0.0,
+          "projection_l2_error": 0.0,
+          "projection_l2_bound": 1e-06,
+          "nll_error": 0.0,
+          "nll_bound": 1e-05,
+          "passed": true
+        }
+      ]
+    }
+  ],
+  "calls": 12,
+  "internal_reverse_traversals": 24,
+  "seconds": 1.9019835599992803,
+  "array_sha256": "400c170fa8ed2686550c5c0fa1002d683e28089da70ff74d6e328843bad98833",
+  "scope": "First fresh evaluation passage, top and random73 at every layer; full tangent vectors retained for top groups in layers 0 and 5",
+  "passed": false
+}

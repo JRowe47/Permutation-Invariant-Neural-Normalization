@@ -1,0 +1,208 @@
+{
+  "schema": "pinn.downstream-surrogates-run/1",
+  "native_forward_budget": 2400,
+  "native_forwards": 2334,
+  "native_readouts": 4668,
+  "derivative_forwards": 24,
+  "reverse_vjp_calls": 816,
+  "audit_jvp_calls": 12,
+  "audit_internal_reverse_traversals": 24,
+  "total_backbone_forwards": 2370,
+  "calibration_trials": 576,
+  "evaluation_trials": 1728,
+  "training_updates": 0,
+  "parameter_grad_buffers_empty": true,
+  "fidelity": [
+    {
+      "split": "calibration",
+      "passage": 0,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 1,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 2,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 3,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 4,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 5,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 6,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 7,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 8,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 9,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 10,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "calibration",
+      "passage": 11,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 0,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 1,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 2,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 3,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 4,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 5,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 6,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 7,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 8,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 9,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 10,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "split": "evaluation",
+      "passage": 11,
+      "gradient_vs_native_max_absolute": 0.0,
+      "passed": true
+    }
+  ],
+  "shams": [
+    {
+      "layer": 0,
+      "max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "layer": 1,
+      "max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "layer": 2,
+      "max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "layer": 3,
+      "max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "layer": 4,
+      "max_absolute": 0.0,
+      "passed": true
+    },
+    {
+      "layer": 5,
+      "max_absolute": 0.0,
+      "passed": true
+    }
+  ],
+  "local_controls_passed": 2304,
+  "derivative_arrays_sha256": "3c5b0565c32996dd226cfc0986e5a285acac9966daa517c8341c65559743d80e",
+  "predictions_sha256": "12b25147180926df6602c1b208bc4b394df099ea7983e3e7f0c6de4c57c5d392",
+  "environment": {
+    "python": "3.12.14",
+    "numpy": "2.3.5",
+    "torch": "2.8.0+cpu",
+    "transformers": "4.57.1",
+    "torch_threads": 1,
+    "openblas_threads": "1"
+  },
+  "total_seconds_before_final_receipt": 192.80557063300148,
+  "peak_memory_bytes": null,
+  "physical_io_bytes": null,
+  "passed": false
+}

@@ -14,6 +14,8 @@ This revision supersedes the runtime-oriented [v0.1 draft](model-graph-language-
 
 **Downstream implementation update:** [pinn-mgl 0.3.0](../development/downstream-effects.md) adds a bounded native GPT-NeoX intervention adapter and a source-linked downstream-evidence profile. It measures single-site FFN edits through actual block boundaries, final normalization and the vocabulary readout. Calibration-matched controls show that local magnitude alone is insufficient evidence for downstream importance. This measures total effects; path-specific circuit attribution, semantic categories, cross-model alignment and learning dynamics remain open.
 
+**Conditional-coordinate experiment:** [downstream surrogate experiments](../reports/downstream-surrogates-v1.md) attach signed derivative coordinates to local write directions and test their prediction accuracy, transfer and cost on fresh inputs. Ranking improves in the recorded study, but its primary FP32 derivative audit fails; a separate FP64-softmax reference diagnostic supports a precision-based explanation. This remains an experimental extension with explicit numerical conventions and recorded failures, not a certified global coordinate system.
+
 ## 1. Objective and design boundary
 
 The intended workflow is:

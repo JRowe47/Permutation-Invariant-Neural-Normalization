@@ -1,0 +1,9 @@
+{
+  "source": "results/downstream-surrogates-v1/SUMMARY.json",
+  "source_sha256": "1d0a434c9ccde2000715d0c03d8e7db744510769a6ec959a69ac2ae709db5951",
+  "figure_sha256": "bcc9b79c0aa3d2f811dd377ef5a917771e6ab2c647e43727d53ad39f2301e7c2",
+  "generator": "experiments/downstream-surrogates-v1/build_report.py",
+  "matplotlib": "3.10.8",
+  "numpy": "2.3.5",
+  "scope": "Mean group-ranking correlation and relative L1 error on twelve fresh evaluation passages; future final-layer zeros excluded; no uncertainty bars implied."
+}

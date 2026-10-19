@@ -1,0 +1,99 @@
+{
+  "name": "downstream-surrogates-v1",
+  "parent_commit": "35f8ed947e31cce0be026c203c5597f757b6965a",
+  "checkpoint": {
+    "config.json": {
+      "filename": "config.json",
+      "bytes": 567,
+      "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/config.json"
+    },
+    "model.safetensors": {
+      "filename": "model.safetensors",
+      "bytes": 281715176,
+      "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+      "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/model.safetensors"
+    }
+  },
+  "checkpoint_revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+  "input_hashes": {
+    "experiments/downstream-surrogates-v1/probes.json": "a5fdc1de43b16e6597d86922da6a4ded7d821ef1f9cc8aebba41cd5e94ba96a7",
+    "experiments/downstream-surrogates-v1/tokens.json": "5d11054fa57dc9e821b9b316190d829278718141048d7518842cbfc94e08492e",
+    "results/contextual-analysis-v1/layers.json": "e468592936ee53843038971fa45134f0d5a1d23eb8341f026fb69406f23e5da0",
+    "results/downstream-effects-v1/PROTOCOL.json": "7b2aa8cdf957684f9351f11586f0f7782bfcb848b5f5b53943a4ad90787287ef"
+  },
+  "measurement_code_hashes": {
+    "experiments/downstream-surrogates-v1/math_tools.py": "fa90ffe7f7696d70bd11f9286a0440c8ccec4f25af25ec8457740fd586e47df5",
+    "experiments/downstream-surrogates-v1/native_gradients.py": "4b74e15da1fb2d2de454e79ba07fddba92c04be88decc5f3737aa96c71291e6b",
+    "experiments/downstream-surrogates-v1/run.py": "12b1c919704eeaf54935bbcb650c079b0f2a6f701d89101577981980fd7b857d",
+    "experiments/downstream-surrogates-v1/summarize.py": "dce2e920cc4c8780982b0db09733016cc156531d1ddb516d50c20b8c9744cfde"
+  },
+  "source_architecture": "gpt_neox_parallel_residual",
+  "source_frames": [
+    "gpt_neox.layers.0.mlp.output",
+    "gpt_neox.layers.1.mlp.output",
+    "gpt_neox.layers.2.mlp.output",
+    "gpt_neox.layers.3.mlp.output",
+    "gpt_neox.layers.4.mlp.output",
+    "gpt_neox.layers.5.mlp.output"
+  ],
+  "readout_frame": "embed_out.logits",
+  "local_directions": "negative selected post-GELU activations times their paired outgoing columns; full 512-vector",
+  "probe_seed": 4099,
+  "probe_count": 16,
+  "nested_probe_counts": [
+    4,
+    16
+  ],
+  "random_group_seeds": [
+    73,
+    191,
+    307,
+    911,
+    1217,
+    2027
+  ],
+  "sites": "One token per passage at floor(sequence_length/2); observe site and min(site+8,length-2)",
+  "calibration_gains": [
+    0.1
+  ],
+  "evaluation_gains": [
+    0.1,
+    0.3,
+    1.0
+  ],
+  "groups": "Prior calibration top32 and bottom32 plus six fixed uniform random32 groups per layer; no new outcome selection",
+  "freshness": "24 newly authored diagnostic passages, frozen before measuring outcomes; 12 calibration and 12 evaluation; not a representative benchmark",
+  "fisher": "v=sqrt(p)*z-p*sum(sqrt(p)*z), with fixed Rademacher vocabulary signs and detached reference p; A=gradient(v dot logits) wrt source MLP output",
+  "conditional_prediction": "KL approximately gain^2*mean((A*direction)^2)/2; NLL change approximately gain*gradient(NLL) dot direction",
+  "context_transfer": "Stack all calibration Fisher rows without averaging directions, preserving a PSD second moment; average calibration NLL gradients",
+  "local_control": "Nonnegative no-intercept least-squares coefficient per source layer and observed role, fitted only at calibration gain 0.1: KL ~ coefficient*gain^2*local_norm_squared",
+  "primary": "At gain 0.1, compare context_fisher16 with local_magnitude by mean within-context/layer Spearman over eight groups on evaluation passages",
+  "secondary": "Nested four-probe sketch; frozen calibration metric transfer; gains 0.3 and 1; signed NLL; observed computation cost",
+  "evaluation": "Each passage is one sampling unit. Bootstrap 2000 passage-level paired rank differences with seed 20261020. No layer/group pseudo-independent resampling.",
+  "zero_policy": "Exclude last-layer future effects from ranking/error summaries; retain and require their exact zero. Undefined constant rankings stay null.",
+  "numerics": {
+    "native": "float32",
+    "metrics": "float64",
+    "attention": "eager, native softmax remains FP32",
+    "cache": false,
+    "readout_shape": "[1,1,512] for every projection"
+  },
+  "budgets": {
+    "native_forwards": 2400,
+    "derivative_forwards": 24,
+    "reverse_vjp_calls": 816,
+    "audit_jvp_calls": 12,
+    "sequence_length": 128
+  },
+  "controls": {
+    "native": "Inherited exact causal/upstream/other-source-position controls and FP32 local write reconstruction bound",
+    "gradient_vs_native_logits_max_absolute": 0,
+    "audit_projection_relative_l2": 0.0001,
+    "audit_projection_absolute_l2": 1e-06,
+    "audit_nll_relative": 0.0001,
+    "audit_nll_absolute": 1e-05
+  },
+  "limits": "Input-conditional analysis uses fresh baseline model computation and derivatives; not a no-execution predictor. One model, diagnostic prose, finite edits, no feature semantics or mediated path claims.",
+  "training_updates": 0
+}

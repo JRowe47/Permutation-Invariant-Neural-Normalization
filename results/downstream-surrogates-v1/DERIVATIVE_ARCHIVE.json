@@ -1,0 +1,21 @@
+{
+  "schema": "pinn.split-artifact/1",
+  "artifact": "derivatives.npz",
+  "bytes": 12797101,
+  "sha256": "3c5b0565c32996dd226cfc0986e5a285acac9966daa517c8341c65559743d80e",
+  "reason": "Lossless transport packaging under the connector request-size limit",
+  "parts": [
+    {
+      "path": "derivatives.npz.part001",
+      "offset": 0,
+      "bytes": 7000000,
+      "sha256": "7dafb74839b077fdf959e8d421df01631acb946fc571ad8c992dc62c00af3a6d"
+    },
+    {
+      "path": "derivatives.npz.part002",
+      "offset": 7000000,
+      "bytes": 5797101,
+      "sha256": "c5ee18a0864c3d684da858205a9939d57470f2e669cc8d77ec82f790c31ceaca"
+    }
+  ]
+}

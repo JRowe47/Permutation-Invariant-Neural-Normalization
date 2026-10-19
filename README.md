@@ -2,7 +2,20 @@
 
 Research into neural representations that retain their identity under valid neuron relabeling, while measuring changes in the functions they compute.
 
-**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Downstream intervention report](docs/reports/downstream-effects-v1.md)** · **[Usage guide](docs/development/downstream-effects.md)**
+**[Browse the reports](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/)** · **[Latest experiment](docs/reports/downstream-surrogates-v1.md)** · **[Usage guide](docs/development/downstream-effects.md)**
+
+## Conditional downstream prediction experiments
+
+The next experiments compare local magnitude, a transferred calibration metric, and context-specific derivative sketches on 24 fresh authored diagnostic passages. The core package remains **pinn-mgl 0.3.0**; this is an experimental analysis extension.
+
+- 576 calibration and 1,728 evaluation edits; every native local/causal control and six exact shams pass.
+- At 10% removal, mean same-token group-ranking correlation improves from **0.743** for local magnitude to **0.860** with sixteen output probes. The median multiplicative KL error falls from 4.94× to 1.26×.
+- The current-context NLL gradient gets the sign right in 97.3% of 566 eligible cases; a transferred mean gradient gets 50.4%.
+- The shared derivative bundle takes 18.65 seconds for evaluation, versus 108.55 seconds for all 1,728 reference edited forwards. This amortizes work across many candidate edits; calibration and audits cost extra.
+- **The primary FP32 derivative audit fails 16 of 24 observations.** A separate small FP64-softmax diagnostic passes the unchanged bounds. The original failed run status is retained; these coordinates are not yet a numerically certified general pass.
+- All 56 unit tests pass, and saved-evidence verification checks both successful controls and recorded failures.
+
+[Report](docs/reports/downstream-surrogates-v1.md) · [Browser report](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/reports/downstream-surrogates-v1.html) · [Coordinate conventions](docs/development/downstream-surrogates.md) · [Reproduce](experiments/downstream-surrogates-v1/) · [Raw evidence](results/downstream-surrogates-v1/)
 
 ## Native downstream evidence
 
@@ -84,13 +97,13 @@ This is exploratory evidence for permutation recognition and behavioral comparis
 
 ## Check saved evidence
 
-For the current downstream implementation, with NumPy installed:
+For the latest surrogate experiments, with NumPy installed:
 
 ```bash
-python experiments/downstream-effects-v1/verify_saved.py
+OPENBLAS_NUM_THREADS=1 python experiments/downstream-surrogates-v1/verify_saved.py
 ```
 
-This verifies source hashes, all saved trial controls and aggregations, and selected full-vocabulary logits without loading model weights or PyTorch. Full native reproduction is documented in [the experiment README](experiments/downstream-effects-v1/README.md).
+This reconstructs predictors and calibration fits, verifies source hashes and saved measurements, and checks that the failed primary numerical audit remains faithfully recorded. Consistent saved evidence does not mean that audit passed. Full reproduction is documented in [the experiment README](experiments/downstream-surrogates-v1/README.md). The earlier native-intervention verifier remains available at `experiments/downstream-effects-v1/verify_saved.py`.
 
 Historical source-hash verifiers must be run at their recorded implementation commits. The contextual experiment corresponds to commit `99bca98b0586d09916d61cd1593cab65fc5d01e4`; its source manifest intentionally differs from the new package. Prior measurement files remain unchanged.
 
