@@ -6,11 +6,13 @@ Research into neural representations that retain their identity under valid neur
 
 ## Language design
 
-The project is also developing an architecture-independent graph language for describing computation, state, learning, and relationships between model descriptions.
+The project is developing a mechanistic decompiler: an analysis IR for recovering computational structure from neural weights and progressively identifying function and meaning.
 
-**[Read the Model Graph Language v0.1 specification](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.1.html)** · [Markdown source](docs/specifications/model-graph-language-v0.1.md) · [Specification files](docs/specifications/)
+**[Read the Model Graph Language v0.2 specification](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.2.html)** · [Markdown source](docs/specifications/model-graph-language-v0.2.md) · [Specification files](docs/specifications/)
 
-The draft covers typed interfaces, explicit updates and optimizer state, event timing, contextual replacement, abstraction maps, coordinate charts, normalization, realization, and evidence requirements. It includes worked examples and 30 proposed conformance scenarios. This is a design specification; a language parser, runtime, and complete conformance suite have not been implemented.
+The draft defines source-linked operations, paired read/gate/write contributions, overlapping functional segments, explicit learning and update relationships, evidence requirements, and cost-aware analysis passes. Native frameworks execute the source models. A universal runtime is not a prerequisite.
+
+The [weighted neural XOR fixture](docs/specifications/examples/xor-analysis.mgl.json) includes coherent and broken permutations and an exact cross-width contribution map. Its [standard-library checker](docs/specifications/examples/check_xor_analysis.py) passes the finite numerical checks. A general importer, semantic discovery engine, and model-space atlas are not implemented. The runtime-oriented v0.1 draft is retained as superseded history.
 
 ## Latest experiment
 

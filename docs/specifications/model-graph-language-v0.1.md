@@ -1,3 +1,5 @@
+**Superseded design draft:** [MGL v0.2](model-graph-language-v0.2.md) refocuses the project on a mechanistic decompiler and analysis IR. The runtime, event, and transaction requirements below are retained for history and are not prerequisites for v0.2.
+
 # Model Graph Language (MGL)
 ## Draft specification v0.1 — computation, learning, and model-space correspondence
 

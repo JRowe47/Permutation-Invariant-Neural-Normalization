@@ -1,25 +1,40 @@
 # Model Graph Language specification
 
-MGL is a working name for the graph language proposed in the PINN project.
+MGL is a working name for the PINN project's proposed mechanistic decompiler IR: an analysis language for recovering neural computation and attaching evidence about function and meaning.
 
-- [Read the HTML edition](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.1.html)
-- [Read the authoritative Markdown source](model-graph-language-v0.1.md)
-- [Inspect the pure Boolean XOR exchange example](examples/xor.mgl.json)
+- [Read the current HTML edition](https://jrowe47.github.io/Permutation-Invariant-Neural-Normalization/specifications/model-graph-language-v0.2.html)
+- [Read the authoritative Markdown source](model-graph-language-v0.2.md)
+- [Inspect the weighted neural XOR analysis record](examples/xor-analysis.mgl.json)
+- [Run the example checker](examples/check_xor_analysis.py)
 
 ## Status
 
-Version 0.1 is a design draft dated 2026-10-19. It defines proposed semantic commitments and source conventions. The human syntax is provisional. There is no implemented MGL parser, runtime, full stateful JSON Schema, or complete conformance suite in this change.
+Version 0.2 is a design draft dated 2026-10-19. It replaces the runtime emphasis of [v0.1](model-graph-language-v0.1.md) with source lifting, paired contributions, candidate circuits, evidence, cost-aware passes, and comparative indexing. Updates and learning remain explicit analysis relationships.
 
-The document covers execution and learning, state and transactions, time and effects, abstraction and correspondence, model-space charts, normalization, realization, serialization, worked examples, and implementation stages. Its 30 conformance scenarios are requirements for future implementation.
+The human syntax and JSON contracts are provisional. A general importer, analysis engine, semantic segmentation algorithm, complete JSON Schema, and model-space atlas are not implemented. Native frameworks remain responsible for executing models.
 
-## Checks performed for this draft
+## Checks performed
 
-The XOR JSON was parsed and its named operands, references, dependency order, and output references were inspected. A small JavaScript evaluator checked all four Boolean cases using the specified Boolean primitives. The 26 valid alphabet codes and the scalar SGD/rescaling numerical examples were also checked.
+The example is a manually authored two-ReLU XOR network. The standard-library checker validates record IDs and selected bindings, tensor shapes and selectors, all four Boolean cases, a broken-pairing counterexample, and unchanged marginal descriptors under that broken pairing. It also checks an explicit coherent-permutation witness, a contribution-splitting witness, and finite regression agreement across an 81-point rational grid.
 
-The generated HTML was checked structurally for section anchors, tables, code fences, and local links. It is static, includes its own styling, and has no external rendering dependency. A visual browser review was not available. These checks do not constitute execution of the proposed language or completion of its conformance suite.
+The all-real equivalence claims have separate algebraic witnesses. Finite grid checks are regression checks, not proofs on an infinite domain. The checker neither discovers the circuit nor validates arbitrary MGL packages.
+
+Run from the repository root:
+
+~~~bash
+python docs/specifications/examples/check_xor_analysis.py
+~~~
+
+The HTML reading edition is static and includes its own styling. Its headings, tables, code blocks, anchor targets, and local document links were checked structurally. No visual browser review was performed.
 
 ## Editing conventions
 
-The Markdown file is authoritative; update the HTML reading edition with any substantive source revision. Keep draft status and implementation limitations visible. Semantics-changing revisions need an explicit version or migration note as described in the specification.
+The Markdown file is authoritative. Update the HTML edition with any substantive revision. Preserve draft status, scoped evidence, counterexamples, and explicit implementation limits.
 
-The existing experiment results are evidence for their original scoped claims. This specification does not upgrade those measurements into demonstrated semantic equivalence or a working cross-model compiler.
+The prior PINN experiment retains its original measured claims and limitations. This design does not upgrade permutation recognition into demonstrated semantic discovery.
+
+## Historical draft
+
+[v0.1 Markdown](model-graph-language-v0.1.md) · [v0.1 HTML](model-graph-language-v0.1.html) · [v0.1 Boolean opcode example](examples/xor.mgl.json)
+
+The historical runtime, event, and transaction requirements are not prerequisites for v0.2.

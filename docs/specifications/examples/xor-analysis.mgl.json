@@ -1,0 +1,1007 @@
+{
+  "schema": "mgl.analysis/0.2",
+  "package": {
+    "id": "pinn-neural-xor-analysis",
+    "revision": "1",
+    "producer": "manual-fixture",
+    "status": "illustrative"
+  },
+  "sources": [
+    {
+      "id": "src-xor",
+      "kind": "synthetic-network",
+      "identity": {
+        "kind": "inline",
+        "revision": "1"
+      },
+      "provenance": "hand-constructed; no training",
+      "label": "Two-ReLU reference",
+      "architecture": {
+        "equation": "y = W_out * relu(W_in * x + b_in) + b_out",
+        "activation": "relu",
+        "input_frame": "xor-input",
+        "hidden_frame": "src-xor-hidden",
+        "output_frame": "xor-output",
+        "numeric_regime": "real-arithmetic",
+        "input_convention": "x = [x_1, x_2]; column-vector convention; no preprocessing",
+        "state": "none"
+      },
+      "tensors": {
+        "W_in": {
+          "shape": [
+            2,
+            2
+          ],
+          "axes": [
+            "hidden",
+            "input"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        "b_in": {
+          "shape": [
+            2
+          ],
+          "axes": [
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0,
+            -1
+          ]
+        },
+        "W_out": {
+          "shape": [
+            1,
+            2
+          ],
+          "axes": [
+            "output",
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              1,
+              -2
+            ]
+          ]
+        },
+        "b_out": {
+          "shape": [
+            1
+          ],
+          "axes": [
+            "output"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "src-permuted",
+      "kind": "synthetic-network",
+      "identity": {
+        "kind": "inline",
+        "revision": "1"
+      },
+      "provenance": "hand-constructed; no training",
+      "label": "Coherent hidden permutation",
+      "architecture": {
+        "equation": "y = W_out * relu(W_in * x + b_in) + b_out",
+        "activation": "relu",
+        "input_frame": "xor-input",
+        "hidden_frame": "src-permuted-hidden",
+        "output_frame": "xor-output",
+        "numeric_regime": "real-arithmetic",
+        "input_convention": "x = [x_1, x_2]; column-vector convention; no preprocessing",
+        "state": "none"
+      },
+      "tensors": {
+        "W_in": {
+          "shape": [
+            2,
+            2
+          ],
+          "axes": [
+            "hidden",
+            "input"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        "b_in": {
+          "shape": [
+            2
+          ],
+          "axes": [
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            -1,
+            0
+          ]
+        },
+        "W_out": {
+          "shape": [
+            1,
+            2
+          ],
+          "axes": [
+            "output",
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              -2,
+              1
+            ]
+          ]
+        },
+        "b_out": {
+          "shape": [
+            1
+          ],
+          "axes": [
+            "output"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "src-broken",
+      "kind": "synthetic-network",
+      "identity": {
+        "kind": "inline",
+        "revision": "1"
+      },
+      "provenance": "hand-constructed; no training",
+      "label": "Output-only permutation negative control",
+      "architecture": {
+        "equation": "y = W_out * relu(W_in * x + b_in) + b_out",
+        "activation": "relu",
+        "input_frame": "xor-input",
+        "hidden_frame": "src-broken-hidden",
+        "output_frame": "xor-output",
+        "numeric_regime": "real-arithmetic",
+        "input_convention": "x = [x_1, x_2]; column-vector convention; no preprocessing",
+        "state": "none"
+      },
+      "tensors": {
+        "W_in": {
+          "shape": [
+            2,
+            2
+          ],
+          "axes": [
+            "hidden",
+            "input"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        "b_in": {
+          "shape": [
+            2
+          ],
+          "axes": [
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0,
+            -1
+          ]
+        },
+        "W_out": {
+          "shape": [
+            1,
+            2
+          ],
+          "axes": [
+            "output",
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              -2,
+              1
+            ]
+          ]
+        },
+        "b_out": {
+          "shape": [
+            1
+          ],
+          "axes": [
+            "output"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0
+          ]
+        }
+      }
+    },
+    {
+      "id": "src-wide",
+      "kind": "synthetic-network",
+      "identity": {
+        "kind": "inline",
+        "revision": "1"
+      },
+      "provenance": "hand-constructed; no training",
+      "label": "Split first contribution into two",
+      "architecture": {
+        "equation": "y = W_out * relu(W_in * x + b_in) + b_out",
+        "activation": "relu",
+        "input_frame": "xor-input",
+        "hidden_frame": "src-wide-hidden",
+        "output_frame": "xor-output",
+        "numeric_regime": "real-arithmetic",
+        "input_convention": "x = [x_1, x_2]; column-vector convention; no preprocessing",
+        "state": "none"
+      },
+      "tensors": {
+        "W_in": {
+          "shape": [
+            3,
+            2
+          ],
+          "axes": [
+            "hidden",
+            "input"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        },
+        "b_in": {
+          "shape": [
+            3
+          ],
+          "axes": [
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0,
+            0,
+            -1
+          ]
+        },
+        "W_out": {
+          "shape": [
+            1,
+            3
+          ],
+          "axes": [
+            "output",
+            "hidden"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            [
+              0.5,
+              0.5,
+              -2
+            ]
+          ]
+        },
+        "b_out": {
+          "shape": [
+            1
+          ],
+          "axes": [
+            "output"
+          ],
+          "dtype": "exact-rational",
+          "data": [
+            0
+          ]
+        }
+      }
+    }
+  ],
+  "operations": [
+    {
+      "id": "op-read",
+      "source": "src-xor",
+      "mnemonic": "AFFINE",
+      "inputs": [
+        "x"
+      ],
+      "outputs": [
+        "z"
+      ],
+      "bindings": {
+        "weight": "W_in",
+        "bias": "b_in"
+      },
+      "equation": "z = W_in*x + b_in",
+      "input_frame": "xor-input",
+      "output_frame": "src-xor-hidden"
+    },
+    {
+      "id": "op-nonlin",
+      "source": "src-xor",
+      "mnemonic": "NONLIN",
+      "inputs": [
+        "z"
+      ],
+      "outputs": [
+        "h"
+      ],
+      "attributes": {
+        "function": "relu",
+        "definition": "max(0,z) elementwise"
+      },
+      "input_frame": "src-xor-hidden",
+      "output_frame": "src-xor-hidden"
+    },
+    {
+      "id": "op-write",
+      "source": "src-xor",
+      "mnemonic": "AFFINE",
+      "inputs": [
+        "h"
+      ],
+      "outputs": [
+        "y"
+      ],
+      "bindings": {
+        "weight": "W_out",
+        "bias": "b_out"
+      },
+      "equation": "y = W_out*h + b_out",
+      "input_frame": "src-xor-hidden",
+      "output_frame": "xor-output"
+    }
+  ],
+  "contributions": [
+    {
+      "id": "c0",
+      "source": "src-xor",
+      "read": {
+        "tensor": "W_in",
+        "selector": {
+          "row": 0
+        }
+      },
+      "bias": {
+        "tensor": "b_in",
+        "selector": {
+          "index": 0
+        }
+      },
+      "gate": "relu",
+      "write": {
+        "tensor": "W_out",
+        "selector": {
+          "column": 0
+        }
+      },
+      "decomposition": "exact additive contribution in source architecture equation"
+    },
+    {
+      "id": "c1",
+      "source": "src-xor",
+      "read": {
+        "tensor": "W_in",
+        "selector": {
+          "row": 1
+        }
+      },
+      "bias": {
+        "tensor": "b_in",
+        "selector": {
+          "index": 1
+        }
+      },
+      "gate": "relu",
+      "write": {
+        "tensor": "W_out",
+        "selector": {
+          "column": 1
+        }
+      },
+      "decomposition": "exact additive contribution in source architecture equation"
+    },
+    {
+      "id": "c-bias",
+      "source": "src-xor",
+      "kind": "constant-write",
+      "binding": {
+        "tensor": "b_out"
+      },
+      "decomposition": "separate exact output bias"
+    },
+    {
+      "id": "cw0",
+      "source": "src-wide",
+      "read": {
+        "tensor": "W_in",
+        "selector": {
+          "row": 0
+        }
+      },
+      "bias": {
+        "tensor": "b_in",
+        "selector": {
+          "index": 0
+        }
+      },
+      "gate": "relu",
+      "write": {
+        "tensor": "W_out",
+        "selector": {
+          "column": 0
+        }
+      },
+      "decomposition": "exact additive contribution in source architecture equation"
+    },
+    {
+      "id": "cw1",
+      "source": "src-wide",
+      "read": {
+        "tensor": "W_in",
+        "selector": {
+          "row": 1
+        }
+      },
+      "bias": {
+        "tensor": "b_in",
+        "selector": {
+          "index": 1
+        }
+      },
+      "gate": "relu",
+      "write": {
+        "tensor": "W_out",
+        "selector": {
+          "column": 1
+        }
+      },
+      "decomposition": "exact additive contribution in source architecture equation"
+    },
+    {
+      "id": "cw2",
+      "source": "src-wide",
+      "read": {
+        "tensor": "W_in",
+        "selector": {
+          "row": 2
+        }
+      },
+      "bias": {
+        "tensor": "b_in",
+        "selector": {
+          "index": 2
+        }
+      },
+      "gate": "relu",
+      "write": {
+        "tensor": "W_out",
+        "selector": {
+          "column": 2
+        }
+      },
+      "decomposition": "exact additive contribution in source architecture equation"
+    }
+  ],
+  "segments": [
+    {
+      "id": "seg-xor",
+      "source": "src-xor",
+      "members": [
+        "c0",
+        "c1",
+        "c-bias"
+      ],
+      "membership": "exact additive decomposition",
+      "boundary": {
+        "inputs": [
+          "x"
+        ],
+        "outputs": [
+          "y"
+        ],
+        "external_parameters": [
+          "W_in",
+          "b_in",
+          "W_out",
+          "b_out"
+        ],
+        "bypass_paths": [],
+        "state": []
+      },
+      "domain": {
+        "kind": "finite-set",
+        "inputs": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "claims": [
+        "claim-xor"
+      ],
+      "unexplained": "none for this stated source equation"
+    }
+  ],
+  "claims": [
+    {
+      "id": "claim-xor",
+      "subject": "seg-xor",
+      "proposition": "The source output equals Boolean XOR on every Boolean input.",
+      "kind": "derived-statement",
+      "status": "supported",
+      "domain": {
+        "kind": "finite-set",
+        "inputs": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "evidence": [
+        "ev-truth"
+      ],
+      "limitations": [
+        "No XOR claim is made about non-Boolean inputs.",
+        "This record was authored manually, not discovered automatically."
+      ]
+    },
+    {
+      "id": "claim-permutation",
+      "subject": [
+        "src-xor",
+        "src-permuted"
+      ],
+      "proposition": "Outputs agree for all real-valued inputs under real arithmetic.",
+      "kind": "derived-statement",
+      "status": "supported",
+      "domain": {
+        "kind": "all-real-vectors",
+        "dimension": 2,
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "numeric_regime": "real-arithmetic",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "evidence": [
+        "ev-permutation"
+      ],
+      "limitations": [
+        "No claim of bitwise equivalence under arbitrary floating-point evaluation order."
+      ]
+    },
+    {
+      "id": "claim-broken-equivalence",
+      "subject": [
+        "src-xor",
+        "src-broken"
+      ],
+      "proposition": "Outputs agree on the Boolean domain.",
+      "kind": "interpretation-hypothesis",
+      "status": "refuted",
+      "domain": {
+        "kind": "finite-set",
+        "inputs": [
+          [
+            0,
+            0
+          ],
+          [
+            0,
+            1
+          ],
+          [
+            1,
+            0
+          ],
+          [
+            1,
+            1
+          ]
+        ],
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "evidence": [
+        "ev-broken"
+      ],
+      "limitations": []
+    },
+    {
+      "id": "claim-wide",
+      "subject": [
+        "src-xor",
+        "src-wide"
+      ],
+      "proposition": "Outputs agree for all real-valued inputs under real arithmetic.",
+      "kind": "derived-statement",
+      "status": "supported",
+      "domain": {
+        "kind": "all-real-vectors",
+        "dimension": 2,
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "numeric_regime": "real-arithmetic",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "evidence": [
+        "ev-split"
+      ],
+      "limitations": [
+        "Constructed redundancy does not establish arbitrary width compression."
+      ]
+    }
+  ],
+  "evidence": [
+    {
+      "id": "ev-truth",
+      "kind": "exhaustive-finite-check",
+      "method": "Evaluate the stated real-valued source expression at all four Boolean inputs using exact rational arithmetic.",
+      "source": "src-xor",
+      "inputs": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "hidden": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          1
+        ]
+      ],
+      "outputs": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "expected_outputs": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "reproduction": "check_xor_analysis.py",
+      "cost": {
+        "source_evaluations": 4
+      },
+      "producer": "manual derivation, checked by companion script"
+    },
+    {
+      "id": "ev-permutation",
+      "kind": "algebraic-derivation",
+      "source": [
+        "src-xor",
+        "src-permuted"
+      ],
+      "method": "Reindex the finite sum of paired contributions.",
+      "witness": {
+        "hidden_permutation": [
+          1,
+          0
+        ],
+        "resources": [
+          "W_in rows",
+          "b_in entries",
+          "W_out columns"
+        ]
+      },
+      "equation": "relu(s) - 2*relu(s-1) = -2*relu(s-1) + relu(s)",
+      "assumptions": [
+        "real arithmetic",
+        "same input/output convention"
+      ],
+      "producer": "manual derivation"
+    },
+    {
+      "id": "ev-broken",
+      "kind": "exhaustive-finite-check",
+      "method": "Compare the original and output-only-permuted networks on all Boolean inputs.",
+      "source": [
+        "src-xor",
+        "src-broken"
+      ],
+      "inputs": [
+        [
+          0,
+          0
+        ],
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "original_outputs": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "altered_outputs": [
+        0,
+        -2,
+        -2,
+        -3
+      ],
+      "counterexample": {
+        "input": [
+          0,
+          1
+        ],
+        "original": 1,
+        "altered": -2
+      },
+      "reproduction": "check_xor_analysis.py",
+      "cost": {
+        "source_evaluations": 8
+      },
+      "producer": "manual derivation, checked by companion script"
+    },
+    {
+      "id": "ev-split",
+      "kind": "algebraic-derivation",
+      "source": [
+        "src-xor",
+        "src-wide"
+      ],
+      "method": "Split the coefficient of relu(s) into two equal parts.",
+      "equation": "relu(s) = (1/2)*relu(s) + (1/2)*relu(s)",
+      "assumptions": [
+        "real arithmetic"
+      ],
+      "producer": "manual derivation"
+    }
+  ],
+  "descriptors": [
+    {
+      "id": "desc-marginal",
+      "sources": [
+        "src-xor",
+        "src-broken"
+      ],
+      "construction": "For each tensor separately, sort entries and compute squared Frobenius norm.",
+      "frame": "declared source tensor axes",
+      "metric": "exact equality of stored rational summaries",
+      "invariances": [
+        "independent permutation of entries within each tensor"
+      ],
+      "known_loss": [
+        "Destroys read/bias/write pairing.",
+        "Does not establish functional equivalence."
+      ],
+      "result": "identical for the two sources",
+      "evidence": "ev-broken",
+      "producer": "manual construction, checked by companion script"
+    }
+  ],
+  "correspondences": [
+    {
+      "id": "corr-permutation",
+      "source": "src-xor",
+      "target": "src-permuted",
+      "family": "coherent-hidden-permutation",
+      "direction": "bidirectional",
+      "mapping": {
+        "hidden_permutation": [
+          1,
+          0
+        ]
+      },
+      "domain": {
+        "kind": "all-real-vectors",
+        "dimension": 2,
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "numeric_regime": "real-arithmetic",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "claim": "claim-permutation",
+      "fit": "not fitted; explicit construction",
+      "capacity": "fixed permutation"
+    },
+    {
+      "id": "corr-width",
+      "source": "src-xor",
+      "target": "src-wide",
+      "family": "many-to-many-additive-contribution-map",
+      "direction": "bidirectional on this explicitly constructed redundant realization",
+      "mapping": [
+        {
+          "from": [
+            "c0"
+          ],
+          "to": [
+            "cw0",
+            "cw1"
+          ]
+        },
+        {
+          "from": [
+            "c1"
+          ],
+          "to": [
+            "cw2"
+          ]
+        }
+      ],
+      "bias": "zero in both source and target",
+      "domain": {
+        "kind": "all-real-vectors",
+        "dimension": 2,
+        "input_frame": "xor-input",
+        "output_observable": "scalar y in xor-output",
+        "numeric_regime": "real-arithmetic",
+        "state": "none",
+        "horizon": "one evaluation",
+        "preprocessing": "none"
+      },
+      "claim": "claim-wide",
+      "fit": "not fitted; explicit construction",
+      "capacity": "fixed coefficient split"
+    }
+  ],
+  "pass_runs": [],
+  "extensions": {
+    "pinn.fixture": {
+      "general_decompiler_implemented": false,
+      "operation_coverage": "The three operations lift src-xor only; other sources are explicit comparison fixtures.",
+      "note": "pass_runs is empty because this is a manually authored record. Running the checker does not claim to execute a general analysis pass.",
+      "finite_regression_grid": {
+        "coordinates": [
+          -2,
+          -1,
+          -0.5,
+          0,
+          0.5,
+          1,
+          1.5,
+          2,
+          3
+        ],
+        "expected_points": 81
+      },
+      "off_domain_example": {
+        "input": [
+          0.5,
+          0.5
+        ],
+        "output": 1
+      }
+    }
+  }
+}
