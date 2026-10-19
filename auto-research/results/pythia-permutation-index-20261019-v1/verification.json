@@ -1,0 +1,17 @@
+{
+  "features": {
+    "fwht_inverse_relative_error": 1.110407448796921e-07,
+    "e8p_unique_codewords": 65536,
+    "e8p_nearest_neighbor_max_squared_error_difference": 3.6954879760742188e-06,
+    "e8p_code_roundtrip": true
+  },
+  "checks": {
+    "all_102_query_hashes_match": true,
+    "all_18_exact_orbit_ids_match": true,
+    "no_edited_orbits_equal_original": true,
+    "all_query_output_relative_error_below_1e-5": true,
+    "all_exact_model_top1_agreement": true,
+    "exact_model_logprob_relative_error_below_1e-5": false,
+    "duplicate_repeatable": true
+  }
+}

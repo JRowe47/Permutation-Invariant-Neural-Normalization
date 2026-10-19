@@ -1,0 +1,51 @@
+{
+  "atlas_entries": 102,
+  "distinct_orbits": 84,
+  "query_hash_matches": 102,
+  "conditional_fixed_strength_correlations": [
+    {
+      "strength": 0.001,
+      "n": 18,
+      "raw_weight": 0.1475748194014448,
+      "full_calibration": 0.7688338493292053,
+      "fp32_1024": 0.6470588235294118
+    },
+    {
+      "strength": 0.01,
+      "n": 18,
+      "raw_weight": 0.1475748194014448,
+      "full_calibration": 0.7688338493292053,
+      "fp32_1024": 0.6470588235294118
+    },
+    {
+      "strength": 0.05,
+      "n": 18,
+      "raw_weight": 0.1475748194014448,
+      "full_calibration": 0.7688338493292053,
+      "fp32_1024": 0.6470588235294118
+    }
+  ],
+  "full_response_bytes": 262144,
+  "model_parameters": 70426624,
+  "limitations": [
+    "Single pretraining trajectory, six MLPs, small original diagnostic corpus; no semantic category labels.",
+    "Three noise magnitudes reuse the same 18 layer/seed directions; 54 noise rows are not 54 independent directions.",
+    "High pooled correlations partly reflect intervention strength. Fixed-strength correlations are lower.",
+    "Exact query retrieval includes the same function in the database; this is not cross-model function discovery.",
+    "FP32 scale metadata separates some identical lattice code keys; code-only collisions remain.",
+    "Primary full-model FP32 logprob tolerance failed; explicit FP64 follow-up on first failing seed confirms invariance."
+  ],
+  "descriptor_reconstruction_relative_rms_medians": {
+    "e8p2": 0.3004641532897949,
+    "e8p4": 0.09435336291790009,
+    "scalar2": 0.3423691987991333,
+    "scalar4": 0.10323536396026611
+  },
+  "decision": {
+    "behavioral_index": "Advance for exploratory local MLP comparisons with full-precision sketches; not a validated semantic taxonomy.",
+    "primary_fidelity": "Preserve failed FP32 gate; FP64 diagnosis passes at the predeclared 1e-10 follow-up threshold.",
+    "e8p2_relative_gate": "At 1024 coordinates, passes the preregistered relative-to-scalar criterion by about 11%, but absolute fine-distance error remains about 350%. The gate lacked an absolute-error bound; do not promote it for fine changes.",
+    "e8p4_relative_gate": "Fails the scalar-4 comparison at 1024 coordinates.",
+    "next": "Use task-specific perturbations at matched weight norms and heldout probe families; then replicate on a second Pythia seed/size. No toy fallback required by this run."
+  }
+}

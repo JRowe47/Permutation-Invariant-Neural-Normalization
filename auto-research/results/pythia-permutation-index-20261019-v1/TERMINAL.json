@@ -1,0 +1,7 @@
+{
+  "status": "COMPLETED_WITH_FAILED_CHECKS",
+  "wall_seconds": 48.500605647001066,
+  "training_updates": 0,
+  "atlas_entries": 102,
+  "whole_model_evaluations": 32
+}

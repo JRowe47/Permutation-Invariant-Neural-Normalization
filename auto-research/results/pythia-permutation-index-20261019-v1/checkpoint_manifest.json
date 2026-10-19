@@ -1,0 +1,76 @@
+[
+  {
+    "model": "EleutherAI/pythia-70m",
+    "step": 143000,
+    "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+    "files": [
+      {
+        "filename": "config.json",
+        "bytes": 567,
+        "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/config.json"
+      },
+      {
+        "filename": "tokenizer.json",
+        "bytes": 2113710,
+        "sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/tokenizer.json"
+      },
+      {
+        "filename": "tokenizer_config.json",
+        "bytes": 396,
+        "sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/tokenizer_config.json"
+      },
+      {
+        "filename": "special_tokens_map.json",
+        "bytes": 99,
+        "sha256": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/special_tokens_map.json"
+      },
+      {
+        "filename": "model.safetensors",
+        "bytes": 281715176,
+        "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/model.safetensors"
+      }
+    ]
+  },
+  {
+    "model": "EleutherAI/pythia-70m",
+    "step": 64000,
+    "revision": "711835453cce260cc654b2db2ec0578693579b97",
+    "files": [
+      {
+        "filename": "config.json",
+        "bytes": 567,
+        "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/config.json"
+      },
+      {
+        "filename": "tokenizer.json",
+        "bytes": 2113710,
+        "sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/tokenizer.json"
+      },
+      {
+        "filename": "tokenizer_config.json",
+        "bytes": 396,
+        "sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/tokenizer_config.json"
+      },
+      {
+        "filename": "special_tokens_map.json",
+        "bytes": 99,
+        "sha256": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/special_tokens_map.json"
+      },
+      {
+        "filename": "model.safetensors",
+        "bytes": 281715176,
+        "sha256": "1f949b05258933218e36155e2e4460e2b1c668caf76b97eac36bac45bffd7bce",
+        "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/model.safetensors"
+      }
+    ]
+  }
+]

@@ -1,0 +1,7 @@
+{
+  "reason": "Corrected erroneous MIT attribution after checking the actual upstream GPL-3.0 license; documentation-only change, no algorithm or numerical change. The GPL license governs the preserved original as well.",
+  "changed_path": "auto-research/research-scratch/pythia-permutation-index-20261019-v1/features.py",
+  "executed_source_copy": "auto-research/results/pythia-permutation-index-20261019-v1/primary_source/features.py",
+  "executed_sha256": "ca978a406168a3d24cff0958f212bec51f24b6134cf4194873f0af55b02ff5b6",
+  "corrected_sha256": "018978281d17557a51638ca2f8ebbc1d7cc364ba2d3ed098ff2235f57a7a2170"
+}

@@ -1,0 +1,154 @@
+[
+  {
+    "method": "fp32_64",
+    "bytes_per_entry": 256,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "e8p2_64",
+    "bytes_per_entry": 20,
+    "encoding_seconds_per_entry": 0.0006059560441202598,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102,
+    "unique_code_only_keys": 48,
+    "permuted_code_key_match_rate": 1.0
+  },
+  {
+    "method": "e8p4_64",
+    "bytes_per_entry": 40,
+    "encoding_seconds_per_entry": 0.001132787245118308,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102,
+    "unique_code_only_keys": 58,
+    "permuted_code_key_match_rate": 1.0
+  },
+  {
+    "method": "scalar2_64",
+    "bytes_per_entry": 20,
+    "encoding_seconds_per_entry": 3.114897060418027e-05,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "scalar4_64",
+    "bytes_per_entry": 36,
+    "encoding_seconds_per_entry": 3.197478430343372e-05,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "fp32_256",
+    "bytes_per_entry": 1024,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "e8p2_256",
+    "bytes_per_entry": 68,
+    "encoding_seconds_per_entry": 0.0008629471568365618,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102,
+    "unique_code_only_keys": 60,
+    "permuted_code_key_match_rate": 1.0
+  },
+  {
+    "method": "e8p4_256",
+    "bytes_per_entry": 136,
+    "encoding_seconds_per_entry": 0.0015438314166399947,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102,
+    "unique_code_only_keys": 71,
+    "permuted_code_key_match_rate": 1.0
+  },
+  {
+    "method": "scalar2_256",
+    "bytes_per_entry": 68,
+    "encoding_seconds_per_entry": 2.6087867630778027e-05,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "scalar4_256",
+    "bytes_per_entry": 132,
+    "encoding_seconds_per_entry": 3.050997057631749e-05,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "fp32_1024",
+    "bytes_per_entry": 4096,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "e8p2_1024",
+    "bytes_per_entry": 260,
+    "encoding_seconds_per_entry": 0.0013583482108087458,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102,
+    "unique_code_only_keys": 70,
+    "permuted_code_key_match_rate": 1.0
+  },
+  {
+    "method": "e8p4_1024",
+    "bytes_per_entry": 520,
+    "encoding_seconds_per_entry": 0.002726728583308845,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102,
+    "unique_code_only_keys": 82,
+    "permuted_code_key_match_rate": 1.0
+  },
+  {
+    "method": "scalar2_1024",
+    "bytes_per_entry": 260,
+    "encoding_seconds_per_entry": 4.192203432110403e-05,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "scalar4_1024",
+    "bytes_per_entry": 516,
+    "encoding_seconds_per_entry": 6.661885783935705e-05,
+    "accuracy_with_fractional_ties": 1.0,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  },
+  {
+    "method": "raw_weight_hadamard_1024",
+    "bytes_per_entry": 4096,
+    "accuracy_with_fractional_ties": 0.0196078431372549,
+    "ambiguous_queries": 0,
+    "database_orbits": 84,
+    "queries": 102
+  }
+]

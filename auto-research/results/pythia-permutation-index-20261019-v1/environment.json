@@ -1,0 +1,13 @@
+{
+  "python": "3.12.14",
+  "torch": "2.8.0+cpu",
+  "transformers": "4.57.1",
+  "numpy": "2.3.5",
+  "scipy": "1.17.0",
+  "device": "cpu",
+  "threads": 3,
+  "available_cpus": 9,
+  "model_parameters": 70426624,
+  "calibration_tokens": 601,
+  "holdout_tokens": 608
+}

@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "run_id": "pythia-permutation-index-20261019-v1",
+  "status": "FROZEN_BEFORE_MODEL_EVALUATION",
+  "scope": "Inference-only exploratory Pythia-70M layer index; no model training or official benchmarks",
+  "hypothesis": "A fixed-probe behavioral sketch preserves exact internal permutation equivalence while predicting heldout response distances better than raw-weight Hadamard coordinates. E8P may reduce descriptor storage.",
+  "primary_comparator": "Raw-weight neuron-axis Hadamard sketch; full calibration response distances; scalar quantization at matching bit budgets.",
+  "primary_metric": "Within-layer Spearman rank correlation of calibration descriptor distance with full holdout response distance, noise+checkpoint edits; exact-orbit identity and query retrieval are separately assessed.",
+  "success_rule": "Advance an unquantized behavioral index if 1024D nearby-edit Spearman >=0.90, all exact query hashes match, maximum exact response relative error <1e-5, and all full-model exact permutations preserve selected top1 predictions.",
+  "lattice_adoption_rule": "E8P must retain >=99% fractional-tie atlas retrieval accuracy and improve median nearby-edit relative distance error by at least 10% over the same-bit scalar control. Otherwise keep lattice only as a coarse candidate key or reject it.",
+  "futility_rule": "Stop on model load failure, incoherent permutation fidelity, nonfinite metrics, or 30 minutes of experiment wall time. A failed index metric is a valid negative result, not an execution failure.",
+  "authorization": {
+    "approved": true,
+    "reference": "User 2026-10-18 20:17 America/Denver: start with Pythia-70M and go ahead with the experiments. Earlier preference permits research-scratch work in own repo.",
+    "resource_choice": "Bounded existing CPU inference, three threads, no paid services or training; no additional monetary cost.",
+    "max_experiment_wall_seconds": 1800,
+    "storage_override": "Current Work Mode workspace with Git-backed preservation, following user preference for repository/library channels; old macOS SSD-only workflow is inapplicable to this new cloud-hosted Pythia task."
+  },
+  "design": {
+    "models": [
+      {
+        "model": "EleutherAI/pythia-70m",
+        "step": 143000,
+        "revision": "de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852",
+        "files": [
+          {
+            "filename": "config.json",
+            "bytes": 567,
+            "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/config.json"
+          },
+          {
+            "filename": "tokenizer.json",
+            "bytes": 2113710,
+            "sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/tokenizer.json"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "bytes": 396,
+            "sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/tokenizer_config.json"
+          },
+          {
+            "filename": "special_tokens_map.json",
+            "bytes": 99,
+            "sha256": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/special_tokens_map.json"
+          },
+          {
+            "filename": "model.safetensors",
+            "bytes": 281715176,
+            "sha256": "737de0ce1e32a9559925b452921cdea0b12d3932133b6b0b70b61a351b9f6272",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/de3e4e2d6cbb3b1a51f90fe153ea51fcd8c7c852/model.safetensors"
+          }
+        ]
+      },
+      {
+        "model": "EleutherAI/pythia-70m",
+        "step": 64000,
+        "revision": "711835453cce260cc654b2db2ec0578693579b97",
+        "files": [
+          {
+            "filename": "config.json",
+            "bytes": 567,
+            "sha256": "002050231a9b1ec3ac77aa6b9b3bbdc4d923f4068a7dd33b8da72a9bd6ad9a43",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/config.json"
+          },
+          {
+            "filename": "tokenizer.json",
+            "bytes": 2113710,
+            "sha256": "c24618a1b3e6a38167beff1c72cffd126c3a66254347304b50547d12c5f25624",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/tokenizer.json"
+          },
+          {
+            "filename": "tokenizer_config.json",
+            "bytes": 396,
+            "sha256": "70e38394e494931c6f773ba41e19460dd4436526b852207367f04341b4066d3f",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/tokenizer_config.json"
+          },
+          {
+            "filename": "special_tokens_map.json",
+            "bytes": 99,
+            "sha256": "6f50ab5a5a509a1c309d6171f339b196a900dc9c99ad0408ff23bb615fdae7ad",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/special_tokens_map.json"
+          },
+          {
+            "filename": "model.safetensors",
+            "bytes": 281715176,
+            "sha256": "1f949b05258933218e36155e2e4460e2b1c668caf76b97eac36bac45bffd7bce",
+            "url": "https://huggingface.co/EleutherAI/pythia-70m/resolve/711835453cce260cc654b2db2ec0578693579b97/model.safetensors"
+          }
+        ]
+      }
+    ],
+    "layers": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "module": "MLP composed with its input LayerNorm; input/output residual basis fixed",
+    "seeds": [
+      73,
+      191,
+      307
+    ],
+    "seed_role": "Intervention/permutation seeds, not independent model training seeds",
+    "variants_per_layer": {
+      "original": 1,
+      "exact_permutation": 3,
+      "broken_pairing": 3,
+      "noise": 9,
+      "checkpoint64000": 1
+    },
+    "noise_strengths": [
+      0.001,
+      0.01,
+      0.05
+    ],
+    "noise_definition": "Independent Gaussian direction on each MLP matrix, scaled to the stated relative Frobenius norm; biases and layernorm unchanged",
+    "query": "One additional independent exact hidden-neuron permutation for every atlas entry",
+    "orbit_hash": "SHA256 of sorted SHA256 hashes of paired incoming row+bias+outgoing column; fixed global output bias and LayerNorm appended",
+    "descriptor_dims": [
+      64,
+      256,
+      1024
+    ],
+    "quantizers": [
+      "fp32",
+      "E8P-2",
+      "E8P residual-4",
+      "scalar-2",
+      "scalar-4"
+    ],
+    "E8P_scope": "The paper codebook geometry, applied to behavioral descriptors. No BlockLDLQ, Hessian weighting, weight quantization, or inference acceleration.",
+    "whole_model": "Duplicate; three all-layer MLP permutations; three all-layer head permutations; each layer: seed-73 broken MLP, 5% noise, step64000 MLP+LayerNorm transplant, broken head pairing",
+    "boundary_rule": "No independently permuted residual-stream basis; attention changes only reorder whole heads with coupled QKV and output projection"
+  },
+  "data": {
+    "source": "24 original diagnostic prose passages, 12 calibration and 12 holdout, in probes.json",
+    "sha256": "9f9362053217f0c8a2f6ea3b18d99500ca34421f9b75d70e33a27466cebb4f36",
+    "train": "none",
+    "split": "Separate fixed passages; broad domains shared",
+    "probe_bank": "128 raw residual states sampled evenly across six layers, separately for calibration/holdout; shared inputs across tested layers",
+    "probe_seeds": [
+      421,
+      422
+    ],
+    "tokenization": "EOT prefix, at most 127 subsequent tokens per passage",
+    "official_test_access_permitted": false,
+    "prior_exposure": "New authored passages; prior Pythia checkpoint study reviewed for conventions only"
+  },
+  "training": {
+    "updates": 0,
+    "optimizer": "none",
+    "checkpoint_selection": "Final step143000 and historical step64000 selected before metrics",
+    "precision": "FP32"
+  },
+  "evaluation": {
+    "full_model_nll": "All nonpadding next-token targets on 12 holdout passages, natural-log units",
+    "full_model_kl": "Eight deterministic evenly spaced next-token positions per holdout passage, relative to final unmodified checkpoint",
+    "retrieval": "Distinct exact orbit IDs define database labels; ties credited fractionally",
+    "scaling_claim": "none; one architecture and one training trajectory",
+    "uncertainty": "Exploratory, report all intervention seeds and six layers; no population confidence from one model",
+    "duplicate_policy": "One full-model duplicate plus exact permutation cases"
+  },
+  "execution": {
+    "device": "CPU",
+    "threads": 3,
+    "runtime": "torch 2.8.0+cpu; transformers 4.57.1; Python 3.12.14",
+    "output": "/workspace/scratch/663b22d06866/Super-1/auto-research/results/pythia-permutation-index-20261019-v1",
+    "concurrent_writers": "Unique new branch and run directory; no other worker assigned",
+    "fidelity_tolerances": {
+      "relative_response": 1e-05,
+      "relative_logprob": 1e-05,
+      "top1_agreement": 1.0
+    }
+  },
+  "evidence": {
+    "source_manifest": "SOURCE_MANIFEST.json",
+    "checkpoint_manifest": "checkpoint_manifest.json",
+    "tokens": "tokens.json",
+    "raw_metrics": "atlas_records.json",
+    "progress": "progress.jsonl",
+    "terminal": "TERMINAL.json"
+  },
+  "decision": "PENDING_EXECUTION"
+}

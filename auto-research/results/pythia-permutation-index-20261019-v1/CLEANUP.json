@@ -1,0 +1,8 @@
+{
+  "training_or_inference_processes_left_running": false,
+  "paid_resources_created": false,
+  "public_checkpoint_cache": "Local model-cache retained temporarily for follow-up; excluded from Git",
+  "model_checkpoint_bytes": 563430352,
+  "binary_model_checkpoints_committed": false,
+  "archives_created": false
+}
